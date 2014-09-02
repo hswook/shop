@@ -503,73 +503,73 @@ public class BoardPostExample {
             return (Criteria) this;
         }
 
-        public Criteria andWriterIsNull() {
-            addCriterion("WRITER is null");
+        public Criteria andMemberEmailIsNull() {
+            addCriterion("MEMBER_EMAIL is null");
             return (Criteria) this;
         }
 
-        public Criteria andWriterIsNotNull() {
-            addCriterion("WRITER is not null");
+        public Criteria andMemberEmailIsNotNull() {
+            addCriterion("MEMBER_EMAIL is not null");
             return (Criteria) this;
         }
 
-        public Criteria andWriterEqualTo(String value) {
-            addCriterion("WRITER =", value, "writer");
+        public Criteria andMemberEmailEqualTo(String value) {
+            addCriterion("MEMBER_EMAIL =", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterNotEqualTo(String value) {
-            addCriterion("WRITER <>", value, "writer");
+        public Criteria andMemberEmailNotEqualTo(String value) {
+            addCriterion("MEMBER_EMAIL <>", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterGreaterThan(String value) {
-            addCriterion("WRITER >", value, "writer");
+        public Criteria andMemberEmailGreaterThan(String value) {
+            addCriterion("MEMBER_EMAIL >", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterGreaterThanOrEqualTo(String value) {
-            addCriterion("WRITER >=", value, "writer");
+        public Criteria andMemberEmailGreaterThanOrEqualTo(String value) {
+            addCriterion("MEMBER_EMAIL >=", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterLessThan(String value) {
-            addCriterion("WRITER <", value, "writer");
+        public Criteria andMemberEmailLessThan(String value) {
+            addCriterion("MEMBER_EMAIL <", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterLessThanOrEqualTo(String value) {
-            addCriterion("WRITER <=", value, "writer");
+        public Criteria andMemberEmailLessThanOrEqualTo(String value) {
+            addCriterion("MEMBER_EMAIL <=", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterLike(String value) {
-            addCriterion("WRITER like", value, "writer");
+        public Criteria andMemberEmailLike(String value) {
+            addCriterion("MEMBER_EMAIL like", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterNotLike(String value) {
-            addCriterion("WRITER not like", value, "writer");
+        public Criteria andMemberEmailNotLike(String value) {
+            addCriterion("MEMBER_EMAIL not like", value, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterIn(List<String> values) {
-            addCriterion("WRITER in", values, "writer");
+        public Criteria andMemberEmailIn(List<String> values) {
+            addCriterion("MEMBER_EMAIL in", values, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterNotIn(List<String> values) {
-            addCriterion("WRITER not in", values, "writer");
+        public Criteria andMemberEmailNotIn(List<String> values) {
+            addCriterion("MEMBER_EMAIL not in", values, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterBetween(String value1, String value2) {
-            addCriterion("WRITER between", value1, value2, "writer");
+        public Criteria andMemberEmailBetween(String value1, String value2) {
+            addCriterion("MEMBER_EMAIL between", value1, value2, "memberEmail");
             return (Criteria) this;
         }
 
-        public Criteria andWriterNotBetween(String value1, String value2) {
-            addCriterion("WRITER not between", value1, value2, "writer");
+        public Criteria andMemberEmailNotBetween(String value1, String value2) {
+            addCriterion("MEMBER_EMAIL not between", value1, value2, "memberEmail");
             return (Criteria) this;
         }
 

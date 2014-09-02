@@ -1,4 +1,4 @@
-package com.sh.shop.web.controller;
+package com.sh.shop.controller;
 
 import javax.servlet.http.HttpServletRequest;
 

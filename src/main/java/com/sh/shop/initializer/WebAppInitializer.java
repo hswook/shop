@@ -4,12 +4,14 @@ import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
 import org.springframework.core.annotation.Order;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import com.sh.shop.config.MyBatisConfig;
 import com.sh.shop.config.WebConfig;
 
+@Order(1)
 public class WebAppInitializer extends
 		AbstractAnnotationConfigDispatcherServletInitializer {
 

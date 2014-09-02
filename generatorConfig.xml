@@ -22,7 +22,7 @@
 		
 		<!-- 환경 설정은 스프링에서 
 		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
-			<property name="targetPackage" value="kr.re.nnpc.www.config" />
+			<property name="targetPackage" value="com.sh.shop.config" />
 			<property name="targetProject" value="nnpc-www" />
 		</plugin>
 		 -->
@@ -57,8 +57,6 @@
 		<table tableName="BOARD_CONFIG" />
 		<table tableName="BOARD_FILE" />
 		<table tableName="BOARD_POST" />
-		<table tableName="BOARD_SCHEDULE" />
-		<table tableName="HTML_PAGE" />
 
 	</context>
 </generatorConfiguration>

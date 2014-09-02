@@ -16,7 +16,7 @@ public class BoardPost {
 
     private String postCategory;
 
-    private String writer;
+    private String memberEmail;
 
     private String email;
 
@@ -84,12 +84,12 @@ public class BoardPost {
         this.postCategory = postCategory == null ? null : postCategory.trim();
     }
 
-    public String getWriter() {
-        return writer;
+    public String getMemberEmail() {
+        return memberEmail;
     }
 
-    public void setWriter(String writer) {
-        this.writer = writer == null ? null : writer.trim();
+    public void setMemberEmail(String memberEmail) {
+        this.memberEmail = memberEmail == null ? null : memberEmail.trim();
     }
 
     public String getEmail() {

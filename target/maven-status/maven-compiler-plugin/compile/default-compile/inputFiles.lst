@@ -8,12 +8,13 @@
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/BoardCategoryExample.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/persistence/BoardFileMapper.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/HtmlPage.java
+/Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/controller/HomeController.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/service/MemberService.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/persistence/BoardScheduleMapper.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/BoardCategory.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/BoardFileExample.java
-/Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/web/controller/MemberController.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/config/WebConfig.java
+/Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/controller/MemberController.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/BoardPostExample.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/BoardSchedule.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/persistence/BoardCategoryMapper.java
@@ -24,4 +25,3 @@
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/BoardConfig.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/Member.java
 /Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/domain/BoardPost.java
-/Users/HSWook/Documents/dev/workspace-sts/shop_maven/src/main/java/com/sh/shop/web/controller/HomeController.java
