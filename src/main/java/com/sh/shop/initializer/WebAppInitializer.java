@@ -6,6 +6,9 @@ import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import com.sh.shop.config.MyBatisConfig;
+import com.sh.shop.config.WebConfig;
+
 public class WebAppInitializer extends
     AbstractAnnotationConfigDispatcherServletInitializer {
 

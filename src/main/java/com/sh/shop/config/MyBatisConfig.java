@@ -27,7 +27,7 @@ import java.io.IOException;
  * @author arawn.kr@gmail.com
  */
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan(basePackages = "com.sh.shop", annotationClass = org.springframework.stereotype.Repository.class)
 public class MyBatisConfig {
 	
