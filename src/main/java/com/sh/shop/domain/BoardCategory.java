@@ -2,6 +2,9 @@ package com.sh.shop.domain;
 
 import java.math.BigDecimal;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("BoardCategory")
 public class BoardCategory {
     private BigDecimal id;
 

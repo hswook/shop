@@ -2,6 +2,9 @@ package com.sh.shop.domain;
 
 import java.math.BigDecimal;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("BoardFile")
 public class BoardFile {
     private BigDecimal id;
 

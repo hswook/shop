@@ -2,11 +2,15 @@ package com.sh.shop.persistence;
 
 import com.sh.shop.domain.BoardConfig;
 import com.sh.shop.domain.BoardConfigExample;
+
 import java.math.BigDecimal;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BoardConfigMapper {
     int countByExample(BoardConfigExample example);
 

@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    EMAIL, PW, `NAME`, `TYPE`, USE_YN, JOINDT
+    EMAIL, PW, NAME, TYPE, USE_YN, JOINDT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sh.shop.domain.MemberExample" >
     select

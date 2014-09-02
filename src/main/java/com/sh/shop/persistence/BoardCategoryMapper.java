@@ -2,11 +2,15 @@ package com.sh.shop.persistence;
 
 import com.sh.shop.domain.BoardCategory;
 import com.sh.shop.domain.BoardCategoryExample;
+
 import java.math.BigDecimal;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface BoardCategoryMapper {
     int countByExample(BoardCategoryExample example);
 

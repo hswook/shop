@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("BoardFileExample")
 public class BoardFileExample {
     protected String orderByClause;
 

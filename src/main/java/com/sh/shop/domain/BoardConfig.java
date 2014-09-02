@@ -3,6 +3,9 @@ package com.sh.shop.domain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("BoardConfig")
 public class BoardConfig {
     private BigDecimal id;
 

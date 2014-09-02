@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("BoardConfigExample")
 public class BoardConfigExample {
     protected String orderByClause;
 

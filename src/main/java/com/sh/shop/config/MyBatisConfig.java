@@ -7,12 +7,15 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import com.sh.shop.service.MemberService;
+
 import oracle.jdbc.driver.OracleDriver;
 
 import java.beans.PropertyVetoException;
@@ -29,6 +32,7 @@ import java.io.IOException;
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
 @MapperScan(basePackages = "com.sh.shop.persistence", annotationClass = org.springframework.stereotype.Repository.class)
+@ComponentScan(basePackages = {"com.sh.shop"})
 public class MyBatisConfig {
 	
 //	@Value("${jdbc.driverClassName}")
@@ -40,7 +44,7 @@ public class MyBatisConfig {
 //    @Value("${jdbc.password}")
 //    private String jdbcPassword;
 	
-	@Bean
+	@Bean(destroyMethod = "close")
     public ComboPooledDataSource dataSource() {
 		ComboPooledDataSource dataSource = new ComboPooledDataSource();
 		
@@ -103,5 +107,4 @@ public class MyBatisConfig {
     	
     	return dataSourceTransactionManager;
     }
-
 }

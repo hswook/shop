@@ -2,10 +2,14 @@ package com.sh.shop.persistence;
 
 import com.sh.shop.domain.Member;
 import com.sh.shop.domain.MemberExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface MemberMapper {
     int countByExample(MemberExample example);
 

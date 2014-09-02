@@ -2,6 +2,9 @@ package com.sh.shop.domain;
 
 import java.util.Date;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("Member")
 public class Member {
     private String email;
 
