@@ -28,7 +28,7 @@ import java.io.IOException;
  */
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
-@MapperScan(basePackages = "com.sh.shop", annotationClass = org.springframework.stereotype.Repository.class)
+@MapperScan(basePackages = "com.sh.shop.persistence", annotationClass = org.springframework.stereotype.Repository.class)
 public class MyBatisConfig {
 	
 //	@Value("${jdbc.driverClassName}")

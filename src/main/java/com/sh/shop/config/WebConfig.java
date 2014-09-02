@@ -6,7 +6,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.ViewResolver;
@@ -21,8 +27,10 @@ import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "com.sh.shop.web.controller",
-		"com.sh.shop.web.domain" })
+@EnableAspectJAutoProxy
+@ComponentScan(basePackages = { "com.sh.shop" },
+		excludeFilters = {@ComponentScan.Filter(value = Controller.class, type=FilterType.ANNOTATION),
+							@ComponentScan.Filter(value = Repository.class, type=FilterType.ANNOTATION)})
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 	@Override
@@ -38,7 +46,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		localeChangeInterceptor.setParamName("lang");
 		registry.addInterceptor(localeChangeInterceptor);
 	}
-
+	
+	@Bean
+	public MessageSource messageSouce() {
+		String[] baseNames = "/WEB-INF/messages/messages,org.springframework.security.messages".split(",");
+		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+		resourceBundleMessageSource.setBasenames(baseNames);
+		return resourceBundleMessageSource;
+	}
+	
 	@Bean
 	public LocaleResolver localeResolver() {
 
