@@ -1,45 +1,45 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sh.shop.persistence.BoardPostMapper" >
-  <resultMap id="BaseResultMap" type="com.sh.shop.domain.BoardPost" >
-    <id column="ID" property="id" jdbcType="DECIMAL" />
-    <result column="PARENT_ID" property="parentId" jdbcType="DECIMAL" />
-    <result column="ORDER_SEQ" property="orderSeq" jdbcType="DECIMAL" />
-    <result column="DEPTH" property="depth" jdbcType="DECIMAL" />
-    <result column="CONFIG_ID" property="configId" jdbcType="DECIMAL" />
-    <result column="POST_CATEGORY" property="postCategory" jdbcType="VARCHAR" />
-    <result column="WRITER" property="writer" jdbcType="VARCHAR" />
-    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
-    <result column="TITLE" property="title" jdbcType="VARCHAR" />
-    <result column="LINK" property="link" jdbcType="VARCHAR" />
-    <result column="IS_SECURITY" property="isSecurity" jdbcType="DECIMAL" />
-    <result column="IS_NOTICE" property="isNotice" jdbcType="DECIMAL" />
-    <result column="READ_COUNT" property="readCount" jdbcType="DECIMAL" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
-    <result column="REMOVE_TIME" property="removeTime" jdbcType="DATE" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sh.shop.persistence.BoardPostMapper">
+  <resultMap id="BaseResultMap" type="com.sh.shop.domain.BoardPost">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" />
+    <result column="ORDER_SEQ" jdbcType="DECIMAL" property="orderSeq" />
+    <result column="DEPTH" jdbcType="DECIMAL" property="depth" />
+    <result column="CONFIG_ID" jdbcType="DECIMAL" property="configId" />
+    <result column="POST_CATEGORY" jdbcType="VARCHAR" property="postCategory" />
+    <result column="MEMBER_EMAIL" jdbcType="VARCHAR" property="memberEmail" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="LINK" jdbcType="VARCHAR" property="link" />
+    <result column="IS_SECURITY" jdbcType="DECIMAL" property="isSecurity" />
+    <result column="IS_NOTICE" jdbcType="DECIMAL" property="isNotice" />
+    <result column="READ_COUNT" jdbcType="DECIMAL" property="readCount" />
+    <result column="CREATE_TIME" jdbcType="DATE" property="createTime" />
+    <result column="REMOVE_TIME" jdbcType="DATE" property="removeTime" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.sh.shop.domain.BoardPost" extends="BaseResultMap" >
-    <result column="CONTENT" property="content" jdbcType="CLOB" />
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sh.shop.domain.BoardPost">
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
   </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -50,25 +50,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue" >
+                <when test="criterion.singleValue">
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue" >
+                <when test="criterion.betweenValue">
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue" >
+                <when test="criterion.listValue">
                   and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
                     #{listItem}
                   </foreach>
                 </when>
@@ -79,44 +79,44 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List" >
-    ID, PARENT_ID, ORDER_SEQ, `DEPTH`, CONFIG_ID, POST_CATEGORY, WRITER, EMAIL, TITLE, 
-    LINK, IS_SECURITY, IS_NOTICE, READ_COUNT, CREATE_TIME, REMOVE_TIME
+  <sql id="Base_Column_List">
+    ID, PARENT_ID, ORDER_SEQ, `DEPTH`, CONFIG_ID, POST_CATEGORY, MEMBER_EMAIL, EMAIL, 
+    TITLE, LINK, IS_SECURITY, IS_NOTICE, READ_COUNT, CREATE_TIME, REMOVE_TIME
   </sql>
-  <sql id="Blob_Column_List" >
+  <sql id="Blob_Column_List">
     CONTENT
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.sh.shop.domain.BoardPostExample" >
+  <select id="selectByExampleWithBLOBs" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="ResultMapWithBLOBs">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from BOARD_POST
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sh.shop.domain.BoardPostExample" >
+  <select id="selectByExample" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from BOARD_POST
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.math.BigDecimal" >
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
@@ -124,17 +124,490 @@
     from BOARD_POST
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
     delete from BOARD_POST
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sh.shop.domain.BoardPostExample" >
+  <delete id="deleteByExample" parameterType="com.sh.shop.domain.BoardPostExample">
     delete from BOARD_POST
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.sh.shop.domain.BoardPost" >
+  <insert id="insert" parameterType="com.sh.shop.domain.BoardPost">
+    insert into BOARD_POST (ID, PARENT_ID, ORDER_SEQ, 
+      `DEPTH`, CONFIG_ID, POST_CATEGORY, 
+      MEMBER_EMAIL, EMAIL, TITLE, 
+      LINK, IS_SECURITY, IS_NOTICE, 
+      READ_COUNT, CREATE_TIME, REMOVE_TIME, 
+      CONTENT)
+    values (#{id,jdbcType=DECIMAL}, #{parentId,jdbcType=DECIMAL}, #{orderSeq,jdbcType=DECIMAL}, 
+      #{depth,jdbcType=DECIMAL}, #{configId,jdbcType=DECIMAL}, #{postCategory,jdbcType=VARCHAR}, 
+      #{memberEmail,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{link,jdbcType=VARCHAR}, #{isSecurity,jdbcType=DECIMAL}, #{isNotice,jdbcType=DECIMAL}, 
+      #{readCount,jdbcType=DECIMAL}, #{createTime,jdbcType=DATE}, #{removeTime,jdbcType=DATE}, 
+      #{content,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sh.shop.domain.BoardPost">
+    insert into BOARD_POST
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="parentId != null">
+        PARENT_ID,
+      </if>
+      <if test="orderSeq != null">
+        ORDER_SEQ,
+      </if>
+      <if test="depth != null">
+        `DEPTH`,
+      </if>
+      <if test="configId != null">
+        CONFIG_ID,
+      </if>
+      <if test="postCategory != null">
+        POST_CATEGORY,
+      </if>
+      <if test="memberEmail != null">
+        MEMBER_EMAIL,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="title != null">
+        TITLE,
+      </if>
+      <if test="link != null">
+        LINK,
+      </if>
+      <if test="isSecurity != null">
+        IS_SECURITY,
+      </if>
+      <if test="isNotice != null">
+        IS_NOTICE,
+      </if>
+      <if test="readCount != null">
+        READ_COUNT,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="removeTime != null">
+        REMOVE_TIME,
+      </if>
+      <if test="content != null">
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderSeq != null">
+        #{orderSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="depth != null">
+        #{depth,jdbcType=DECIMAL},
+      </if>
+      <if test="configId != null">
+        #{configId,jdbcType=DECIMAL},
+      </if>
+      <if test="postCategory != null">
+        #{postCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="memberEmail != null">
+        #{memberEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null">
+        #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="isSecurity != null">
+        #{isSecurity,jdbcType=DECIMAL},
+      </if>
+      <if test="isNotice != null">
+        #{isNotice,jdbcType=DECIMAL},
+      </if>
+      <if test="readCount != null">
+        #{readCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="removeTime != null">
+        #{removeTime,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sh.shop.domain.BoardPostExample" resultType="java.lang.Integer">
+    select count(*) from BOARD_POST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update BOARD_POST
+    <set>
+      <if test="record.id != null">
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.parentId != null">
+        PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderSeq != null">
+        ORDER_SEQ = #{record.orderSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="record.depth != null">
+        `DEPTH` = #{record.depth,jdbcType=DECIMAL},
+      </if>
+      <if test="record.configId != null">
+        CONFIG_ID = #{record.configId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.postCategory != null">
+        POST_CATEGORY = #{record.postCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberEmail != null">
+        MEMBER_EMAIL = #{record.memberEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null">
+        TITLE = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.link != null">
+        LINK = #{record.link,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSecurity != null">
+        IS_SECURITY = #{record.isSecurity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isNotice != null">
+        IS_NOTICE = #{record.isNotice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.readCount != null">
+        READ_COUNT = #{record.readCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createTime != null">
+        CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.removeTime != null">
+        REMOVE_TIME = #{record.removeTime,jdbcType=DATE},
+      </if>
+      <if test="record.content != null">
+        CONTENT = #{record.content,jdbcType=CLOB},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update BOARD_POST
+    set ID = #{record.id,jdbcType=DECIMAL},
+      PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
+      ORDER_SEQ = #{record.orderSeq,jdbcType=DECIMAL},
+      `DEPTH` = #{record.depth,jdbcType=DECIMAL},
+      CONFIG_ID = #{record.configId,jdbcType=DECIMAL},
+      POST_CATEGORY = #{record.postCategory,jdbcType=VARCHAR},
+      MEMBER_EMAIL = #{record.memberEmail,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      LINK = #{record.link,jdbcType=VARCHAR},
+      IS_SECURITY = #{record.isSecurity,jdbcType=DECIMAL},
+      IS_NOTICE = #{record.isNotice,jdbcType=DECIMAL},
+      READ_COUNT = #{record.readCount,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      REMOVE_TIME = #{record.removeTime,jdbcType=DATE},
+      CONTENT = #{record.content,jdbcType=CLOB}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update BOARD_POST
+    set ID = #{record.id,jdbcType=DECIMAL},
+      PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
+      ORDER_SEQ = #{record.orderSeq,jdbcType=DECIMAL},
+      `DEPTH` = #{record.depth,jdbcType=DECIMAL},
+      CONFIG_ID = #{record.configId,jdbcType=DECIMAL},
+      POST_CATEGORY = #{record.postCategory,jdbcType=VARCHAR},
+      MEMBER_EMAIL = #{record.memberEmail,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      TITLE = #{record.title,jdbcType=VARCHAR},
+      LINK = #{record.link,jdbcType=VARCHAR},
+      IS_SECURITY = #{record.isSecurity,jdbcType=DECIMAL},
+      IS_NOTICE = #{record.isNotice,jdbcType=DECIMAL},
+      READ_COUNT = #{record.readCount,jdbcType=DECIMAL},
+      CREATE_TIME = #{record.createTime,jdbcType=DATE},
+      REMOVE_TIME = #{record.removeTime,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sh.shop.domain.BoardPost">
+    update BOARD_POST
+    <set>
+      <if test="parentId != null">
+        PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderSeq != null">
+        ORDER_SEQ = #{orderSeq,jdbcType=DECIMAL},
+      </if>
+      <if test="depth != null">
+        `DEPTH` = #{depth,jdbcType=DECIMAL},
+      </if>
+      <if test="configId != null">
+        CONFIG_ID = #{configId,jdbcType=DECIMAL},
+      </if>
+      <if test="postCategory != null">
+        POST_CATEGORY = #{postCategory,jdbcType=VARCHAR},
+      </if>
+      <if test="memberEmail != null">
+        MEMBER_EMAIL = #{memberEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="link != null">
+        LINK = #{link,jdbcType=VARCHAR},
+      </if>
+      <if test="isSecurity != null">
+        IS_SECURITY = #{isSecurity,jdbcType=DECIMAL},
+      </if>
+      <if test="isNotice != null">
+        IS_NOTICE = #{isNotice,jdbcType=DECIMAL},
+      </if>
+      <if test="readCount != null">
+        READ_COUNT = #{readCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="removeTime != null">
+        REMOVE_TIME = #{removeTime,jdbcType=DATE},
+      </if>
+      <if test="content != null">
+        CONTENT = #{content,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sh.shop.domain.BoardPost">
+    update BOARD_POST
+    set PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      ORDER_SEQ = #{orderSeq,jdbcType=DECIMAL},
+      `DEPTH` = #{depth,jdbcType=DECIMAL},
+      CONFIG_ID = #{configId,jdbcType=DECIMAL},
+      POST_CATEGORY = #{postCategory,jdbcType=VARCHAR},
+      MEMBER_EMAIL = #{memberEmail,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      LINK = #{link,jdbcType=VARCHAR},
+      IS_SECURITY = #{isSecurity,jdbcType=DECIMAL},
+      IS_NOTICE = #{isNotice,jdbcType=DECIMAL},
+      READ_COUNT = #{readCount,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      REMOVE_TIME = #{removeTime,jdbcType=DATE},
+      CONTENT = #{content,jdbcType=CLOB}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.BoardPost">
+    update BOARD_POST
+    set PARENT_ID = #{parentId,jdbcType=DECIMAL},
+      ORDER_SEQ = #{orderSeq,jdbcType=DECIMAL},
+      `DEPTH` = #{depth,jdbcType=DECIMAL},
+      CONFIG_ID = #{configId,jdbcType=DECIMAL},
+      POST_CATEGORY = #{postCategory,jdbcType=VARCHAR},
+      MEMBER_EMAIL = #{memberEmail,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      LINK = #{link,jdbcType=VARCHAR},
+      IS_SECURITY = #{isSecurity,jdbcType=DECIMAL},
+      IS_NOTICE = #{isNotice,jdbcType=DECIMAL},
+      READ_COUNT = #{readCount,jdbcType=DECIMAL},
+      CREATE_TIME = #{createTime,jdbcType=DATE},
+      REMOVE_TIME = #{removeTime,jdbcType=DATE}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BOARD_POST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BOARD_POST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <resultMap id="BaseResultMap" type="com.sh.shop.domain.BoardPost">
+    <id column="ID" jdbcType="DECIMAL" property="id" />
+    <result column="PARENT_ID" jdbcType="DECIMAL" property="parentId" />
+    <result column="ORDER_SEQ" jdbcType="DECIMAL" property="orderSeq" />
+    <result column="DEPTH" jdbcType="DECIMAL" property="depth" />
+    <result column="CONFIG_ID" jdbcType="DECIMAL" property="configId" />
+    <result column="POST_CATEGORY" jdbcType="VARCHAR" property="postCategory" />
+    <result column="WRITER" jdbcType="VARCHAR" property="writer" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="TITLE" jdbcType="VARCHAR" property="title" />
+    <result column="LINK" jdbcType="VARCHAR" property="link" />
+    <result column="IS_SECURITY" jdbcType="DECIMAL" property="isSecurity" />
+    <result column="IS_NOTICE" jdbcType="DECIMAL" property="isNotice" />
+    <result column="READ_COUNT" jdbcType="DECIMAL" property="readCount" />
+    <result column="CREATE_TIME" jdbcType="DATE" property="createTime" />
+    <result column="REMOVE_TIME" jdbcType="DATE" property="removeTime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.sh.shop.domain.BoardPost">
+    <result column="CONTENT" jdbcType="CLOB" property="content" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ID, PARENT_ID, ORDER_SEQ, `DEPTH`, CONFIG_ID, POST_CATEGORY, WRITER, EMAIL, TITLE, 
+    LINK, IS_SECURITY, IS_NOTICE, READ_COUNT, CREATE_TIME, REMOVE_TIME
+  </sql>
+  <sql id="Blob_Column_List">
+    CONTENT
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BOARD_POST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from BOARD_POST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from BOARD_POST
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+    delete from BOARD_POST
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sh.shop.domain.BoardPostExample">
+    delete from BOARD_POST
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sh.shop.domain.BoardPost">
     insert into BOARD_POST (ID, PARENT_ID, ORDER_SEQ, 
       `DEPTH`, CONFIG_ID, POST_CATEGORY, 
       WRITER, EMAIL, TITLE, 
@@ -148,172 +621,172 @@
       #{readCount,jdbcType=DECIMAL}, #{createTime,jdbcType=DATE}, #{removeTime,jdbcType=DATE}, 
       #{content,jdbcType=CLOB})
   </insert>
-  <insert id="insertSelective" parameterType="com.sh.shop.domain.BoardPost" >
+  <insert id="insertSelective" parameterType="com.sh.shop.domain.BoardPost">
     insert into BOARD_POST
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         ID,
       </if>
-      <if test="parentId != null" >
+      <if test="parentId != null">
         PARENT_ID,
       </if>
-      <if test="orderSeq != null" >
+      <if test="orderSeq != null">
         ORDER_SEQ,
       </if>
-      <if test="depth != null" >
+      <if test="depth != null">
         `DEPTH`,
       </if>
-      <if test="configId != null" >
+      <if test="configId != null">
         CONFIG_ID,
       </if>
-      <if test="postCategory != null" >
+      <if test="postCategory != null">
         POST_CATEGORY,
       </if>
-      <if test="writer != null" >
+      <if test="writer != null">
         WRITER,
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         EMAIL,
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         TITLE,
       </if>
-      <if test="link != null" >
+      <if test="link != null">
         LINK,
       </if>
-      <if test="isSecurity != null" >
+      <if test="isSecurity != null">
         IS_SECURITY,
       </if>
-      <if test="isNotice != null" >
+      <if test="isNotice != null">
         IS_NOTICE,
       </if>
-      <if test="readCount != null" >
+      <if test="readCount != null">
         READ_COUNT,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         CREATE_TIME,
       </if>
-      <if test="removeTime != null" >
+      <if test="removeTime != null">
         REMOVE_TIME,
       </if>
-      <if test="content != null" >
+      <if test="content != null">
         CONTENT,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=DECIMAL},
       </if>
-      <if test="parentId != null" >
+      <if test="parentId != null">
         #{parentId,jdbcType=DECIMAL},
       </if>
-      <if test="orderSeq != null" >
+      <if test="orderSeq != null">
         #{orderSeq,jdbcType=DECIMAL},
       </if>
-      <if test="depth != null" >
+      <if test="depth != null">
         #{depth,jdbcType=DECIMAL},
       </if>
-      <if test="configId != null" >
+      <if test="configId != null">
         #{configId,jdbcType=DECIMAL},
       </if>
-      <if test="postCategory != null" >
+      <if test="postCategory != null">
         #{postCategory,jdbcType=VARCHAR},
       </if>
-      <if test="writer != null" >
+      <if test="writer != null">
         #{writer,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         #{email,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         #{title,jdbcType=VARCHAR},
       </if>
-      <if test="link != null" >
+      <if test="link != null">
         #{link,jdbcType=VARCHAR},
       </if>
-      <if test="isSecurity != null" >
+      <if test="isSecurity != null">
         #{isSecurity,jdbcType=DECIMAL},
       </if>
-      <if test="isNotice != null" >
+      <if test="isNotice != null">
         #{isNotice,jdbcType=DECIMAL},
       </if>
-      <if test="readCount != null" >
+      <if test="readCount != null">
         #{readCount,jdbcType=DECIMAL},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=DATE},
       </if>
-      <if test="removeTime != null" >
+      <if test="removeTime != null">
         #{removeTime,jdbcType=DATE},
       </if>
-      <if test="content != null" >
+      <if test="content != null">
         #{content,jdbcType=CLOB},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sh.shop.domain.BoardPostExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.sh.shop.domain.BoardPostExample" resultType="java.lang.Integer">
     select count(*) from BOARD_POST
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
+  <update id="updateByExampleSelective" parameterType="map">
     update BOARD_POST
-    <set >
-      <if test="record.id != null" >
+    <set>
+      <if test="record.id != null">
         ID = #{record.id,jdbcType=DECIMAL},
       </if>
-      <if test="record.parentId != null" >
+      <if test="record.parentId != null">
         PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
       </if>
-      <if test="record.orderSeq != null" >
+      <if test="record.orderSeq != null">
         ORDER_SEQ = #{record.orderSeq,jdbcType=DECIMAL},
       </if>
-      <if test="record.depth != null" >
+      <if test="record.depth != null">
         `DEPTH` = #{record.depth,jdbcType=DECIMAL},
       </if>
-      <if test="record.configId != null" >
+      <if test="record.configId != null">
         CONFIG_ID = #{record.configId,jdbcType=DECIMAL},
       </if>
-      <if test="record.postCategory != null" >
+      <if test="record.postCategory != null">
         POST_CATEGORY = #{record.postCategory,jdbcType=VARCHAR},
       </if>
-      <if test="record.writer != null" >
+      <if test="record.writer != null">
         WRITER = #{record.writer,jdbcType=VARCHAR},
       </if>
-      <if test="record.email != null" >
+      <if test="record.email != null">
         EMAIL = #{record.email,jdbcType=VARCHAR},
       </if>
-      <if test="record.title != null" >
+      <if test="record.title != null">
         TITLE = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="record.link != null" >
+      <if test="record.link != null">
         LINK = #{record.link,jdbcType=VARCHAR},
       </if>
-      <if test="record.isSecurity != null" >
+      <if test="record.isSecurity != null">
         IS_SECURITY = #{record.isSecurity,jdbcType=DECIMAL},
       </if>
-      <if test="record.isNotice != null" >
+      <if test="record.isNotice != null">
         IS_NOTICE = #{record.isNotice,jdbcType=DECIMAL},
       </if>
-      <if test="record.readCount != null" >
+      <if test="record.readCount != null">
         READ_COUNT = #{record.readCount,jdbcType=DECIMAL},
       </if>
-      <if test="record.createTime != null" >
+      <if test="record.createTime != null">
         CREATE_TIME = #{record.createTime,jdbcType=DATE},
       </if>
-      <if test="record.removeTime != null" >
+      <if test="record.removeTime != null">
         REMOVE_TIME = #{record.removeTime,jdbcType=DATE},
       </if>
-      <if test="record.content != null" >
+      <if test="record.content != null">
         CONTENT = #{record.content,jdbcType=CLOB},
       </if>
     </set>
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
+  <update id="updateByExampleWithBLOBs" parameterType="map">
     update BOARD_POST
     set ID = #{record.id,jdbcType=DECIMAL},
       PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
@@ -331,11 +804,11 @@
       CREATE_TIME = #{record.createTime,jdbcType=DATE},
       REMOVE_TIME = #{record.removeTime,jdbcType=DATE},
       CONTENT = #{record.content,jdbcType=CLOB}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map" >
+  <update id="updateByExample" parameterType="map">
     update BOARD_POST
     set ID = #{record.id,jdbcType=DECIMAL},
       PARENT_ID = #{record.parentId,jdbcType=DECIMAL},
@@ -352,62 +825,62 @@
       READ_COUNT = #{record.readCount,jdbcType=DECIMAL},
       CREATE_TIME = #{record.createTime,jdbcType=DATE},
       REMOVE_TIME = #{record.removeTime,jdbcType=DATE}
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sh.shop.domain.BoardPost" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.sh.shop.domain.BoardPost">
     update BOARD_POST
-    <set >
-      <if test="parentId != null" >
+    <set>
+      <if test="parentId != null">
         PARENT_ID = #{parentId,jdbcType=DECIMAL},
       </if>
-      <if test="orderSeq != null" >
+      <if test="orderSeq != null">
         ORDER_SEQ = #{orderSeq,jdbcType=DECIMAL},
       </if>
-      <if test="depth != null" >
+      <if test="depth != null">
         `DEPTH` = #{depth,jdbcType=DECIMAL},
       </if>
-      <if test="configId != null" >
+      <if test="configId != null">
         CONFIG_ID = #{configId,jdbcType=DECIMAL},
       </if>
-      <if test="postCategory != null" >
+      <if test="postCategory != null">
         POST_CATEGORY = #{postCategory,jdbcType=VARCHAR},
       </if>
-      <if test="writer != null" >
+      <if test="writer != null">
         WRITER = #{writer,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null">
         EMAIL = #{email,jdbcType=VARCHAR},
       </if>
-      <if test="title != null" >
+      <if test="title != null">
         TITLE = #{title,jdbcType=VARCHAR},
       </if>
-      <if test="link != null" >
+      <if test="link != null">
         LINK = #{link,jdbcType=VARCHAR},
       </if>
-      <if test="isSecurity != null" >
+      <if test="isSecurity != null">
         IS_SECURITY = #{isSecurity,jdbcType=DECIMAL},
       </if>
-      <if test="isNotice != null" >
+      <if test="isNotice != null">
         IS_NOTICE = #{isNotice,jdbcType=DECIMAL},
       </if>
-      <if test="readCount != null" >
+      <if test="readCount != null">
         READ_COUNT = #{readCount,jdbcType=DECIMAL},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         CREATE_TIME = #{createTime,jdbcType=DATE},
       </if>
-      <if test="removeTime != null" >
+      <if test="removeTime != null">
         REMOVE_TIME = #{removeTime,jdbcType=DATE},
       </if>
-      <if test="content != null" >
+      <if test="content != null">
         CONTENT = #{content,jdbcType=CLOB},
       </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sh.shop.domain.BoardPost" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.sh.shop.domain.BoardPost">
     update BOARD_POST
     set PARENT_ID = #{parentId,jdbcType=DECIMAL},
       ORDER_SEQ = #{orderSeq,jdbcType=DECIMAL},
@@ -426,7 +899,7 @@
       CONTENT = #{content,jdbcType=CLOB}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.BoardPost" >
+  <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.BoardPost">
     update BOARD_POST
     set PARENT_ID = #{parentId,jdbcType=DECIMAL},
       ORDER_SEQ = #{orderSeq,jdbcType=DECIMAL},
@@ -444,33 +917,33 @@
       REMOVE_TIME = #{removeTime,jdbcType=DATE}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <select resultMap="ResultMapWithBLOBs" parameterType="com.sh.shop.domain.BoardPostExample" id="selectByExampleWithBLOBsWithRowbounds" >
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="ResultMapWithBLOBs">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from BOARD_POST
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>
-  <select resultMap="BaseResultMap" parameterType="com.sh.shop.domain.BoardPostExample" id="selectByExampleWithRowbounds" >
+  <select id="selectByExampleWithRowbounds" parameterType="com.sh.shop.domain.BoardPostExample" resultMap="BaseResultMap">
     select
-    <if test="distinct" >
+    <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
     from BOARD_POST
-    <if test="_parameter != null" >
+    <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+    <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
   </select>

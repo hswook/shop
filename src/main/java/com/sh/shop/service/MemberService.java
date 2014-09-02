@@ -34,7 +34,7 @@ public class MemberService {
 	}
 	
 	@Transactional(readOnly = true)
-	public int getCountById(String email) {
+	public Integer getCountById(String email) {
 		return memberMapper.getCountById(email);
 	}
 

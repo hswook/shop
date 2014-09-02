@@ -22,6 +22,8 @@ public interface MemberMapper {
     List<Member> selectByExample(MemberExample example);
 
     Member selectByPrimaryKey(String email);
+    
+    Integer getCountById(String email);
 
     int updateByExampleSelective(@Param("record") Member record, @Param("example") MemberExample example);
 
@@ -30,6 +32,4 @@ public interface MemberMapper {
     int updateByPrimaryKeySelective(Member record);
 
     int updateByPrimaryKey(Member record);
-    
-    int getCountById(String email);
 }

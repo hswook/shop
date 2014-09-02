@@ -42,9 +42,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @Configuration
 @EnableWebMvc
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@ComponentScan(basePackages = { "com.sh.shop" },
-		excludeFilters = {@ComponentScan.Filter(value = Controller.class, type=FilterType.ANNOTATION),
-							@ComponentScan.Filter(value = Repository.class, type=FilterType.ANNOTATION)})
+@ComponentScan(basePackages = { "com.sh.shop.controller" })
 public class WebConfig extends WebMvcConfigurationSupport {
 		
 	@Bean

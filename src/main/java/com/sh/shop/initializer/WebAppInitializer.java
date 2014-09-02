@@ -40,9 +40,4 @@ public class WebAppInitializer extends
 		return new Filter[] { characterEncodingFilter };
 	}
 
-	@Override
-	protected void registerDispatcherServlet(ServletContext servletContext) {
-		super.registerDispatcherServlet(servletContext);
-	}
-
 }

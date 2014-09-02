@@ -23,7 +23,7 @@
 		<!-- 환경 설정은 스프링에서 
 		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
 			<property name="targetPackage" value="com.sh.shop.config" />
-			<property name="targetProject" value="nnpc-www" />
+			<property name="targetProject" value="shop_maven" />
 		</plugin>
 		 -->
 	

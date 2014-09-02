@@ -1,32 +1,32 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sh.shop.persistence.BoardFileMapper">
-  <resultMap id="BaseResultMap" type="com.sh.shop.domain.BoardFile">
-    <id column="ID" jdbcType="DECIMAL" property="id" />
-    <result column="POST_ID" jdbcType="DECIMAL" property="postId" />
-    <result column="ORIGINAL_NAME" jdbcType="VARCHAR" property="originalName" />
-    <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
-    <result column="DOWNLOAD_COUNT" jdbcType="DECIMAL" property="downloadCount" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sh.shop.persistence.BoardFileMapper" >
+  <resultMap id="BaseResultMap" type="com.sh.shop.domain.BoardFile" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="POST_ID" property="postId" jdbcType="DECIMAL" />
+    <result column="ORIGINAL_NAME" property="originalName" jdbcType="VARCHAR" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="DOWNLOAD_COUNT" property="downloadCount" jdbcType="DECIMAL" />
   </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -37,25 +37,25 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
                   and ${criterion.condition}
                 </when>
-                <when test="criterion.singleValue">
+                <when test="criterion.singleValue" >
                   and ${criterion.condition} #{criterion.value}
                 </when>
-                <when test="criterion.betweenValue">
+                <when test="criterion.betweenValue" >
                   and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
-                <when test="criterion.listValue">
+                <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -66,141 +66,141 @@
       </foreach>
     </where>
   </sql>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     ID, POST_ID, ORIGINAL_NAME, FILE_PATH, DOWNLOAD_COUNT
   </sql>
-  <select id="selectByExample" parameterType="com.sh.shop.domain.BoardFileExample" resultMap="BaseResultMap">
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sh.shop.domain.BoardFileExample" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
     from BOARD_FILE
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
     select 
     <include refid="Base_Column_List" />
     from BOARD_FILE
     where ID = #{id,jdbcType=DECIMAL}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from BOARD_FILE
     where ID = #{id,jdbcType=DECIMAL}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sh.shop.domain.BoardFileExample">
+  <delete id="deleteByExample" parameterType="com.sh.shop.domain.BoardFileExample" >
     delete from BOARD_FILE
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.sh.shop.domain.BoardFile">
+  <insert id="insert" parameterType="com.sh.shop.domain.BoardFile" >
     insert into BOARD_FILE (ID, POST_ID, ORIGINAL_NAME, 
       FILE_PATH, DOWNLOAD_COUNT)
     values (#{id,jdbcType=DECIMAL}, #{postId,jdbcType=DECIMAL}, #{originalName,jdbcType=VARCHAR}, 
       #{filePath,jdbcType=VARCHAR}, #{downloadCount,jdbcType=DECIMAL})
   </insert>
-  <insert id="insertSelective" parameterType="com.sh.shop.domain.BoardFile">
+  <insert id="insertSelective" parameterType="com.sh.shop.domain.BoardFile" >
     insert into BOARD_FILE
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         ID,
       </if>
-      <if test="postId != null">
+      <if test="postId != null" >
         POST_ID,
       </if>
-      <if test="originalName != null">
+      <if test="originalName != null" >
         ORIGINAL_NAME,
       </if>
-      <if test="filePath != null">
+      <if test="filePath != null" >
         FILE_PATH,
       </if>
-      <if test="downloadCount != null">
+      <if test="downloadCount != null" >
         DOWNLOAD_COUNT,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
         #{id,jdbcType=DECIMAL},
       </if>
-      <if test="postId != null">
+      <if test="postId != null" >
         #{postId,jdbcType=DECIMAL},
       </if>
-      <if test="originalName != null">
+      <if test="originalName != null" >
         #{originalName,jdbcType=VARCHAR},
       </if>
-      <if test="filePath != null">
+      <if test="filePath != null" >
         #{filePath,jdbcType=VARCHAR},
       </if>
-      <if test="downloadCount != null">
+      <if test="downloadCount != null" >
         #{downloadCount,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sh.shop.domain.BoardFileExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.sh.shop.domain.BoardFileExample" resultType="java.lang.Integer" >
     select count(*) from BOARD_FILE
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <update id="updateByExampleSelective" parameterType="map" >
     update BOARD_FILE
-    <set>
-      <if test="record.id != null">
+    <set >
+      <if test="record.id != null" >
         ID = #{record.id,jdbcType=DECIMAL},
       </if>
-      <if test="record.postId != null">
+      <if test="record.postId != null" >
         POST_ID = #{record.postId,jdbcType=DECIMAL},
       </if>
-      <if test="record.originalName != null">
+      <if test="record.originalName != null" >
         ORIGINAL_NAME = #{record.originalName,jdbcType=VARCHAR},
       </if>
-      <if test="record.filePath != null">
+      <if test="record.filePath != null" >
         FILE_PATH = #{record.filePath,jdbcType=VARCHAR},
       </if>
-      <if test="record.downloadCount != null">
+      <if test="record.downloadCount != null" >
         DOWNLOAD_COUNT = #{record.downloadCount,jdbcType=DECIMAL},
       </if>
     </set>
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByExample" parameterType="map">
+  <update id="updateByExample" parameterType="map" >
     update BOARD_FILE
     set ID = #{record.id,jdbcType=DECIMAL},
       POST_ID = #{record.postId,jdbcType=DECIMAL},
       ORIGINAL_NAME = #{record.originalName,jdbcType=VARCHAR},
       FILE_PATH = #{record.filePath,jdbcType=VARCHAR},
       DOWNLOAD_COUNT = #{record.downloadCount,jdbcType=DECIMAL}
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sh.shop.domain.BoardFile">
+  <update id="updateByPrimaryKeySelective" parameterType="com.sh.shop.domain.BoardFile" >
     update BOARD_FILE
-    <set>
-      <if test="postId != null">
+    <set >
+      <if test="postId != null" >
         POST_ID = #{postId,jdbcType=DECIMAL},
       </if>
-      <if test="originalName != null">
+      <if test="originalName != null" >
         ORIGINAL_NAME = #{originalName,jdbcType=VARCHAR},
       </if>
-      <if test="filePath != null">
+      <if test="filePath != null" >
         FILE_PATH = #{filePath,jdbcType=VARCHAR},
       </if>
-      <if test="downloadCount != null">
+      <if test="downloadCount != null" >
         DOWNLOAD_COUNT = #{downloadCount,jdbcType=DECIMAL},
       </if>
     </set>
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.BoardFile">
+  <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.BoardFile" >
     update BOARD_FILE
     set POST_ID = #{postId,jdbcType=DECIMAL},
       ORIGINAL_NAME = #{originalName,jdbcType=VARCHAR},
@@ -208,238 +208,17 @@
       DOWNLOAD_COUNT = #{downloadCount,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.sh.shop.domain.BoardFileExample" resultMap="BaseResultMap">
+  <select resultMap="BaseResultMap" parameterType="com.sh.shop.domain.BoardFileExample" id="selectByExampleWithRowbounds" >
     select
-    <if test="distinct">
+    <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
     from BOARD_FILE
-    <if test="_parameter != null">
+    <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <resultMap id="BaseResultMap" type="com.sh.shop.domain.BoardFile">
-    <id column="ID" jdbcType="DECIMAL" property="id" />
-    <result column="POST_ID" jdbcType="DECIMAL" property="postId" />
-    <result column="ORIGINAL_NAME" jdbcType="VARCHAR" property="originalName" />
-    <result column="FILE_PATH" jdbcType="VARCHAR" property="filePath" />
-    <result column="DOWNLOAD_COUNT" jdbcType="DECIMAL" property="downloadCount" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    ID, POST_ID, ORIGINAL_NAME, FILE_PATH, DOWNLOAD_COUNT
-  </sql>
-  <select id="selectByExample" parameterType="com.sh.shop.domain.BoardFileExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from BOARD_FILE
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from BOARD_FILE
-    where ID = #{id,jdbcType=DECIMAL}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
-    delete from BOARD_FILE
-    where ID = #{id,jdbcType=DECIMAL}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.sh.shop.domain.BoardFileExample">
-    delete from BOARD_FILE
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.sh.shop.domain.BoardFile">
-    insert into BOARD_FILE (ID, POST_ID, ORIGINAL_NAME, 
-      FILE_PATH, DOWNLOAD_COUNT)
-    values (#{id,jdbcType=DECIMAL}, #{postId,jdbcType=DECIMAL}, #{originalName,jdbcType=VARCHAR}, 
-      #{filePath,jdbcType=VARCHAR}, #{downloadCount,jdbcType=DECIMAL})
-  </insert>
-  <insert id="insertSelective" parameterType="com.sh.shop.domain.BoardFile">
-    insert into BOARD_FILE
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        ID,
-      </if>
-      <if test="postId != null">
-        POST_ID,
-      </if>
-      <if test="originalName != null">
-        ORIGINAL_NAME,
-      </if>
-      <if test="filePath != null">
-        FILE_PATH,
-      </if>
-      <if test="downloadCount != null">
-        DOWNLOAD_COUNT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=DECIMAL},
-      </if>
-      <if test="postId != null">
-        #{postId,jdbcType=DECIMAL},
-      </if>
-      <if test="originalName != null">
-        #{originalName,jdbcType=VARCHAR},
-      </if>
-      <if test="filePath != null">
-        #{filePath,jdbcType=VARCHAR},
-      </if>
-      <if test="downloadCount != null">
-        #{downloadCount,jdbcType=DECIMAL},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.sh.shop.domain.BoardFileExample" resultType="java.lang.Integer">
-    select count(*) from BOARD_FILE
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update BOARD_FILE
-    <set>
-      <if test="record.id != null">
-        ID = #{record.id,jdbcType=DECIMAL},
-      </if>
-      <if test="record.postId != null">
-        POST_ID = #{record.postId,jdbcType=DECIMAL},
-      </if>
-      <if test="record.originalName != null">
-        ORIGINAL_NAME = #{record.originalName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.filePath != null">
-        FILE_PATH = #{record.filePath,jdbcType=VARCHAR},
-      </if>
-      <if test="record.downloadCount != null">
-        DOWNLOAD_COUNT = #{record.downloadCount,jdbcType=DECIMAL},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update BOARD_FILE
-    set ID = #{record.id,jdbcType=DECIMAL},
-      POST_ID = #{record.postId,jdbcType=DECIMAL},
-      ORIGINAL_NAME = #{record.originalName,jdbcType=VARCHAR},
-      FILE_PATH = #{record.filePath,jdbcType=VARCHAR},
-      DOWNLOAD_COUNT = #{record.downloadCount,jdbcType=DECIMAL}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sh.shop.domain.BoardFile">
-    update BOARD_FILE
-    <set>
-      <if test="postId != null">
-        POST_ID = #{postId,jdbcType=DECIMAL},
-      </if>
-      <if test="originalName != null">
-        ORIGINAL_NAME = #{originalName,jdbcType=VARCHAR},
-      </if>
-      <if test="filePath != null">
-        FILE_PATH = #{filePath,jdbcType=VARCHAR},
-      </if>
-      <if test="downloadCount != null">
-        DOWNLOAD_COUNT = #{downloadCount,jdbcType=DECIMAL},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=DECIMAL}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.BoardFile">
-    update BOARD_FILE
-    set POST_ID = #{postId,jdbcType=DECIMAL},
-      ORIGINAL_NAME = #{originalName,jdbcType=VARCHAR},
-      FILE_PATH = #{filePath,jdbcType=VARCHAR},
-      DOWNLOAD_COUNT = #{downloadCount,jdbcType=DECIMAL}
-    where ID = #{id,jdbcType=DECIMAL}
-  </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.sh.shop.domain.BoardFileExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from BOARD_FILE
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
+    <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
   </select>
