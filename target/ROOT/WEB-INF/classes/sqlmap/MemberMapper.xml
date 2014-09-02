@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.re.nnpc.www.modules.member.MemberMapper">
+
+	<resultMap type="Member" id="MemberMap">
+		<result column="cnt" property="cnt" />
+		<result column="rnum" property="rnum" />
+		
+		<result column="email" property="email" />
+		<result column="pw" property="pw" />
+		<result column="name" property="name" />
+		<result column="me_organ" property="me_organ" />
+		<result column="me_mail" property="me_mail" />
+		<result column="me_mailreq" property="me_mailreq" />
+		<result column="type" property="type" />
+		<result column="use_yn" property="use_yn" />
+		<result column="expert_yn" property="expert_yn" />
+		<result column="api_key" property="api_key" />
+		<result column="api_dt" property="api_dt" />
+		<result column="api_ip" property="api_ip" />
+	</resultMap>
+	
+	<insert id="insert" parameterType="Member">
+		INSERT INTO MEMBER (
+			EMAIL
+			,PW
+			,NAME
+			,TYPE
+			,USE_YN
+			,JOINDT
+		) VALUES (
+			#{email}
+			,#{pw}
+			,#{name}
+			,#{type}
+			,#{use_yn}
+			,SYSDATE
+		)
+	</insert>
+	
+	<update id="update" parameterType="Member">
+		UPDATE
+			MEMBER
+		SET
+			<!-- EMAIL = #{email} -->
+			PW = #{pw}
+			,NAME = #{name}
+			,TYPE = #{type}
+			,USE_YN = #{use_yn}
+			<!-- ,ME_JOINDT = #{joindt} -->
+		WHERE
+			EMAIL = #{email}
+	</update>
+	
+	<update id="updateSelective" parameterType="Member">
+		UPDATE
+			MEMBER
+		<set>
+			<if test="pw != null and pw != ''">PW = #{pw},</if>
+			<if test="name != null and name != ''">NAME = #{name},</if>
+			<if test="me_organ != null and me_organ != ''">ME_ORGAN = #{me_organ},</if>
+			<if test="type != null and type != ''">TYPE = #{type},</if>
+			<if test="use_yn != null and use_yn != ''">USE_YN = #{use_yn},</if>
+			<if test="joindt != null and joindt != ''">ME_JOINDT = #{joindt}</if>
+		</set>
+		WHERE
+			EMAIL = #{email}
+	</update>
+
+	<select id="getCountById" parameterType="String" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM MEMBER
+		WHERE
+			EMAIL = #{email}
+	</select>
+
+	<select id="getById" parameterType="String" resultMap="MemberMap">
+		SELECT
+			*
+		FROM MEMBER
+		WHERE
+			EMAIL = #{email}
+	</select>
+
+	<select id="getListByContext" resultMap="MemberMap">
+		SELECT * FROM (
+				SELECT
+					COUNT(1) OVER() CNT,
+				    ROW_NUMBER() OVER(ORDER BY ME_JOINDT DESC, NAME ASC) RNUM,
+				    MEMBER.*
+				FROM MEMBER
+				WHERE
+					1 = 1
+		      		<if test="s_keyword != null and s_keyword != ''">
+						<choose>
+							<when test="s_type == 'id'">
+								AND EMAIL LIKE '%' || #{s_keyword} || '%'
+							</when>
+							<when test="s_type == 'nm'">
+								AND NAME LIKE '%' || #{s_keyword} || '%'
+							</when>
+							<when test="s_type == 'organ'">
+								AND ME_ORGAN LIKE '%' || #{s_keyword} || '%'
+							</when>
+						</choose>
+					</if>
+				ORDER BY ME_JOINDT DESC, NAME ASC
+		)
+		WHERE
+			RNUM &gt;= #{start_row_num}
+			AND RNUM &lt;= #{end_row_num}
+	</select>
+	
+</mapper>

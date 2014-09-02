@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.re.nnpc.www.modules.board.post.BoardPostMapper">
+	<sql id="table_name">board_post</sql>
+	
+	<select id="getPostCategoryListByConfigId" parameterType="int" resultType="String">
+		SELECT
+			post_category
+		FROM <include refid="table_name"/>
+		WHERE
+			remove_time IS NULL
+			AND config_id = #{config_id}
+		GROUP BY post_category
+	</select>
+
+	<select id="getListByContext" resultType="BoardPost">
+		SELECT * FROM (
+			SELECT ROWNUM AS RNUM, A.* FROM (
+				SELECT
+					*
+				FROM <include refid="table_name"/>
+				WHERE remove_time IS NULL
+				AND config_id = #{config_id}
+				
+				<if test="s_category != null and s_category != ''">
+               		AND post_category = #{s_category}
+				</if>
+      			<if test="s_keyword != null and s_keyword != ''">
+					<choose>
+						<when test="s_type == 'title'">
+							AND title LIKE '%' || #{s_keyword} || '%'
+						</when>
+						<when test="s_type == 'content'">
+							AND content LIKE '%' || #{s_keyword} || '%'
+						</when>
+						<when test="s_type == 'title_content'">
+							AND (title LIKE '%' || #{s_keyword} || '%' OR content LIKE '%' || #{s_keyword} || '%')
+						</when>
+						<when test="s_type == 'writer'">
+							AND writer LIKE '%' || #{s_keyword} || '%'
+						</when>
+					</choose>
+				</if>
+				ORDER BY thread DESC, order_seq ASC
+			) A WHERE ROWNUM &lt;= #{end_row_num}
+		)
+		WHERE
+			RNUM &gt;= #{start_row_num}
+	</select>
+	
+	<select id="getNoticeList" resultType="BoardPost" parameterType="int">
+		SELECT * FROM <include refid="table_name"/>
+		WHERE
+			remove_time IS NULL
+			AND config_id = #{config_id}
+			AND is_notice = 1
+	</select>
+	
+	<select id="getCountByContext" resultType="long">
+		SELECT COUNT(*) 
+		FROM <include refid="table_name"/>
+		WHERE
+			remove_time IS NULL
+			AND config_id = #{config_id}
+			<if test="s_category != null and s_category != ''">
+              	AND post_category = #{s_category}
+			</if>
+			<if test="s_keyword != null and s_keyword != ''">
+				<choose>
+					<when test="s_type == 'title'">
+						AND title LIKE '%' || #{s_keyword} || '%'
+					</when>
+					<when test="s_type == 'content'">
+						AND content LIKE '%' || #{s_keyword} || '%'
+					</when>
+					<when test="s_type == 'title_content'">
+						AND (title LIKE '%' || #{s_keyword} || '%' OR content LIKE '%' || #{s_keyword} || '%')
+					</when>
+				</choose>
+			</if>
+	</select>
+	
+	<select id="getListByThread" resultType="BoardPost" parameterType="long">
+		SELECT
+			*
+		FROM <include refid="table_name"/>
+		WHERE
+			remove_time IS NULL
+			AND thread = #{thread}
+		ORDER BY order_seq ASC
+	</select>
+	
+	<select id="getById" resultType="BoardPost" parameterType="long">
+		SELECT * FROM <include refid="table_name"/>
+		WHERE id = #{id}
+	</select>
+	
+	<update id="removeById" parameterType="long">
+		UPDATE <include refid="table_name"/>
+		SET
+			remove_time = SYSDATE
+		WHERE id = #{id}
+	</update>
+	
+	<update id="update" parameterType="BoardPost">
+		UPDATE <include refid="table_name"/>
+		SET
+			email = #{email}
+			,title = #{title}
+			,content = #{content}
+			,post_category = #{post_category}
+			,link = #{link}
+			,config_id = #{config_id}
+			,is_notice = #{is_notice}
+			,is_security = #{is_security}
+		WHERE id = #{id}
+	</update>
+	
+	<insert id="insert" parameterType="BoardPost" useGeneratedKeys="true" keyProperty="id">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_board_post.nextVal FROM DUAL
+		</selectKey>
+		
+		INSERT INTO <include refid="table_name"/>
+		(
+			id
+			,thread
+			,order_seq
+			,depth
+			,config_id
+			,is_notice
+			,is_security
+			,post_category
+			,writer
+			,email
+			,title
+			,link
+			,content
+		)
+		VALUES
+		(
+			#{id}
+			,#{id}
+			,#{order_seq}
+			,#{depth}
+			,#{config_id}
+			,#{is_notice}
+			,#{is_security}
+			,#{post_category}
+			,#{writer}
+			,#{email}
+			,#{title}
+			,#{link}
+			,#{content}
+		)
+	</insert>
+	
+	<update id="updateReadCount" parameterType="long">
+		UPDATE <include refid="table_name"/>
+		SET
+			read_count = read_count + 1
+		WHERE
+			id = #{id}
+	</update>
+	
+	<update id="updateOrderByParentId" parameterType="BoardPost">
+		UPDATE /*+ bypass_ujvc */(
+			SELECT a.*
+			FROM
+				<include refid="table_name"/> a
+				LEFT JOIN <include refid="table_name"/> b
+					ON a.thread = b.thread
+					AND b.id = #{parent_id}
+			WHERE a.order_seq > b.order_seq
+		)
+		SET
+			order_seq = order_seq+1
+	</update>
+	
+	<insert id="reply" parameterType="BoardPost" useGeneratedKeys="true">
+		<selectKey keyProperty="id" resultType="long" order="BEFORE">
+			SELECT seq_board_post.nextVal FROM DUAL
+		</selectKey>
+		
+		INSERT INTO <include refid="table_name"/>
+		(
+			id
+			,thread
+			,parent_id
+			,order_seq
+			,depth
+			,config_id
+			,is_notice
+			,is_security
+			,post_category
+			,writer
+			,email
+			,title
+			,link
+			,content
+		)
+		SELECT
+			#{id}
+			,thread
+			,id
+			,order_seq + 1
+			,depth + 1
+			,config_id
+			,#{is_notice}
+			,#{is_security}
+			,post_category
+			,#{writer}
+			,#{email}
+			,#{title}
+			,#{link}
+			,#{content}
+		FROM <include refid="table_name"/>
+		WHERE id = #{parent_id}
+	</insert>
+	
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.re.nnpc.www.modules.board.config.BoardConfigMapper">
+	<sql id="table_name">board_config</sql>
+
+	<select id="getList" resultType="BoardConfig">
+		SELECT
+			*
+		FROM <include refid="table_name"/>
+	</select>
+	
+	
+	<select id="getById" resultType="BoardConfig" parameterType="int">
+		SELECT
+			*
+		FROM <include refid="table_name"/>
+		WHERE id = #{id}
+	</select>
+	
+	<insert id="insert" parameterType="BoardConfig">
+		INSERT INTO <include refid="table_name"/>
+		(
+			id
+			,name
+			,description
+			,header
+			,view_type
+			,content_type
+			,category_id
+			,use_security
+			,use_upload
+			,use_comment
+			,use_reply
+			,use_schedule
+			,use_post_category
+			,autholity_read
+			,autholity_write
+		)
+		VALUES
+		(
+			seq_board_config.NEXTVAL
+			,#{name}
+			,#{description}
+			,#{header}
+			,#{view_type}
+			,#{content_type}
+			,#{category_id}
+			,#{use_security}
+			,#{use_upload}
+			,#{use_comment}
+			,#{use_reply}
+			,#{use_schedule}
+			,#{use_post_category}
+			,#{autholity_read}
+			,#{autholity_write}
+		)
+	</insert>
+	
+	<update id="update" parameterType="BoardConfig">
+		UPDATE <include refid="table_name"/>
+		SET
+			name = #{name}
+			,description = #{description}
+			,header = #{header}
+			,view_type = #{view_type}
+			,content_type = #{content_type}
+			,category_id = #{category_id}
+			,use_security = #{use_security}
+			,use_upload = #{use_upload}
+			,use_comment = #{use_comment}
+			,use_reply = #{use_reply}
+			,use_schedule = #{use_schedule}
+			,use_post_category = #{use_post_category}
+			,autholity_read = #{autholity_read}
+			,autholity_write = #{autholity_write}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="int">
+		DELETE FROM <include refid="table_name"/>
+		WHERE id = #{id}
+	</delete>
+	
+</mapper>

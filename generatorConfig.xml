@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+	<classPathEntry
+		location="/Users/HSWook/.m2/repository/com/oracle/ojdbc14/10.2.0.4.0/ojdbc14-10.2.0.4.0.jar" />
+
+	<context id="context1">
+	
+		<property name="autoDelimitKeywords" value="true"/>
+		<property name="beginningDelimiter" value="`"/>
+		<property name="endingDelimiter" value="`"/>
+		
+		<plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
+
+		<!-- Mapper 에 arg 까진 바뀌진 않는다.
+		<plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Criteria" />
+		</plugin>
+		 -->
+		
+		<!-- 환경 설정은 스프링에서 
+		<plugin type="org.mybatis.generator.plugins.MapperConfigPlugin">
+			<property name="targetPackage" value="kr.re.nnpc.www.config" />
+			<property name="targetProject" value="nnpc-www" />
+		</plugin>
+		 -->
+	
+		<!-- 주석 제거 -->
+		<commentGenerator>
+			<property name="suppressAllComments" value="true"/>
+		</commentGenerator>
+	
+		<jdbcConnection driverClass="oracle.jdbc.OracleDriver"
+			connectionURL="jdbc:oracle:thin:@110.45.144.55:1521:ORCLPMO"
+			userId="petshop" password="petshop" />
+			
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false"/>
+		</javaTypeResolver>
+		
+		<javaModelGenerator targetPackage="com.sh.shop.domain" targetProject="shop_maven">
+			<property name="trimStrings" value="true"/>
+		</javaModelGenerator>
+			
+		<sqlMapGenerator targetPackage="com.sh.shop.sqlmap.entity" targetProject="shop_maven">
+			<property name="enableSubPackages" value="false"></property>
+		</sqlMapGenerator>
+		
+		<javaClientGenerator targetPackage="com.sh.shop.persistence" targetProject="shop_maven" type="XMLMAPPER">
+			<property name="enableSubPackages" value="false"></property>
+		</javaClientGenerator>
+			
+		<table tableName="MEMBER" />
+		<table tableName="BOARD_CATEGORY" />
+		<table tableName="BOARD_CONFIG" />
+		<table tableName="BOARD_FILE" />
+		<table tableName="BOARD_POST" />
+		<table tableName="BOARD_SCHEDULE" />
+		<table tableName="HTML_PAGE" />
+
+	</context>
+</generatorConfiguration>
