@@ -1,6 +1,7 @@
 package com.sh.shop.initializer;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.web.filter.CharacterEncodingFilter;
@@ -10,31 +11,36 @@ import com.sh.shop.config.MyBatisConfig;
 import com.sh.shop.config.WebConfig;
 
 public class WebAppInitializer extends
-    AbstractAnnotationConfigDispatcherServletInitializer {
+		AbstractAnnotationConfigDispatcherServletInitializer {
 
-  //{!begin addToRootContext}
-  @Override
-  protected Class<?>[] getRootConfigClasses() {
-    return new Class<?>[] { MyBatisConfig.class };
-  }
-  //{!end addToRootContext}
+	// {!begin addToRootContext}
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		return new Class<?>[] { MyBatisConfig.class };
+	}
 
-  @Override
-  protected Class<?>[] getServletConfigClasses() {
-    return new Class<?>[] { WebConfig.class };
-  }
+	// {!end addToRootContext}
 
-  @Override
-  protected String[] getServletMappings() {
-    return new String[] { "/" };
-  }
-  
-  @Override
-  protected Filter[] getServletFilters() {
-    
-    CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
-    characterEncodingFilter.setEncoding("UTF-8");
-    return new Filter[] { characterEncodingFilter};
-  }
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class<?>[] { WebConfig.class };
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
+
+	@Override
+	protected Filter[] getServletFilters() {
+		CharacterEncodingFilter characterEncodingFilter = new CharacterEncodingFilter();
+		characterEncodingFilter.setEncoding("UTF-8");
+		return new Filter[] { characterEncodingFilter };
+	}
+
+	@Override
+	protected void registerDispatcherServlet(ServletContext servletContext) {
+		super.registerDispatcherServlet(servletContext);
+	}
 
 }
