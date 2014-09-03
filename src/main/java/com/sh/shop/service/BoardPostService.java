@@ -1,12 +1,15 @@
 package com.sh.shop.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sh.shop.domain.BoardPost;
+import com.sh.shop.domain.BoardPostExample;
+import com.sh.shop.domain.BoardPostExample.Criteria;
 import com.sh.shop.persistence.BoardPostMapper;
 
 @Service
@@ -16,6 +19,10 @@ public class BoardPostService implements GenericService<BoardPost> {
 	@Autowired
 	private BoardPostMapper mapper;
 
+	public Integer insertSelective(BoardPost entity) {
+		return mapper.insertSelective(entity);
+	}
+	
 	@Override
 	public Integer insert(BoardPost entity) {
 		return mapper.insert(entity);
@@ -39,6 +46,13 @@ public class BoardPostService implements GenericService<BoardPost> {
 	@Override
 	public Integer getCountById(Object key) {
 		return null;
+	}
+	
+	public List<BoardPost> getsByConfig(Object key) {
+		BoardPostExample boardPostExample =  new BoardPostExample();
+		Criteria criteria = boardPostExample.createCriteria();
+		criteria.andConfigIdEqualTo((BigDecimal)key);
+		return mapper.selectByExample(boardPostExample);
 	}
 
 }

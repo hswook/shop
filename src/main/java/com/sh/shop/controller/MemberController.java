@@ -32,9 +32,6 @@ public class MemberController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String loginProc(HttpServletRequest request, Model model, HttpSession session) {
-		
-		System.out.println(request.getParameter("email"));
-
 		Member member = memberService.getById(request.getParameter("email"));
 		if (member == null) {
 			model.addAttribute("message", "이메일이 존재하지 않습니다.");

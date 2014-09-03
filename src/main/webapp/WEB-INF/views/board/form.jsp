@@ -17,6 +17,8 @@
 	<form id="board" name="board" method="post">
 		<fieldset>
 			<legend>board</legend>
+			<span>title</span><input name="title" type="text">
+			<span>content</span><input name="content" type="textarea">
 		</fieldset>
 	</form>
 </body>

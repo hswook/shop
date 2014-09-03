@@ -78,7 +78,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, `NAME`, DESCIPTION, `HEADER`, VIEW_TYPE, CONTENT_TYPE, CATEGORY_ID, USE_SECURITY, 
+    ID, NAME, DESCIPTION, HEADER, VIEW_TYPE, CONTENT_TYPE, CATEGORY_ID, USE_SECURITY, 
     USE_UPLOAD, USE_COMMENT, USE_REPLY, USE_SCHEDULE, USE_POST_CATEGORY, AUTHOLITY_READ, 
     AUTHOLITY_WRITE, CREATE_TIME
   </sql>
@@ -113,8 +113,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sh.shop.domain.BoardConfig" >
-    insert into BOARD_CONFIG (ID, `NAME`, DESCIPTION, 
-      `HEADER`, VIEW_TYPE, CONTENT_TYPE, 
+    insert into BOARD_CONFIG (ID, NAME, DESCIPTION, 
+      HEADER, VIEW_TYPE, CONTENT_TYPE, 
       CATEGORY_ID, USE_SECURITY, USE_UPLOAD, 
       USE_COMMENT, USE_REPLY, USE_SCHEDULE, 
       USE_POST_CATEGORY, AUTHOLITY_READ, AUTHOLITY_WRITE, 
@@ -133,13 +133,13 @@
         ID,
       </if>
       <if test="name != null" >
-        `NAME`,
+        NAME,
       </if>
       <if test="desciption != null" >
         DESCIPTION,
       </if>
       <if test="header != null" >
-        `HEADER`,
+        HEADER,
       </if>
       <if test="viewType != null" >
         VIEW_TYPE,
@@ -242,13 +242,13 @@
         ID = #{record.id,jdbcType=DECIMAL},
       </if>
       <if test="record.name != null" >
-        `NAME` = #{record.name,jdbcType=VARCHAR},
+        NAME = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.desciption != null" >
         DESCIPTION = #{record.desciption,jdbcType=VARCHAR},
       </if>
       <if test="record.header != null" >
-        `HEADER` = #{record.header,jdbcType=VARCHAR},
+        HEADER = #{record.header,jdbcType=VARCHAR},
       </if>
       <if test="record.viewType != null" >
         VIEW_TYPE = #{record.viewType,jdbcType=VARCHAR},
@@ -294,9 +294,9 @@
   <update id="updateByExample" parameterType="map" >
     update BOARD_CONFIG
     set ID = #{record.id,jdbcType=DECIMAL},
-      `NAME` = #{record.name,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
       DESCIPTION = #{record.desciption,jdbcType=VARCHAR},
-      `HEADER` = #{record.header,jdbcType=VARCHAR},
+      HEADER = #{record.header,jdbcType=VARCHAR},
       VIEW_TYPE = #{record.viewType,jdbcType=VARCHAR},
       CONTENT_TYPE = #{record.contentType,jdbcType=VARCHAR},
       CATEGORY_ID = #{record.categoryId,jdbcType=DECIMAL},
@@ -317,13 +317,13 @@
     update BOARD_CONFIG
     <set >
       <if test="name != null" >
-        `NAME` = #{name,jdbcType=VARCHAR},
+        NAME = #{name,jdbcType=VARCHAR},
       </if>
       <if test="desciption != null" >
         DESCIPTION = #{desciption,jdbcType=VARCHAR},
       </if>
       <if test="header != null" >
-        `HEADER` = #{header,jdbcType=VARCHAR},
+        HEADER = #{header,jdbcType=VARCHAR},
       </if>
       <if test="viewType != null" >
         VIEW_TYPE = #{viewType,jdbcType=VARCHAR},
@@ -366,9 +366,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.BoardConfig" >
     update BOARD_CONFIG
-    set `NAME` = #{name,jdbcType=VARCHAR},
+    set NAME = #{name,jdbcType=VARCHAR},
       DESCIPTION = #{desciption,jdbcType=VARCHAR},
-      `HEADER` = #{header,jdbcType=VARCHAR},
+      HEADER = #{header,jdbcType=VARCHAR},
       VIEW_TYPE = #{viewType,jdbcType=VARCHAR},
       CONTENT_TYPE = #{contentType,jdbcType=VARCHAR},
       CATEGORY_ID = #{categoryId,jdbcType=DECIMAL},

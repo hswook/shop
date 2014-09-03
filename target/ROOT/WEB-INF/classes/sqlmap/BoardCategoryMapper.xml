@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, `NAME`, DESCRIPTION, HOME_URL, PARENT_ID
+    ID, NAME, DESCRIPTION, HOME_URL, PARENT_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sh.shop.domain.BoardCategoryExample" >
     select

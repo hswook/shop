@@ -159,9 +159,7 @@
   <insert id="insertSelective" parameterType="com.sh.shop.domain.BoardPost" >
     insert into BOARD_POST
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
         ID,
-      </if>
       <if test="parentId != null" >
         PARENT_ID,
       </if>
@@ -211,6 +209,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="id == null" >
+      	SEQ_BOARD_POST.NEXTVAL,
       </if>
       <if test="parentId != null" >
         #{parentId,jdbcType=DECIMAL},
