@@ -2,6 +2,7 @@ package com.sh.shop.persistence;
 
 import com.sh.shop.domain.BoardPost;
 import com.sh.shop.domain.BoardPostExample;
+import com.sh.shop.util.SearchContext;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,6 +32,10 @@ public interface BoardPostMapper {
     List<BoardPost> selectByExample(BoardPostExample example);
 
     BoardPost selectByPrimaryKey(BigDecimal id);
+    
+    List<BoardPost> selectByConfigId(BigDecimal id);
+    
+    List<BoardPost> selectBySearchContext(SearchContext searchContext);
 
     int updateByExampleSelective(@Param("record") BoardPost record, @Param("example") BoardPostExample example);
 

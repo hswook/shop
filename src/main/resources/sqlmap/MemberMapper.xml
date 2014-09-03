@@ -101,8 +101,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sh.shop.domain.Member" >
-    insert into MEMBER (EMAIL, PW, `NAME`, 
-      `TYPE`, USE_YN, JOINDT)
+    insert into MEMBER (EMAIL, PW, NAME, 
+      TYPE, USE_YN, JOINDT)
     values (#{email,jdbcType=VARCHAR}, #{pw,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{type,jdbcType=CHAR}, #{useYn,jdbcType=VARCHAR}, #{joindt,jdbcType=DATE})
   </insert>
@@ -116,10 +116,10 @@
         PW,
       </if>
       <if test="name != null" >
-        `NAME`,
+        NAME,
       </if>
       <if test="type != null" >
-        `TYPE`,
+        TYPE,
       </if>
       <if test="useYn != null" >
         USE_YN,
@@ -165,10 +165,10 @@
         PW = #{record.pw,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null" >
-        `NAME` = #{record.name,jdbcType=VARCHAR},
+        NAME = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null" >
-        `TYPE` = #{record.type,jdbcType=CHAR},
+        TYPE = #{record.type,jdbcType=CHAR},
       </if>
       <if test="record.useYn != null" >
         USE_YN = #{record.useYn,jdbcType=VARCHAR},
@@ -185,8 +185,8 @@
     update MEMBER
     set EMAIL = #{record.email,jdbcType=VARCHAR},
       PW = #{record.pw,jdbcType=VARCHAR},
-      `NAME` = #{record.name,jdbcType=VARCHAR},
-      `TYPE` = #{record.type,jdbcType=CHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=CHAR},
       USE_YN = #{record.useYn,jdbcType=VARCHAR},
       JOINDT = #{record.joindt,jdbcType=DATE}
     <if test="_parameter != null" >
@@ -200,10 +200,10 @@
         PW = #{pw,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
-        `NAME` = #{name,jdbcType=VARCHAR},
+        NAME = #{name,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
-        `TYPE` = #{type,jdbcType=CHAR},
+        TYPE = #{type,jdbcType=CHAR},
       </if>
       <if test="useYn != null" >
         USE_YN = #{useYn,jdbcType=VARCHAR},
@@ -217,8 +217,8 @@
   <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.Member" >
     update MEMBER
     set PW = #{pw,jdbcType=VARCHAR},
-      `NAME` = #{name,jdbcType=VARCHAR},
-      `TYPE` = #{type,jdbcType=CHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=CHAR},
       USE_YN = #{useYn,jdbcType=VARCHAR},
       JOINDT = #{joindt,jdbcType=DATE}
     where EMAIL = #{email,jdbcType=VARCHAR}

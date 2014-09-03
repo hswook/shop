@@ -18,7 +18,7 @@
 		<fieldset>
 			<legend>login</legend>
 		    Email: <input type="text" name="email" /><br />
-		    Pasword: <input type="pw" name="pw" /><br />
+		    Pasword: <input type="password" name="pw" /><br />
 		    <input type="submit" value="GO" />
 		</fieldset>
 	</form>

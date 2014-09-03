@@ -20,7 +20,11 @@ public class MemberService {
 	public Integer insert(Member member) {
 		return memberMapper.insert(member);
 	}
-	
+
+	public Integer insertSelective(Member member) {
+		return memberMapper.insertSelective(member);
+	}
+
 	public Integer update(Member member) {
 		return memberMapper.updateByPrimaryKey(member);
 	}
