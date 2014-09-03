@@ -12,35 +12,40 @@ import com.sh.shop.persistence.MemberMapper;
 
 @Service
 @Transactional
-public class MemberService {
+public class MemberService implements GenericService<Member> {
 	
 	@Autowired
 	private MemberMapper memberMapper;
 	
+	@Override
 	public Integer insert(Member member) {
 		return memberMapper.insert(member);
 	}
-
+	
 	public Integer insertSelective(Member member) {
 		return memberMapper.insertSelective(member);
 	}
-
+	
+	@Override
 	public Integer update(Member member) {
 		return memberMapper.updateByPrimaryKey(member);
 	}
 	
+	@Override
 	public Integer updateSelective(Member member) {
 		return memberMapper.updateByPrimaryKeySelective(member);
 	}
 	
 	@Transactional(readOnly = true)
-	public Member getById(String email) {
-		return memberMapper.selectByPrimaryKey(email);
+	@Override
+	public Member getById(Object email) {
+		return memberMapper.selectByPrimaryKey((String)email);
 	}
 	
 	@Transactional(readOnly = true)
-	public Integer getCountById(String email) {
-		return memberMapper.getCountById(email);
+	@Override
+	public Integer getCountById(Object email) {
+		return memberMapper.getCountById((String)email);
 	}
 
 	
