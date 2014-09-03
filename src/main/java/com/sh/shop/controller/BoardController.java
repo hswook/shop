@@ -49,4 +49,15 @@ public class BoardController {
 		model.addAttribute("boardConfigs", boardConfigs);
 		return "board/category";
 	}
+	
+	@RequestMapping(value = "category/{categoryId}/{configId}", method = RequestMethod.GET)
+	public String config(@PathVariable("categoryId") Integer categoryId, @PathVariable("configId") Integer configId, Model model) {
+		BoardConfig boardConfig = boardConfigService.getById(new BigDecimal(configId));
+		BoardCategory boardCategory = boardCategoryService.getById(boardConfig.getCategoryId());
+		List<BoardConfig> boardConfigs = boardConfigService.getsByCategory(boardConfig.getCategoryId());
+		model.addAttribute("boardConfig", boardConfig);
+		model.addAttribute("boardCategory", boardCategory);
+		model.addAttribute("boardConfigs", boardConfigs);
+		return "board/category";
+	}
 }
