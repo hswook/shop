@@ -12,13 +12,16 @@
 	Hello world!  
 </h1>
 
-<div>
+<div id="member">
 	<%if ( request.getSession().getAttribute("member") != null ) { %>
 		<a href="/member/logout" target="_self" title="LOGOUT">LOTOUT</a>
 	<%} else { %>
 		<a href="/member/login" target="_self" title="LOGIN">LOGIN</a>
 		<a href="/member/join" target="_self" title="JOIN">JOIN</a>
 	<%} %>
+</div>
+<div id="content">
+	<a href="/board" target="_self" title="BOARD">BOARD</a>
 </div>
 
 <P>  The time on the server is ${serverTime}. </P>
