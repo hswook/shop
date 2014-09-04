@@ -1,0 +1,48 @@
+.server-visible-true {
+    display:block;
+}
+.server-visible-false {
+    display:none;
+}
+.done-true {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.server-list {
+	z-index: -21;
+	float: left;
+	padding-top:10px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.server-detail {
+	float: left;
+	width: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.server-form {
+	float: left;
+	width:0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.server-list-inner {
+	width: 1240px;
+}
+
+.server-detail-inner,
+.server-form-inner {
+	width: 960px;
+}
+
+.server-list table tbody tr {
+	cursor:pointer;
+}
+.server-detail h4 span {
+	cursor:pointer;
+}

@@ -1,0 +1,205 @@
+function closeList() { $('.server-list').animate({ width:'0px'}); }
+function reduceList() {
+	$('.server-list-inner').animate({ width:'260px'});
+	$('.server-list').animate({ width:'260px'});
+	$('.server-list .name-col').animate({ 'font-size':'10px' });
+    $('.server-list .description-col').css('display', 'none');
+}
+function extendList() {
+	$('.server-list').animate({ width:'100%', });
+	$('.server-list-inner').animate({ width:'1240px'});
+	$('.server-list .name-col').animate('font-size','13px');
+	$('.server-list .description-col').css('display', '');
+}
+
+function closeDetail() {  $('.server-detail').animate({ width:'0px', padding:'0px' }); $('.server-detail-inner').animate({ width:'960px'}); }
+function reduceDetail() {
+	$('.server-detail-inner').animate({ width:'260px'});
+	$('.server-detail').animate({ width:'260px', padding:'0px'});
+//	$('.server-detail .server-col, .server-detail .date-col, .server-detail .description-col, .server-detail .action-col').css('display', 'none');
+}
+function extendDetail() {
+	$('.server-detail-inner').animate({ width:'960px'});
+	$('.server-detail').animate({ width:'970px', padding:'10px'});
+//	$('.server-detail .server-col, .server-detail .date-col, .server-detail .description-col, .server-detail .action-col').css('display', '');
+}
+function closeForm() { $('.server-form').animate({ width:'0px', padding:'0px' }); }
+function extendForm() { $('.server-form').animate({ width:'970px', padding:'10px' }); }
+
+function listServer() { extendList(); closeDetail(); closeForm(); }
+function detailServer() { reduceList(); extendDetail(); closeForm(); }
+function formServer() { reduceList(); closeDetail(); extendForm(); }
+
+
+function ServerCtrl($scope) {
+    $scope.servers = [];
+
+    $scope.query = '';
+
+    $scope.searchResultsFound = function () {
+        return $scope.servers != null && $scope.servers.length > 0;
+    };
+
+    $scope.load = function (server) {
+    	if($scope.id != server.id) {
+    		$scope.server = server;
+            $scope.id = server.id;
+    	}
+    	detailServer();
+    };
+
+    $scope.search = function () {
+    	$scope.trashServer();
+        var u = utils.url('/server/search?q=' + $scope.query);
+        utils.get(u, {}, function (servers) {
+            $scope.$apply(function () {
+                $scope.servers = servers;
+//                if ($scope.searchResultsFound()) {
+//                    if (servers.length == 1) {
+//                        $scope.load(servers[0]);
+//                    }
+//                }
+            });
+        });
+       	listServer();
+    };
+    $scope.isServerLoaded = function () {
+        return $scope.server != null && $scope.server.id != null && $scope.server.id > 0;
+    };
+
+    function loadServerById(id, cb) {
+        var u = utils.url('/server/servers/' + id);
+        utils.get(u, {}, cb);
+    }
+
+    $scope.lookupServer = function () {
+        loadServerById($scope.id, function (c) {
+            $scope.$apply(function () {
+                $scope.load(c);
+            });
+        });
+    };
+    
+    $scope.getAll = function () {
+        var u = utils.url('/server/servers');
+        utils.get(u, {}, function (servers) {
+            $scope.$apply(function () {
+                $scope.servers = servers;
+            });
+        });
+    };
+
+    $scope.save = function (server) {
+        var id = $scope.id;
+        if(server == null) server = { name:'', host:'', description:'', sshId:'', sshPassword:'' };
+        var data = { name:server.name, host:server.host, description:server.description, sshId:server.sshId, sshPassword:server.sshPassword };
+        var hostSplit = data.host.split('.');
+        if(typeof hostSplit[3] == 'undefined' || typeof hostSplit[4] != 'undefined') {
+        	alert("Host 형식이 올바르지 않습니다.");
+        	return ;
+        }
+        if(isNaN(hostSplit[0]) && isNaN(hostSplit[1]) && isNaN(hostSplit[2]) && isNaN(hostSplit[3])) {
+        	alert('host에 문자가 들어 갈 수 없습니다.');
+        	return ;
+        }
+        
+        function exists(o, p, cb) {
+            if (o[p] && o[p] != null) {
+                cb(p, o[p]);
+            }
+        }
+        if(data.name == null || data.host == null) return ;
+
+        exists($scope.server, 'id', function (pName, val) {
+            data[pName] = val;
+        });
+        exists($scope.server, 'createDate', function (pN, v) {
+            data[pN] = v;
+        });
+        var idReceivingCallbackByAdd = function (id) {
+            $scope.$apply(function () {
+            	if(id == null || id <= 0) {
+            		alert("이미 중복된 호스트가 있습니다.");
+            		return ;
+            	}
+                $scope.id = id;
+                $scope.server.id = id;
+                $scope.servers.push(server);
+            	alert('서버를 등록하였습니다');
+                $scope.lookupServer();
+            });
+        };
+        var idReceivingCallbackByMod = function (id) {
+            $scope.$apply(function () {
+                $scope.id = id;
+                $scope.server.id = id;
+                alert('서버를 수정하였습니다');
+                $scope.lookupServer();
+            });
+        };
+
+        var u = null;
+        if ($scope.isServerLoaded()) {
+            u = utils.url('/server/servers/' + id);
+            utils.post(u, JSON.stringify(data), idReceivingCallbackByMod);
+        } else {
+            u = utils.url('/server/servers');
+            utils.put(u, data, idReceivingCallbackByAdd);
+        }
+
+    };
+
+    $scope.trashServer = function () {
+        $scope.server = null;
+    };
+    
+    $scope.getAll();
+    
+    $scope.editServer = function() {
+    	if($scope.isServerLoaded()) {
+    		loadServerById($scope.server.id, function (server) {
+                $scope.$apply(function () {
+                  	$scope.server.sshId = server.sshId;
+                  	$scope.server.sshPassword = server.sshPassword;
+                    $scope.id = server.id;
+                });
+            });
+    	}
+    	formServer();
+    };
+    
+    $scope.backForm = function(server) {
+    	if($scope.isServerLoaded()) {
+    		detailServer();
+    	} else {
+    		listServer();
+    	}
+    };
+    
+    $scope.deleteServer = function(server) {
+    	if(confirm('서버를 삭제하시겠습니까?')) {
+    		var u = utils.url('/server/delete/' + server.id);
+            utils.post(u, {}, function (id) {
+            	alert('삭제되었습니다.');
+            	$scope.$apply(function () {
+            		delete $scope.servers.splice($scope.servers.indexOf(server),1);
+            	});
+        		$scope.trashServer();
+        		listServer();
+            });
+    	}
+    };
+    
+    $('.form-search .glyphicon-plus').click(function(){
+		formServer();
+		$scope.$apply(function () {
+			$scope.trashServer();
+        });
+    });
+    
+    $scope.isLoaded = function(server) {
+    	if($scope.server != null && $scope.server.id == server.id) return "active";
+    	else return "";
+    };
+}
+

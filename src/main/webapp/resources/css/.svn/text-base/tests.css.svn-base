@@ -1,0 +1,26 @@
+.test-visible-true {
+    display:block;
+}
+.test-visible-false {
+    display:none;
+}
+.done-true {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.test-list {
+	z-index: -21;
+	float: left;
+	padding-top:10px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.test-list-inner {
+	width: 1240px;
+}
+
+.test-list table tbody tr {
+	cursor:pointer;
+}

@@ -1,0 +1,120 @@
+function UserCtrl($scope) {
+    $scope.users = [];
+
+    $scope.query = '';
+
+    $scope.searchResultsFound = function () {
+        return $scope.users != null && $scope.users.length > 0;
+    };
+
+    $scope.load = function (user) {
+    	if($scope.id != user.id) {
+    		$scope.user = user;
+            $scope.id = user.id;
+    	}
+    	detailServer();
+    };
+
+    $scope.search = function () {
+        var u = utils.url('/user/search?q=' + $scope.query);
+        utils.get(u, {}, function (users) {
+            $scope.$apply(function () {
+                $scope.users = users;
+                if ($scope.searchResultsFound()) {
+                    if (users.length == 1) {
+                        $scope.load(users[0]);
+                    }
+                }
+            });
+        });
+        
+        listServer();
+    };
+    $scope.isServerLoaded = function () {
+        return $scope.user != null && $scope.user.id != null && $scope.user.id > 0;
+    };
+
+    function loadServerById(id, cb) {
+        var u = utils.url('/user/users/' + id);
+        utils.get(u, {}, cb);
+    }
+
+    $scope.lookupServer = function () {
+        loadServerById($scope.id, function (c) {
+            $scope.$apply(function () {
+                $scope.load(c);
+            });
+        });
+    };
+    
+    $scope.getAll = function () {
+        var u = utils.url('/user/users');
+        utils.get(u, {}, function (users) {
+            $scope.$apply(function () {
+                $scope.users = users;
+            });
+        });
+    };
+
+    $scope.save = function () {
+        var id = $scope.id;
+        var data = {   name:$scope.user.name, host:$scope.user.host, description:$scope.user.description  };
+
+        function exists(o, p, cb) {
+            if (o[p] && o[p] != null) {
+                cb(p, o[p]);
+            }
+        }
+
+        exists($scope.user, 'id', function (pName, val) {
+            data[pName] = val;
+        });
+        exists($scope.user, 'createDate', function (pN, v) {
+            data[pN] = v;
+        });
+        var idReceivingCallback = function (id) {
+            $scope.$apply(function () {
+                $scope.id = id;
+                $scope.users.push($scope.user);
+                $scope.lookupServer();
+            });
+
+        };
+
+        var u = null;
+        if (id != null && id > 0) {
+            // then we're simply going to update it
+            u = utils.url('/user/users/' + id);
+            utils.post(u, JSON.stringify(data), idReceivingCallback);
+        }
+        else {
+            u = utils.url('/user/users');
+            utils.put(u, data, idReceivingCallback);
+        }
+
+    };
+
+    $scope.trashServer = function () {
+        $scope.id = null;
+        $scope.user = null;
+    };
+    
+    $scope.login = function() {
+        var data = { username:$scope.user.name, password:$scope.user.password};
+        u = utils.url('/login2');
+        var idReceivingCallback = function (id) {
+        	if(id > 0) {
+        		alert('로그인 되었습니다.');
+        		document.location.href = '/project';
+        	} else {
+        		alert('아이디 또는 비밀번호가 틀렸습니다.');        		
+        	}
+        };
+        utils.post(u, data, idReceivingCallback);
+    };
+}
+
+$(document).ready(function() {
+	$("#username").focus();
+});
+
