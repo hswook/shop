@@ -15,49 +15,7 @@
 	<link rel="stylesheet" href="/resources/css/common.css">
 </head>
 <body>
-<div class="container">
-	<div class="navbar navbar-default navbar-fixed-top breadcrumb" role="navigation">
-		<div class="navbar-header">
-			<a class="navbar-brand" href="/"><b>개팔이</b></a>
-		</div>
-		<div class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li class="open"><a href="/">About Us</a>
-					<ul class="dropdown-menu">
-						<li class="dropdown-header">About Us</li>
-						<li><a>Brand Story</a></li>
-						<li><a>Contact Us</a></li>
-					</ul>
-				</li>
-				<li class=""><a href="/">Shopping</a>
-					<ul class="dropdown-menu">
-						<li><a>All</a></li>
-						<li><a>T-Shirt</a></li>
-						<li><a>Outer</a></li>
-						<li><a>Knit</a></li>
-						<li><a>Pants & Skirt</a></li>
-						<li><a>All In One</a></li>
-					</ul>
-				</li>
-				<li class=""><a href="/">Board</a>
-					<ul class="dropdown-menu">
-						<li><a>Notice</a></li>
-						<li><a>Q & A</a></li>
-						<li><a>Review</a></li>
-					</ul>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav pull-right">
-				<li class=""><a href="/">Join</a></li>
-				<li class=""><a href="/">login</a></li>
-				<li class=""><a href="/">etc</a></li>
-			</ul>
-		</div>
-	</div>
-	<div class="footer">
-		footer
-	</div>
-</div>
+<jsp:include page="/WEB-INF/views/layout/top.jsp"></jsp:include>
 <div id="container" class="container-fluid">
 	<div style="width:100%; height:400px;">
 		<div style="z-index:10; position:absolute;text-align:left;">
@@ -66,14 +24,15 @@
 				asdasdasd<br/>asdasd<br/>asdasdsadas
 			</p>	
 		</div>
+		<img alt="main" src="/resources/assets/img/main.jpg" style="" />
 	</div>
 	<div class="row">
 		<div class="col-md-10">
-			<span style="font-size:24px; line-height:35px; margin-bottom:12px; color:#666; display:block;'">"개팔이 쇼핑몰에 오신걸을 환영합니다. 이곳은 개를 팝니다."</span>
-			<p style="color:#555;">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi vehicula sem ut volutpat. Ut non libero magna fusce condimentum eleifend enim a feugiat corrupti quos.</p>
+			<span style="font-size:24px; line-height:35px; margin-bottom:12px; color:#666; display:block;'">"쇼핑몰에 오신걸을 환영합니다."</span>
+			<p style="color:#555;">Hello.</p>
 		</div>
 		<div class="col-md-2">
-			<a href="#" class="btn btn-success btn-lg" style="padding-left:50px; padding-right:50px; margin-top:15px;">Join</a>
+			<a href="/member/join" class="btn btn-success btn-lg" style="padding-left:50px; padding-right:50px; margin-top:15px;">Join</a>
 		</div>
 	</div>
 	<div class="row">
