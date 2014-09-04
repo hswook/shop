@@ -1,0 +1,123 @@
+.project-visible-true {
+    display:block;
+}
+.project-visible-false {
+    display:none;
+}
+.done-true {
+    text-decoration: line-through;
+    color: grey;
+}
+
+.project-list {
+	z-index: -21;
+	float: left;
+	padding-top:10px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.project-detail {
+	float: left;
+	width: 0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.project-form {
+	float: left;
+	width:0px;
+	padding: 0px;
+	overflow: hidden;
+}
+
+.project-list-inner {
+	width: 1240px;
+}
+
+.project-detail-inner,
+.project-form-inner,
+.version-detail-inner,
+.projectServer-detail-innser {
+	width: 960px;
+}
+
+.version-form {
+	height : 0px;
+	overflow: hidden;
+}
+.projectServer-form {
+	height : 0px;
+	overflow: hidden;
+}
+
+.version-detail {
+	float: left;
+	width:0px;
+	padding:0px;
+	overflow:hidden;
+}
+
+.projectServer-detail {
+	float: left;
+	width:0px;
+	padding:0px;
+	overflow:hidden;
+}
+
+label {
+	display:inline;
+}
+.form-actions {
+	clear:both;
+}
+.server-list table thead tr th,
+.server-list table tbody tr td,
+.revision-list table thead tr th,
+.revision-list table tbody tr td {
+	font-size: 10px;
+}
+
+.server-list table tbody tr td.ellipsis span,
+.revision-list table tbody tr td.ellipsis span {
+	width:237px;
+	float:left;
+	overflow: hidden;
+	white-space:nowrap;
+	text-overflow: ellipsis;
+}
+
+.revision-list {
+	padding-left:20px;
+	width:520px;
+	float:left;
+	height:270px;
+	overflow: auto;
+}
+
+.server-list {
+	padding-left:20px;
+	width:520px;
+	float:left;
+	height:185px;
+	overflow: auto;
+}
+
+.modal-dialog {
+	width:800px;
+}
+
+.project-list table tbody tr {
+	cursor:pointer;
+}
+.project-detail h4 span {
+	cursor:pointer;
+}
+
+.project-list .old {
+	background-color: #d2322d;
+	color: #ffffff;
+}
+.project-list .active {
+	color: #000000;
+}

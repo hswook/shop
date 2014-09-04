@@ -1,12 +1,15 @@
 package com.sh.shop.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sh.shop.domain.BoardFile;
+import com.sh.shop.domain.BoardFileExample;
+import com.sh.shop.domain.BoardFileExample.Criteria;
 import com.sh.shop.persistence.BoardFileMapper;
 
 @Service
@@ -39,5 +42,12 @@ public class BoardFileService implements GenericService<BoardFile> {
 	@Override
 	public Integer getCountById(Object key) {
 		return null;
+	}
+	
+	public List<BoardFile> gets(Object key) {
+		BoardFileExample boardFileExample = new BoardFileExample();
+		Criteria criteria = boardFileExample.createCriteria();
+		criteria.andPostIdEqualTo((BigDecimal)key);
+		return mapper.selectByExample(boardFileExample);
 	}
 }

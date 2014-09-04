@@ -46,53 +46,64 @@ public class BoardController {
 		return "board/main";	
 	}
 	
-	@RequestMapping(value = "category/{id}", method = RequestMethod.GET)
-	public String category(@PathVariable Integer id, Model model) {
-		BoardCategory boardCategory = boardCategoryService.getById(new BigDecimal(id));
+	@RequestMapping(value = "{categoryId}", method = RequestMethod.GET)
+	public String category(@PathVariable Integer categoryId, Model model) {
+		BoardCategory boardCategory = boardCategoryService.getById(new BigDecimal(categoryId));
 		List<BoardConfig> boardConfigs = boardConfigService.getsByCategory(boardCategory.getId());
 		model.addAttribute("boardCategory", boardCategory);
 		model.addAttribute("boardConfigs", boardConfigs);
 		return "board/category";
 	}
 	
-	@RequestMapping(value = "config/{id}", method = RequestMethod.GET)
-	public String config(@PathVariable Integer id, Model model) {
-		BoardConfig boardConfig = boardConfigService.getById(new BigDecimal(id));
+	@RequestMapping(value = "{categoryId}/{configId}", method = RequestMethod.GET)
+	public String config(@PathVariable("categoryId") Integer categoryId
+			, @PathVariable("configId") Integer configId
+			, Model model) {
+		BoardConfig boardConfig = boardConfigService.getById(new BigDecimal(configId));
+		BoardCategory boardCategory = boardCategoryService.getById(boardConfig.getCategoryId());
 		List<BoardPost> boardPosts = boardPostService.getsByConfig(boardConfig.getId());
 		model.addAttribute("boardConfig", boardConfig);
+		model.addAttribute("boardCategory", boardCategory);
 		model.addAttribute("boardPosts", boardPosts);
 		return "board/config";
 	}
-	
-	@RequestMapping(value = "post/{id}", method = RequestMethod.GET)
-	public String post(@PathVariable Integer id, Model model){
-		BoardPost boardPost = boardPostService.getById(new BigDecimal(id));
+
+	@RequestMapping(value = "{categoryId}/{configId}/{postId}", method = RequestMethod.GET)
+	public String post(@PathVariable("categoryId") Integer categoryId
+			, @PathVariable("configId") Integer configId
+			, @PathVariable("postId") Integer postId
+			, Model model){
+		BoardPost boardPost = boardPostService.getById(new BigDecimal(postId));
+		BoardConfig boardConfig = boardConfigService.getById(boardPost.getConfigId());
+		BoardCategory boardCategory = boardCategoryService.getById(boardConfig.getCategoryId());
 		model.addAttribute("boardPost", boardPost);
+		model.addAttribute("boardConfig", boardConfig);
+		model.addAttribute("boardCategory", boardCategory);
 		return "board/post";
 	}
 	
-	@RequestMapping(value = "post/form", method = RequestMethod.GET)
-	public String postInsertForm(HttpServletRequest request, HttpSession session, Model model) {
+	@RequestMapping(value = "{categoryId}/{configId}/form", method = RequestMethod.GET)
+	public String postInsertForm(@PathVariable("categoryId") Integer categoryId
+			, @PathVariable("configId") Integer configId
+			, HttpServletRequest request, HttpSession session, Model model) {
+		System.out.println("Test");
 		if (session.getAttribute("member") == null) {
 			model.addAttribute("message", "로그인 한 후에 글을 쓰실 수 있습니다.");
-			return "forward:/board/config/"+request.getParameter("configId");
+			return "forward:/board/"+categoryId+"/"+configId;
 		}
 		model.addAttribute("configId", request.getParameter("configId"));
 		return "board/postForm";
 	}
 
-	@RequestMapping(value = "post/form", method = RequestMethod.POST)
-	public String postInsert(HttpServletRequest request, HttpSession session, Model model) {
-		System.out.println(request.getParameter("title"));
-		System.out.println(request.getParameter("content"));
-		System.out.println(((Member)session.getAttribute("member")).getEmail());
-		System.out.println(new BigDecimal(Integer.parseInt(request.getParameter("configId"))));
-		
+	@RequestMapping(value = "{categoryId}/{configId}/form", method = RequestMethod.POST)
+	public String postInsert(@PathVariable("categoryId") Integer categoryId
+			, @PathVariable("configId") Integer configId
+			, HttpServletRequest request, HttpSession session, Model model) {
 		BoardPost boardPost = new BoardPost();
 		boardPost.setTitle(request.getParameter("title"));
 		boardPost.setContent(request.getParameter("content"));
 		boardPost.setMemberEmail(((Member)session.getAttribute("member")).getEmail());
-		boardPost.setConfigId(new BigDecimal(Integer.parseInt(request.getParameter("configId"))));
+		boardPost.setConfigId(new BigDecimal(configId));
 		
 		int result = boardPostService.insertSelective(boardPost);
 		if (result > 0){
@@ -104,18 +115,24 @@ public class BoardController {
 		return "forward:/board/config/"+boardPost.getConfigId();
 	}
 
-	@RequestMapping(value = "post/{id}/form", method = RequestMethod.GET)
-	public String postUpdateForm(@PathVariable Integer id, Model model) {
-		BoardPost boardPost = boardPostService.getById(new BigDecimal(id));
+	@RequestMapping(value = "{categoryId}/{configId}/{postId}/form", method = RequestMethod.GET)
+	public String postUpdateForm(@PathVariable("categoryId") Integer categoryId
+			, @PathVariable("configId") Integer configId
+			, @PathVariable("postId") Integer postId
+			, Model model) {
+		BoardPost boardPost = boardPostService.getById(new BigDecimal(postId));
 		model.addAttribute("boardPost", boardPost);
 		
 		return "board/postForm";
 	}
 
-	@RequestMapping(value = "post/{id}/form", method = RequestMethod.POST)
-	public String postUpdate(@PathVariable Integer id, HttpServletRequest request, HttpSession session, Model model) {
+	@RequestMapping(value = "{categoryId}/{configId}/{postId}/form", method = RequestMethod.POST)
+	public String postUpdate(@PathVariable("categoryId") Integer categoryId
+			, @PathVariable("configId") Integer configId
+			, @PathVariable("postId") Integer postId
+			, HttpServletRequest request, HttpSession session, Model model) {
 		BoardPost boardPost = new BoardPost();
-		boardPost.setId(new BigDecimal(id));
+		boardPost.setId(new BigDecimal(postId));
 		boardPost.setTitle(request.getParameter("title"));
 		boardPost.setContent(request.getParameter("content"));
 		boardPost.setMemberEmail(((Member)session.getAttribute("member")).getEmail());
@@ -127,12 +144,16 @@ public class BoardController {
 			model.addAttribute("message", "게시글을 수정에 실패하였습니.");
 		}
 
-		return "forward:/board/post/"+id;
+		return "forward:/"+categoryId+"/"+configId+"/"+postId;
 	}
 	
-	@RequestMapping(value = "post/{id}/delete", method = RequestMethod.GET)
-	public String postDelete(@PathVariable Integer id, Model model) {
+	@RequestMapping(value = "{categoryId}/{configId}/{postId}/delete", method = RequestMethod.GET)
+	public String postDelete(@PathVariable("categoryId") Integer categoryId
+			, @PathVariable("configId") Integer configId
+			, @PathVariable("postId") Integer postId
+			, Model model) {
 
-		return "forward:/board/config/"+id;
+		return "forward:/"+categoryId+"/"+configId;
 	}
+	
 }

@@ -22,7 +22,7 @@
 			<div id="boardContent">	
 				${boardPost.content }
 			</div>
-			<a href="/board/post/${boardPost.id}/form">수정</a>&nbsp;&nbsp;<a href="/board/post/${boardPost.id}/delete">삭제</a>
+			<a href="/board/${boardCategory.id}/${boardConfig.id}/${boardPost.id}/form">수정</a>&nbsp;&nbsp;<a href="/board/post/${boardPost.id}/delete">삭제</a>
 		</fieldset>
 	</form>
 </body>

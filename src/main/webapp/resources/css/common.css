@@ -1,0 +1,40 @@
+@CHARSET "UTF-8";
+.glyphicon {
+	cursor: pointer;
+}
+a.glyphicon {
+	padding-left:2px;
+	padding-right:2px;
+}
+
+.navbar-nav li {
+	font-size:15px;
+}
+
+.navbar-nav li a.active {
+	color:#fff;
+}
+
+.badge {
+	cursor: pointer;
+}
+
+a {
+	cursor: pointer;
+}
+
+.input-xs {
+  height: 20px;
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+#container {
+	width: 1280px;
+}

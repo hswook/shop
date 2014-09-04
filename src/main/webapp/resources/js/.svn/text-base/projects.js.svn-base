@@ -1,0 +1,982 @@
+function closeList() { $('.project-list').animate({ width:'0px'}); }
+function reduceList() {
+	$('.project-list-inner').animate({ width:'260px'});
+	$('.project-list').animate({ width:'260px'});
+	$('.project-list .name-col').animate({ 'font-size':'10px' });
+    $('.project-list .reposUrl-col, .project-list .reposPath-col, .project-list .reposType-col, .project-list .description-col').css('display', 'none');
+}
+function extendList() {
+	$('.project-list').animate({ width:'100%', });
+	$('.project-list-inner').animate({ width:'1240px'});
+	$('.project-list .name-col').animate({'font-size':'13px'});
+	$('.project-list .reposUrl-col, .project-list .reposPath-col, .project-list .reposType-col, .project-list .latest-col, .project-list .desc-col').css('display', '');
+}
+function closeDetail() {  $('.project-detail').animate({ width:'0px', padding:'0px' }); }
+function reduceDetail() {
+	$('.project-detail-inner').animate({ width:'260px'});
+	$('.project-detail').animate({ width:'260px', padding:'0px'});
+	$('.project-detail .reposUrl-col, .project-detail .encrypt-col, .project-detail .description-col').css('display', 'none');
+	$('.version-list .author-col, .version-list .state-col, .version-list .date-col, .version-list .description-col, .version-list .form-col, .version-list .action-col').css('display', 'none');
+	$('.projectServer-list .type-col, .projectServer-list .latest-col, .projectServer-list .description-col, .projectServer-list .form-col, .projectServer-list .action-col').css('display', 'none');
+}
+function extendDetail() {
+	$('.project-detail-inner').animate({ width:'960px'});
+	$('.project-detail').animate({ width:'970px', padding:'10px'});
+	$('.project-detail .reposUrl-col, .project-detail .encrypt-col, .project-detail .description-col').css('display', '');
+	$('.version-list .author-col, .version-list .state-col, .version-list .date-col, .version-list .description-col, .version-list .form-col, .version-list .action-col').css('display', '');
+	$('.projectServer-list .type-col, .projectServer-list .latest-col, .projectServer-list .description-col, .projectServer-list .form-col, .projectServer-list .action-col').css('display', '');
+}
+function closeForm() { $('.project-form').animate({ width:'0px', padding:'0px' }); }
+function extendForm() { $('.project-form').animate({ width:'970px', padding:'10px' }); }
+
+function openVersionDetail() { $('.version-detail').animate({ width:'970px', padding:'10px' }); }
+function openProjectServerDetail() { $('.projectServer-detail').animate({ width:'970px', padding:'10px' }); }
+function closeVersionDetail() { $('.version-detail').animate({ width:'0px', padding:'0px' }); }
+function closeProjectServerDetail() { $('.projectServer-detail').animate({ width:'0px', padding:'0px' }); }
+
+function openFormVersion() { $('.version-list .version-form').animate({ height:'410px' }); }
+function openUpdateFormVersion() { $('.version-list .version-form').animate({ height:'410px' }); }
+function openFormProjectServer() { $('.projectServer-list .projectServer-form').animate({ height:'375px' }); }
+function openUpdateFormProjectServer() { $('.projectServer-list .projectServer-form').animate({ height:'250px' }); }
+function closeFormVersion() { $('.version-list .version-form').animate({ height:'0px' }); }
+function closeFormProjectServer() { $('.projectServer-list .projectServer-form').animate({ height:'0px' }); }
+
+function listProject() { extendList(); closeDetail(); closeForm(); closeFormVersion(); closeFormProjectServer(); closeVersionDetail(); closeProjectServerDetail(); }
+function detailProject() { reduceList(); extendDetail(); closeForm(); closeVersionDetail(); closeProjectServerDetail(); }
+function formProject() { reduceList(); closeDetail(); extendForm(); }
+
+var ProjectCtrl = function ($scope, $modal, $log, $rootScope) {
+    $scope.projects = [];
+    $scope.query = '';
+
+    $scope.searchResultsFound = function () {
+        return $scope.projects != null && $scope.projects.length > 0;
+    };
+    
+    $scope.searchResultsFoundVersion = function () {
+        return $scope.project != null && $scope.project.versions != null && $scope.project.versions.length > 0;
+    };
+    $scope.searchResultsFoundProjectServer = function () {
+        return $scope.project != null && $scope.project.projectServers != null && $scope.project.projectServers.length > 0;
+    };
+
+    $scope.load = function (project) {
+    	if($scope.id == null || $scope.id != project.id) {
+	   		$scope.project = project;
+	        $scope.id = project.id;
+	            
+	        $scope.getRepository();
+	            
+	        closeFormVersion();
+	        $scope.trashVersion();
+	        $scope.trashRevisions();
+	        closeFormProjectServer();
+	        $scope.trashProjectServer();
+    	}
+    	detailProject();
+    };
+    
+    $scope.loadVersion = function (version) {
+    	if($scope.project.versions == null || typeof($scope.project.versions) == "undefined") $scope.project.versions = [];
+        $scope.project.versions.unshift(version);
+    };
+    
+    $scope.loadProjectServer = function (projectServer) {
+    	if($scope.project.projectServers == null || typeof($scope.project.projectServers) == "undefined") $scope.project.projectServers = new Array();
+        $scope.project.projectServers.unshift(projectServer);
+    };
+
+    $scope.search = function () {
+    	$scope.trashProject();
+        var u = utils.url('/project/search?q=' + $scope.query);
+        utils.get(u, {}, function (projects) {
+            $scope.$apply(function () {
+                $scope.projects = projects;
+//                if ($scope.searchResultsFound()) {
+//                    if (projects.length == 1) {
+//                        $scope.load(projects[0]);
+//                    }
+//                }
+            });
+        });
+        listProject();
+    };
+    $scope.isProjectLoaded = function () {
+        return $scope.project != null && $scope.project.id != null && $scope.project.id > 0;
+    };
+    
+    $scope.isVersionLoaded = function() {
+    	return $scope.version != null && $scope.version.id != null && $scope.version.id > 0;
+    };
+    
+    $scope.isProjectServerLoaded = function() {
+    	return $scope.projectServer != null && $scope.projectServer.id != null && $scope.projectServer.id > 0;
+    };
+    
+    $scope.isSubDetail = function() {
+    	return $scope.isVersionLoaded() || $scope.isProjectServerLoaded();
+    };
+
+    function loadProjectById(id, cb) {
+        var u = utils.url('/project/projects/' + id);
+        utils.get(u, {}, cb);
+    }
+    function loadVersionById(id, cb) {
+        var u = utils.url('/version/versions/' + id);
+        utils.get(u, {}, cb);
+    }
+    
+    function loadProjectServerById(id, cb) {
+        var u = utils.url('/projectServer/projectServers/' + id);
+        utils.get(u, {}, cb);
+    }
+
+    $scope.lookupProject = function () {
+        loadProjectById($scope.id, function (c) {
+            $scope.$apply(function () {
+                $scope.load(c);
+            });
+        });
+    };
+    $scope.lookupVersion = function () {
+        loadVersionById($scope.versionId, function (c) {
+            $scope.$apply(function () {
+                $scope.loadVersion(c);
+            });
+        });
+    };
+    $scope.lookupProjectServer = function () {
+        loadProjectServerById($scope.projectServerId, function (c, host) {
+            $scope.$apply(function () {
+                host = $scope.loadProjectServer(c);
+            });
+        });
+    };
+    $scope.getProjectServerHost = function (projectServerId) {
+    	if(projectServerId != null) {
+    		loadProjectServerById(projectServerId, function (projectServer) {
+    			return projectServer.server.host;
+            });
+    	}
+    };
+
+    $scope.saveProject = function () {
+        var id = $scope.id;
+        if(typeof($scope.project.encrypt) == "undefined") $scope.project.encrypt = "N"; 
+        var data = {   name:$scope.project.name, description:$scope.project.description, 
+        		repositoryURL:$scope.project.repositoryURL, repositoryPath:$scope.project.repositoryPath, repositoryType:$scope.project.repositoryType,
+        		repositoryId:$scope.project.repositoryId, repositoryPassword:$scope.project.repositoryPassword,
+        		groupId:$scope.project.groupId, artifactId:$scope.project.artifactId, encrypt:$scope.project.encrypt};
+
+        if(data.name == null || data.repositoryURL == null || data.repositoryId == null || data.repositoryPassword == null
+        		|| data.groupId == null || data.artifactId == null) return ;
+        function exists(o, p, cb) {
+            if (o[p] && o[p] != null) {
+                cb(p, o[p]);
+            }
+        }
+
+        exists($scope.project, 'id', function (pName, val) {
+            data[pName] = val;
+        });
+        exists($scope.project, 'createDate', function (pN, v) {
+            data[pN] = v;
+        });
+        
+        var idReceivingCallbackByAdd = function (id) {
+            $scope.$apply(function () {
+            	if(id == null || id <= 0) {
+            		alert("해당 Group Id, Articat Id로 등록된 프로젝트가 이미 존재합니다.");
+            		return ;
+            	}
+            	if($scope.id == null || $scope.id <= 0) {
+            		$scope.id = id;
+            		$scope.project.id = id;
+            		$scope.projects.push($scope.project);
+            		$scope.revisions = null;
+            		$scope.repository = null;
+            		$scope.getRepository();
+            	}
+            	closeFormVersion();
+            	closeFormProjectServer();
+            	$scope.lookupProject();
+            	alert("프로젝트를 등록했습니다.");
+//            	$scope.syncRepository($scope.project);
+            });
+        };
+        var idReceivingCallbackByUpdate = function (id) {
+            $scope.$apply(function () {
+                $scope.id = id;
+                $scope.lookupProject();
+            });
+            alert("프로젝트를 수정하였습니다.");
+        };
+
+        var u = null;
+        if (id != null && id > 0) {
+            u = utils.url('/project/projects/' + id);
+            utils.post(u, JSON.stringify(data), idReceivingCallbackByUpdate);
+        }
+        else {
+            u = utils.url('/project/projects');
+            utils.put(u, data, idReceivingCallbackByAdd);
+        }
+
+    };
+    
+    $scope.saveVersion = function () {
+        var id = $scope.versionId;
+        //if($scope.version.name == null) $scope.version.name = $scope.project.name;
+        var data = {   name:$scope.version.versionId, versionId:$scope.version.versionId, description:$scope.version.description, 
+        		copyRevision:$scope.version.copyRevision, releaseNote:$scope.version.releaseNote, groupId:$scope.project.groupId, artifactId:$scope.project.artifactId };
+        
+        if(data.copyRevision == null) {
+        	alert("copyRevision을 선택해주세요."); return ;
+        }
+        if(data.name == null || data.versionId == null || data.copyRevision == null || data.releaseNote == null || data.copyRevision == '') return ;
+
+        function exists(o, p, cb) {
+            if (o[p] && o[p] != null) {
+                cb(p, o[p]);
+            }
+        }
+
+        exists($scope.version, 'id', function (pName, val) {
+            data[pName] = val;
+        });
+        exists($scope.version, 'createDate', function (pN, v) {
+            data[pN] = v;
+        });
+        var idReceivingCallback = function (id) {
+            if(!$scope.isVersionLoaded()) {
+//            	if(id == null || id <= 0) {
+            	if(id == -1) {
+            		$rootScope.$emit('failProgress');
+            		alert("이미 같은 Version이 존재합니다");
+            		return ;
+            	}
+            	$scope.versionId = id;
+            	$scope.lookupVersion();
+            	$rootScope.$emit('successProgress');
+            	alert("버전을 등록하였습니다.");
+            } else {
+            	alert("버전을 수정하였습니다.");
+            	$scope.modalProgress.close();
+            	if($scope.project.uploadVersion != null && id == $scope.project.uploadVersion.id) $scope.uploadVersion(id, $scope.project, true, data.copyRevision);
+            	else $rootScope.$emit('successProgress'); 
+            }
+            $scope.trashVersion();
+            closeFormVersion();
+        };
+
+        var u = null;
+        $scope.openProgress();
+        if (id != null && id > 0) {
+            u = utils.url('/version/versions/' + id);
+            utils.post(u, JSON.stringify(data), idReceivingCallback);
+        }
+        else {
+            u = utils.url('/version/versions');
+            utils.put(u, data, idReceivingCallback);
+        }
+    };
+    
+    $scope.saveProjectServer = function (projectServer) {
+    	var u = null;
+    	
+    	var id = $scope.projectServerId;
+        //if($scope.projectServer.name == null) $scope.projectServer.name = $scope.project.name;
+        var data = { projectId:$scope.project.id, name:$scope.projectServerForm.name, description:$scope.projectServerForm.description,
+        		type:$scope.projectServerForm.type, path:$scope.projectServerForm.path };
+        if(!$scope.isProjectServerLoaded()) {
+        	data['serverId'] = $scope.projectServerForm.server.id;
+        	data['host'] = $scope.projectServerForm.server.host;
+        	if(data.serverId == null) {
+        		alert("서버를 선택해주세요."); return ; 
+        	}
+        } else {
+        	data['server'] = {id:$scope.projectServerForm.server.id, host:$scope.projectServerForm.server.host};
+        }
+        if(data.name == null || data.type == null || data.path == null) return ;
+
+        function exists(o, p, cb) {
+            if (o[p] && o[p] != null) {
+                cb(p, o[p]);
+            }
+        }
+
+        exists($scope.projectServerForm, 'id', function (pName, val) {
+            data[pName] = val;
+        });
+        exists($scope.projectServerForm, 'createDate', function (pN, v) {
+            data[pN] = v;
+        });
+    	
+    	var idReceivingCallback = function (id) {
+            if(!$scope.isProjectServerLoaded()) {
+            	if(id == null || id <= 0) {
+            		alert("이미 서버에 해당 경로로 등록된 프로젝트 서버가 존재합니다");
+            		return ;
+            	}
+            	$scope.projectServerId = id;
+            	$scope.lookupProjectServer();
+            	alert("프로젝트 서버를 등록하였습니다.");
+            } else {
+            	$scope.projectServer.projectId = $scope.projectServerForm.projectId;
+            	$scope.projectServer.name = $scope.projectServerForm.name;
+            	$scope.projectServer.description = $scope.projectServerForm.description;
+            	$scope.projectServer.type = $scope.projectServerForm.type;
+            	$scope.projectServer.path = $scope.projectServerForm.path;
+//            	$scope.projectServer.server.id = $scope.projectServerForm.server.server.id;
+//            	$scope.projectServer.server.host = $scope.projectServerForm.server.server.host;
+            	alert("프로젝트 서버를 수정하였습니다.");
+            }
+            $scope.trashProjectServer();
+            closeFormProjectServer();
+        };
+        
+        if (id != null && id > 0) {
+            u = utils.url('/projectServer/projectServers/' + id);
+            utils.post(u, JSON.stringify(data), idReceivingCallback);
+        }
+        else {
+            u = utils.url('/projectServer/projectServers');
+            utils.put(u, data, idReceivingCallback);
+        }
+    };
+
+    $scope.getAll = function () {
+        var u = utils.url('/project/projects');
+        utils.get(u, {}, function (projects) {
+            $scope.$apply(function () {
+                $scope.projects = projects;
+            });
+        });
+    };
+    
+    $scope.getRevisions = function () {
+        var u = utils.url('/project/revisions/'+$scope.project.id);
+        utils.get(u, {}, function (revisions) {
+            $scope.$apply(function () {
+                $scope.revisions = revisions;
+            });
+        });
+    };
+    $scope.getServers = function () {
+        var u = utils.url('/server/servers');
+        utils.get(u, {}, function (servers) {
+            $scope.$apply(function () {
+                $scope.servers = servers;
+            });
+        });
+    };
+    $scope.getRepository = function () {
+    	var u = utils.url('/project/repository/' + $scope.id);
+        utils.get(u, {}, function (repository) {
+            $scope.$apply(function () {
+                $scope.repository = repository;
+            });
+        });
+    };
+    $scope.trashProject = function () {
+        $scope.id = null;
+        $scope.project = null;
+    };
+    $scope.trashVersion = function () {
+        $scope.versionId = null;
+        $scope.version = null;
+    };
+    $scope.trashProjectServer = function () {
+        $scope.projectServerId = null;
+        $scope.projectServer = null;
+    };
+    $scope.trashProjectServerForm = function () {
+        $scope.projectServerForm = null;
+    };
+    $scope.trashRevisions = function() {
+    	$scope.revisions = null;
+    };
+    
+    $scope.selectRevision = function (revision) {
+    	$scope.version.copyRevision = revision.revision;
+    };
+    
+    $scope.selectServer = function (server) {
+    	$scope.projectServerForm.server = {id:server.id, host:server.host };
+    	if($scope.projectServerForm.name == null) $scope.projectServerForm.name = server.name;
+    	if($scope.projectServerForm.description == null) $scope.projectServerForm.description = server.description;
+    };
+    
+    $scope.getProjectServerType = function(type) {
+    	if(type == 'R') return 'Real Server';
+    	else if(type == 'T') return 'Test Server';
+    	else return '';
+    };
+    
+    $scope.deployServer = function(projectServer, project, deployCommand) {
+    	if(project.uploadVersion == null) {
+    		alert("업로드된 버전이 없습니다.");
+    	} else {
+    		if(projectServer.deployVersion == project.uploadVersion) {
+    			if(!confirm("서버에 배포된 버전과 배포할 버전이 같습니다.\r\n그래도 배포하시겠습니까?")) return ;
+    		} else if(projectServer.deployVersion != null && projectServer.deployVersion.copyRevision > project.uploadVersion.copyRevision) {
+    			if(!confirm("서버에 배포된 버전 Revision이 배포할 버전 Revision 보다 작습니다.\r\n그래도 배포하시겠습니까?")) return ;
+    		} else if(!confirm("해당서버에 프로젝트를 배포하시겠습니까?")) return ;
+    		$scope.openProgress();
+			/*var data = { id:projectServer.id, path:projectServer.path, server:projectServer.server,
+					deployVersion:projectServer.deployVersion, backupVersion:projectServer.backupVersion  };*/
+    		var data = { projectServerId:projectServer.id, socketId:socket._server, deployCommand:deployCommand };
+			var u = utils.url('/project/deploy/' + project.id);
+//			utils.post(u, JSON.stringify(data), function (result) {
+			utils.put(u, data, function (result) {
+            	if(result.returnCode != 0 || result.error) {
+            		$rootScope.$emit('failProgress');
+            		alert("배포에 실패하였습니다. : " + result.message);
+            	} else {
+            		$rootScope.$emit('successProgress');
+            		$scope.$apply(function () {
+            			projectServer.latestHistory = {previousVersion:projectServer.deployVersion, version:project.uploadVersion, type:'D'};
+            			projectServer.backupRevision = projectServer.deployRevision;
+            			projectServer.deployRevision = project.uploadVersion.copyRevision;
+            			projectServer.backupVersion = projectServer.deployVersion;
+            			projectServer.deployVersion = project.uploadVersion;
+            			version = $scope.project.versions[$scope.project.versions.indexOf(projectServer.deployVersion)];
+                    });
+            		alert("배포하였습니다.");
+            	}
+            });
+    	}
+    };
+    
+    $scope.rollbackServer = function(projectServer, project) {
+    	if(projectServer.backupVersion == null) {
+    		alert("해당 서버에 롤백할 버전이 없습니다.");
+    	} else { 
+    		if(projectServer.backupVersion == projectServer.deployVersion) {
+        		if(!confirm("서버에 롤백할 버전과 최근에 배포한 버전이 같습니다./r그래도 롤백하시겠습니까?")) return ;
+    		} else if(!confirm("해당서버에 프로젝트를 롤백하시겠습니까?"))  return ;
+    		$scope.openProgress();
+			/*var data = { id:projectServer.id, path:projectServer.path, server:projectServer.server,
+					deployVersion:projectServer.deployVersion, backupVersion:projectServer.backupVersion };*/
+    		var data = { projectServerId:projectServer.id, socketId:socket._server };
+			var u = utils.url('/project/rollback/' + project.id);
+			//utils.post(u, JSON.stringify(data), function (result) {
+			utils.put(u, data, function (result) {
+            	if(result.returnCode != 0 || result.error) {
+            		$rootScope.$emit('failProgress');
+            		alert("롤백에 실패하였습니다. : " + result.message);
+            	} else {
+            		$rootScope.$emit('successProgress');
+            		$scope.$apply(function () {
+            			projectServer.latestHistory = {previousVersion:projectServer.deployVersion, version:projectServer.backupVersion, type:'B'};
+            			projectServer.backupRevision = projectServer.deployRevision;
+            			projectServer.deployRevision = projectServer.backupRevision;
+            			projectServer.deployVersion = projectServer.backupVersion;
+                    });
+            		alert("롤백에 성공하였습니다.");
+            	}
+            });
+    	}
+    };
+    
+    $scope.uploadVersion = function(id, project, noCheck, revision) {
+    	if(noCheck == true || confirm("서버에 버전을 업로드 하시겠습니까?")) {
+    		if(project.uploadVersion != null && project.uploadVersion.id == id && project.uploadRevision == revision)
+    			return;
+    		$scope.openProgress();
+    		/*var data = { id: project.id, uploadVersion:project.uploadVersion,
+    				repositoryType:project.repositoryType, repositoryURL:project.repositoryURL, repositoryPath:project.repositoryPath,
+    				repositoryId:project.repositoryId, repositoryPassword:project.repositoryPassword,
+    				groupId:project.groupId, artifactId:project.artifactId};*/
+    		var data = {projectId: project.id, socketId:socket._server};
+    		
+    		var u = utils.url('/version/upload/' + id);
+            utils.put(u, data, function (result) {
+            	if(result.error) {
+            		$rootScope.$emit('failProgress');
+            		alert(result.message);
+            	} else {
+            		$scope.$apply(function () {
+                		project.uploadVersion = result.uploadVersion;
+                		project.uploadVersionId = result.uploadVersion.Id;
+                		project.uploadRevision = result.uploadVersion.copyRevision;
+            		});
+            		$rootScope.$emit('successProgress');
+            		alert("서버에 버전을 업로드 했습니다.");
+            	}
+            });
+    	}
+    };
+    
+    $scope.checkNullForUploadVersion = function(project) {
+    	if(!$scope.isProjectLoaded() || project.uploadVersion == null) return "없음";
+    	else return project.uploadVersion.versionId;
+    };
+    
+    $scope.selectProject = function() {
+    	$scope.trashVersion();
+    	closeVersionDetail();
+    	closeProjectServerDetail();
+    	reduceList();
+    	extendDetail();
+    };
+    
+    $scope.selectVersion = function(version) {
+    	if(version != null) {
+    		closeList();
+        	closeProjectServerDetail();
+        	closeFormVersion();
+        	closeFormProjectServer();
+        	reduceDetail();
+        	openVersionDetail();
+
+        	$scope.version = version;
+        	$scope.getLatestHistoryByVersion(version);
+    	}
+    	$scope.trashProjectServer();
+    };
+    
+    $scope.getLatestHistoryByVersion = function(version) {
+    	var u = utils.url('/history/latestByVersion/' + version.id);
+        utils.get(u, {}, function (data) {
+        	$scope.$apply(function () {
+        		$scope.version.latestHistory = data;
+        	});
+        });
+    };
+    
+    $scope.selectProjectServer = function(projectServer) {
+    	if(projectServer != null) {
+    		closeList();
+        	closeVersionDetail();
+        	closeFormVersion();
+        	closeFormProjectServer();
+        	reduceDetail();
+        	openProjectServerDetail();
+
+        	$scope.projectServer = projectServer;
+        	$scope.getHistorysByProjectServer(projectServer);
+    	}
+    	$scope.trashVersion();
+    };
+    
+    $scope.getHistorysByProjectServer = function(projectServer) {
+    	var u = utils.url('/history/projectServer/' + projectServer.id);
+        utils.get(u, {}, function (data) {
+        	$scope.$apply(function () {
+        		$scope.projectServer.historys = data;
+        	});
+        });
+    };
+    
+    $scope.toStringByVersionState = function(state) { return (state == 'S')?'대기':(state == 'R')?'배포':(state == 'T')?'테스트':'롤백'; };
+    $scope.toStringByHistoryType = function(type) { return (type == 'D')?'배포':'롤백'; };
+    $scope.toStringByHistoryResult = function(result) { return (result == 'S')?'성공':'실패'; };
+    $scope.toIconByHistoryResult = function(result) { return (result == 'S')?'glyphicon-ok-circle':'glyphicon-remove-circle'; };
+    $scope.toStringVersionId = function(version) { return (version)?version.versionId:"없음"; };
+    
+    $scope.editProject = function() {
+    	formProject();
+    };
+    $scope.editVersion = function(version) {
+    	detailProject();
+    	openUpdateFormVersion();
+    	closeVersionDetail();
+    	closeProjectServerDetail();
+    	$scope.version = version;
+    	$scope.versionId = version.id;
+    	if($scope.revisions == null) $scope.getRevisions();
+    };
+    $scope.editProjectServer = function(projectServer) {
+    	detailProject();
+    	openUpdateFormProjectServer();
+    	closeVersionDetail();
+    	closeProjectServerDetail();
+    	$scope.projectServer = projectServer;
+    	$scope.projectServerId = projectServer.id;
+    	$scope.projectServerForm = projectServer;
+    	if($scope.servers == null) $scope.getServers();
+    };
+    $scope.deleteProject = function(project) {
+    	if(confirm('프로젝트를 삭제하시겠습니까?')) {
+//    		$scope.openProgress();
+    		var u = utils.url('/project/delete/' + project.id);
+            utils.post(u, {}, function (id) {
+//            	$scope.modalProgress.close();
+            	alert('삭제되었습니다.');
+            	$scope.$apply(function () {
+            		delete $scope.projects.splice($scope.projects.indexOf(project),1);
+            	});
+        		$scope.trashProject();
+        		listProject();
+            });
+    	}
+    };
+    $scope.deleteVersion = function(version) {
+    	var deleteVersion = function() {
+    		var u = utils.url('/version/delete/' + version.id);
+    		$scope.openProgress();
+    		utils.post(u, {}, function (id) {
+            	alert('삭제되었습니다.');
+            	$scope.$apply(function () {
+            		delete $scope.project.versions.splice($scope.project.versions.indexOf(version),1);
+            	});
+        		$scope.trashVersion();
+        		detailProject();
+        		$rootScope.$emit('successProgress');
+            });
+    	};
+        
+    	if($scope.project.uploadVersion != null && $scope.project.uploadVersion.id == version.id) {
+    		if(!confirm('현재 업로드되어 있는 버전 입니다.\r버전을 삭제하시겠습니까?')) return ;
+    		else {
+	    		var u = utils.url('/project/deleteUploadVersion/' + $scope.project.id);
+	    		utils.post(u, {}, function (id) {
+	    			$scope.$apply(function () {
+	    				$scope.project.uploadVersion = null;
+	    			});
+	    			deleteVersion();
+	    		});
+    		}
+    	} else if(!confirm('버전을 삭제하시겠습니까?')) return ;
+    	else deleteVersion();
+    };
+    $scope.deleteProjectServer = function(projectServer) {
+    	if(confirm('프로젝트 서버를 삭제하시겠습니까?')) {
+    		var u = utils.url('/projectServer/delete/' + projectServer.id);
+            utils.post(u, {}, function (id) {
+            	alert('삭제되었습니다.');
+            	$scope.$apply(function () {
+            		delete $scope.project.projectServers.splice($scope.project.projectServers.indexOf(projectServer),1);
+            	});
+        		$scope.trashProjectServer();
+        		detailProject();
+            });
+    	}
+    };
+    $scope.backForm = function(project) {
+    	//if($scope.projects.indexOf(project) != -1) {
+//	    if($scope.id != null && $scope.id == project.id) {
+    	if($scope.isProjectLoaded()) {
+    		detailProject();
+    	} else {
+    		listProject();
+    	}
+    };
+    $scope.syncRepository = function(project) {
+    	if(confirm('Repository와 동기화시키겠습니까?')) {
+    		var u = utils.url('/project/syncRepository/' + project.id);
+            utils.post(u, {}, function (versions) {
+            	alert('동기화했습니다.');
+            	$scope.$apply(function () {
+            		project.versions = versions;
+            	});
+            });
+    	}
+    };
+    
+    $('.form-search .glyphicon-plus').click(function(){
+		formProject();
+		$scope.$apply(function () {
+			$scope.trashProject();
+        });
+		$scope.$apply(function () {
+			$scope.project = {name:null, description:null, repositoryURL:"svn://svn.gabia.com", repositoryPath:null, repositoryType:"SVN", repositoryId:null, repositoryPassword:null, groupId:null, artifactId:null};			
+		});
+    });
+    
+    $('.project-detail .glyphicon-edit').click(function() {
+    	
+    });
+    
+    $scope.openAddForm = function() {
+    	detailProject();
+    	openFormVersion();
+    	closeVersionDetail();
+    	closeProjectServerDetail();
+//    	$scope.$apply(function () {
+			$scope.trashVersion();
+//        });
+    	$scope.version = {name:null, versionId:null, copyRevision:null, releaseNote:null, description:null};
+    	if($scope.revisions == null) $scope.getRevisions();
+    };
+    $('.version-list .glyphicon-remove').click(function(){
+    	closeFormVersion();
+    	$scope.$apply(function () {
+    		$scope.trashVersion();
+    	});
+    });
+    
+    $('.projectServer-list .glyphicon-plus').click(function(){
+    	detailProject();
+    	openFormProjectServer();
+    	closeVersionDetail();
+    	closeProjectServerDetail();
+    	$scope.$apply(function () {
+			$scope.trashProjectServer();
+			$scope.trashProjectServerForm();
+        });
+    	$scope.projectServer = {projectId:$scope.project.id, server:{id:null, host:null}, name:null, description:null, type:null, path:null};
+    	$scope.projectServerForm = {projectId:$scope.project.id, server:{id:null, host:null}, name:null, description:null, type:null, path:null};
+    	if($scope.servers == null) $scope.getServers();
+    });
+    $('.projectServer-list .glyphicon-remove').click(function(){
+    	closeFormProjectServer();
+    	$scope.$apply(function () {
+    		$scope.trashProjectServer();
+    	});
+    });
+    
+    $scope.openLog = function(history) {
+    	$modal.open({
+    		templateUrl: 'logContent',
+    		controller: ModalLogCtrl,
+    		resolve: {
+    			history: function() {
+    				return history;
+    			}
+    		}
+    	});
+    };
+    $scope.openProgress = function() {
+    	$scope.modalProgress = $modal.open({
+    		templateUrl: 'progressContent',
+    		controller: ModalProgressCtrl,
+    		resolve: {},
+    		backdrop:'static'
+    	});
+    };
+    $scope.openDeploy = function(projectServer, project) {
+    	$scope.modalProgress = $modal.open({
+    		templateUrl: 'deployContent',
+    		controller: ModalDeployCtrl,
+    		resolve: {
+    			projectServer: function() {
+    				return projectServer;
+    			},
+    			project: function() {
+    				return project;
+    			}
+    		},
+    		backdrop:'static'
+    	});
+    };
+    $scope.openPatch = function(project) {
+    	if(project.uploadVersion != null) {
+    		$scope.modalPatch = $modal.open({
+        		templateUrl: 'patchContent',
+        		controller: ModalPatchCtrl,
+        		resolve: {
+        			project: function() {
+        				return project;
+        			}
+        		},
+        		backdrop:'static'
+        	});
+    	} 
+    };
+    $scope.isLoaded = function(project) {
+    	if($scope.project != null && $scope.project.id == project.id) return "active";
+    	else return "";
+    };
+    
+    $rootScope.$on('deployServer', function(event, projectServer, project, deployCommand) {
+    	$scope.deployServer(projectServer, project, deployCommand);
+    });
+    
+    $scope.checkOld = function() {
+    	for(var i in $scope.projects) {
+    		var project = $scope.projects[i];
+    		var checkNodeOld = function(project) {
+    			var u = utils.url('/project/checkOld/' + project.id);
+                utils.put(u, {}, function (old) {
+                	$scope.$apply(function () {
+                		project.old = old;
+                	});
+                });
+    		};
+    		checkNodeOld(project);
+    	}
+    };
+    
+    $scope.isOld = function(project) {
+    	if(project.old == 'Y') {
+    		return "old";
+    	} else {
+    		return "";
+    	}
+    };
+    
+    $scope.backSubDetail = function() {
+    	$scope.trashVersion();
+    	$scope.trashProjectServer();
+    	detailProject();
+    };
+    
+    //default execute
+    $scope.getAll();
+};
+
+var ModalLogCtrl = function($scope, $modalInstance, history) {
+	$scope.history = history;
+};
+
+var ModalProgressCtrl = function($scope, $modalInstance, $rootScope) {
+	$scope.type = 'danger';
+	$scope.message = '작업이 진행 중입니다.';
+	$scope.show = false;
+	
+	$rootScope.$on('successProgress', function() {
+		$scope.success();
+	});
+	
+	$rootScope.$on('failProgress', function() {
+		$scope.fail();
+	});
+	
+	$scope.success = function() {
+		$scope.$apply(function () {
+			$scope.type = 'success';
+			$scope.message = '작업을 완료하였습니다.';
+			$scope.showConfirm = true;
+		});
+	};
+	
+	$scope.fail = function() {
+		$scope.$apply(function () {
+			$scope.type = 'warning';
+			$scope.message = '작업을 실패하였습니다.';
+			$scope.showConfirm = true;
+		});
+	};
+	
+	$scope.close = function () {
+		$modalInstance.close();
+		$scope.showConfirm = false;
+	};
+};
+
+var ModalDeployCtrl = function($scope, $modalInstance, projectServer, project, $rootScope) {
+	$scope.project = project;
+	$scope.projectServer = projectServer;
+	$scope.rsyncCommand = "없음";
+	$scope.command_exclude_visible = true;
+	$scope.command_delete_visible = true;
+	$scope.exclude = "";
+//	$scope.command = {cmd:'', baseOption:'', src:'', dst:'', deleteOption:'', excludes:{}, sshId:'', sshPassword:''};
+	
+	$scope.toStringVersionId = function(version) { return (version != null && typeof(version) != "undefined")?version.versionId:"없음"; };
+	$scope.getServer = function() {
+		var u = utils.url('/server/servers/' + $scope.projectServer.server.id);
+		utils.get(u, {}, function (server) {
+        	$scope.$apply(function () {
+        		$scope.projectServer.server.sshId = server.sshId; 
+        		$scope.projectServer.server.sshPassword = server.sshPassword;
+        		$scope.command.sshId = $scope.projectServer.server.sshId;
+        		$scope.command.sshPassword = $scope.projectServer.server.sshPassword;
+        	});
+        });
+	};;
+	$scope.stringfilter = function(string) {
+		if(typeof string != "undefined") return string.replace(/\"/g, '\\"');
+		else "";
+	};
+	$scope.getDeployRsyncCommand = function() {
+//		$scope.getServer();
+		var data = {projectServerId:$scope.projectServer.id};
+		var u = utils.url('/project/deployRsyncCommand/' + $scope.project.id);
+        utils.put(u, data, function (rsyncCommand) {
+        	$scope.$apply(function () {
+        		$scope.rsyncCommand = rsyncCommand.join(" ");
+        		$scope.command = {cmd:rsyncCommand[0], baseOption:rsyncCommand[1], src:rsyncCommand[2], dst:rsyncCommand[3], deleteOption:rsyncCommand[4], excludes:{}};
+        		$scope.command.extraOption = '';
+        		$scope.command.excludes = new Array();
+        		$scope.command.excludes.push(rsyncCommand[5].split("=")[1]);
+        		$scope.getServer();
+        	});
+        });
+	};
+	$scope.deploy = function () {
+		if($scope.command.sshId == '' || $scope.command.sshPassword == '') {
+			alert("SSH 아이디나 비밀번호를 입력하셔야합니다."); return ;
+		}
+		var command = $scope.command.cmd + " " + $scope.command.baseOption;
+		command += " --rsh" + " \"sshpass -p '" + $scope.stringfilter($scope.command.sshPassword) + "' ssh -o StrictHostKeyChecking=no -l " + $scope.command.sshId + "\"";
+		command += " " + $scope.command.src + " " + $scope.command.dst;
+		if($scope.command_delete_visible) command += " --delete";
+		for(i in $scope.command.excludes) command += " --exclude="+$scope.command.excludes[i];
+		
+		command += " " + $scope.command.extraOption;
+		$rootScope.$emit('deployServer', $scope.projectServer, $scope.project, command);
+	};
+	$scope.close = function () {
+		$modalInstance.close();
+		$scope.showConfirm = false;
+	};
+	$scope.selectExclude = function() {
+		$scope.command_exclude_visible = ! $scope.command_exclude_visible;
+	};
+	$scope.selectDelete = function() {
+		$scope.command_delete_visible = ! $scope.command_delete_visible;
+	};
+	$scope.addExclude = function() {
+		var excludePattern = $("#excludePattern").val();
+		if($scope.command.excludes.indexOf(excludePattern) != -1) alert("이미 등록된 패턴입니다.");
+		else if(excludePattern != '') {
+			$scope.command.excludes.push(excludePattern);
+			$("#excludePattern").val('');
+		}
+	};
+	$scope.addExcludeByKeydown = function(e) {
+		if(e.keyCode == 13) $scope.addExclude();
+	};
+	$scope.removeMe = function(exclude) {
+		delete $scope.command.excludes.splice($scope.command.excludes.indexOf(project),1);
+	};
+	$scope.getDeployRsyncCommand();
+};
+
+var ModalPatchCtrl = function($scope, $modalInstance, project, $rootScope) {
+	$scope.project = project;
+	$scope.changes = {};
+	$scope.getChanges = function() {
+		var u = utils.url('/project/changes/' + $scope.project.id);
+        utils.put(u, {}, function (data) {
+        	$scope.$apply(function () {
+        		$scope.changes = data;
+        	});
+        });
+	};
+	$scope.relativeDeployPath = function(path) {
+		return "."+path.substring(("/www/deploy/"+$scope.project.groupId+"/"+$scope.project.artifactId).length, path.length);
+	};
+	
+	$scope.getChanges();
+};
+
+function removeMe(me) {
+	$(me).parents("li").remove();
+}
+
+function connect() {
+    var socket = new SockJS('/progress');
+    stompClient = Stomp.over(socket);        
+    stompClient.connect({}, function(frame) {
+        //setConnected(true);
+        stompClient.subscribe('/topic/progress/'+socket._server, function(progress){
+        	showProgress(JSON.parse(progress.body));
+        });
+    });
+    return socket;
+}
+
+function showProgress(message) {
+    var response = document.getElementById('response');
+    var p = document.createElement('p');
+    p.style.wordWrap = 'break-word';
+    p.appendChild(document.createTextNode(message));
+    if(response != null) response.appendChild(p);
+    $("#response").scrollTop($("#response").prop('scrollHeight'));
+}
+
+var socket = connect();

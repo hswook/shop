@@ -21,11 +21,11 @@
 			<hr/>
 			<ul>
 			<c:forEach items="${boardPosts}" var="boardPost">
-				<li><a href="/board/post/${boardPost.id}"> ${boardPost.title} </a></li>
+				<li><a href="/board/${boardCategory.id}/${boardConfig.id}/${boardPost.id}"> ${boardPost.title} </a></li>
 			</c:forEach>
 				
 			</ul>
-			<a href="/board/post/form?configId=${boardConfig.id }">Write</a>
+			<a href="/board/${boardCategory.id}/${boardConfig.id}/form">Write</a>
 		</fieldset>
 	</form>
 </body>

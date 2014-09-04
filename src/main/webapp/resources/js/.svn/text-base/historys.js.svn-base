@@ -1,0 +1,19 @@
+/**
+ * 
+ */
+
+function HistoryCtrl($scope) {
+	$scope.historys = [];
+	
+	$scope.open = function() {
+		var modalInstance = $modal.open({
+			templateUrl: 'LogModal',
+			controller: LogInstanceCtrl,
+			resolve: {
+				items: function () {
+					return $scope.items;
+				}
+			}
+		});
+	};
+}

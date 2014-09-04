@@ -1,0 +1,167 @@
+angular.module('myApp', ['treeControl']);
+
+function SettingCtrl($scope) {
+    $scope.settings = [];
+    $scope.selectedAddNodes = [];
+    $scope.selectedDelNodes = [];
+    $scope.admins = [];
+
+    $scope.query = '';
+
+    $scope.searchResultsFound = function () {
+        return $scope.admins != null && $scope.admins.length > 0;
+    };
+    
+    $scope.searchAddNodesFound = function () {
+        return $scope.selectedAddNodes != null && $scope.selectedAddNodes.length > 0;
+    };
+    
+    $scope.searchDelNodesFound = function () {
+        return $scope.selectedDelNodes != null && $scope.selectedDelNodes.length > 0;
+    };
+
+    $scope.load = function (setting) {
+    	if($scope.id != setting.id) {
+    		$scope.setting = setting;
+            $scope.id = setting.id;
+    	}
+    	detailSetting();
+    };
+
+    $scope.search = function () {
+        var u = utils.url('/setting/teams/search?q=' + $scope.query);
+        utils.get(u, {}, function (teams) {
+            $scope.$apply(function () {
+            	$scope.teams = teams;            	
+            });
+        });
+    };
+    $scope.isSettingLoaded = function () {
+        return $scope.setting != null && $scope.setting.id != null && $scope.setting.id > 0;
+    };
+
+    function loadSettingById(id, cb) {
+        var u = utils.url('/setting/settings/' + id);
+        utils.get(u, {}, cb);
+    }
+
+    $scope.lookupSetting = function () {
+        loadSettingById($scope.id, function (c) {
+            $scope.$apply(function () {
+                $scope.load(c);
+            });
+        });
+    };
+    
+    $scope.getTeams = function () {
+        var u = utils.url('/setting/teams');
+        utils.get(u, {}, function (teams) {
+            $scope.$apply(function () {
+            	$scope.teams = teams;            	
+            });
+        });
+    };
+    
+    $scope.getAdmins = function () {
+        var u = utils.url('/setting/admins');
+        utils.get(u, {}, function (admins) {
+            $scope.$apply(function () {
+            	$scope.admins = admins;            	
+            });
+        });
+    };
+    
+    $scope.selectAddNode = function(selected) {
+    	$scope.selectedAddNode = selected;
+    };
+    
+    $scope.addSelectedNode = function() {
+    	if($scope.selectedAddNode.children != null && $scope.selectedAddNode.children.length != 0) return ;
+    	for(i in $scope.selectedAddNodes) {
+    		if($scope.selectedAddNodes[i].id == $scope.selectedAddNode.id) {
+    			alert("이미 추가되었습니다.");
+    			return ;
+    		}
+    	}
+    	for(i in $scope.admins) {
+    		if($scope.admins[i].id == $scope.selectedAddNode.id) {
+    			alert("이미 추가되었습니다.");
+    			return ;
+    		}
+    	}
+		$scope.selectedAddNodes.push($scope.selectedAddNode);
+    };
+    
+    $scope.delSelectedNode = function(selectedDelNode) {
+    	for(i in $scope.selectedDelNodes) {
+    		if($scope.selectedDelNodes[i].id == selectedDelNode.id) {
+    			alert("이미 추가되었습니다.");
+    			return ;
+    		}
+    	}
+		$scope.selectedDelNodes.push(selectedDelNode);
+    };
+    
+    $scope.exceptAddNode = function(node) {
+    	delete $scope.selectedAddNodes.splice($scope.selectedAddNodes.indexOf(node),1);
+    };
+    $scope.exceptDelNode = function(node) {
+    	delete $scope.selectedDelNodes.splice($scope.selectedDelNodes.indexOf(node),1);
+    };
+
+    $scope.save = function () {
+    	var idReceivingCallback = function (data) {
+    	};
+        var idReceivingCallbackByAdd = function (data) {
+        	$scope.$apply(function () {
+        		$scope.admins.push(data);
+        	});
+        };
+
+        var u = null;
+        if ($scope.selectedDelNodes != null && $scope.selectedDelNodes.length > 0) {
+            for(i in $scope.selectedDelNodes) {
+            	u = utils.url('/setting/admin/delete/'+$scope.selectedDelNodes[i].id);
+            	utils.post(u, {}, idReceivingCallback);
+            	delete $scope.admins.splice($scope.admins.indexOf($scope.selectedDelNodes[i]),1);
+            }
+            $scope.selectedDelNodes = [];
+        }
+        if ($scope.selectedAddNodes != null && $scope.selectedAddNodes.length > 0) {
+            u = utils.url('/setting/admin');
+            for(i in $scope.selectedAddNodes) {
+            	utils.put(u, $scope.selectedAddNodes[i], idReceivingCallbackByAdd);
+            }
+            $scope.selectedAddNodes = [];
+        }
+    };
+
+    $scope.trashSetting = function () {
+        $scope.id = null;
+        $scope.setting = null;
+    };
+    
+    $('.form-search .glyphicon-plus').click(function(){
+		formSetting();
+		$scope.$apply(function () {
+			$scope.trashSetting();
+        });
+    });
+    
+    $scope.treeOptions = {
+	    nodeChildren: "children",
+	    dirSelectable: true,
+	    injectClasses: {
+	        ul: "a1",
+	        li: "a2",
+	        liSelected: "a7",
+	        iExpanded: "a3",
+	        iCollapsed: "a4",
+	        iLeaf: "a5",
+	        label: "a6",
+	        labelSelected: "a8"
+	    }
+    };
+    $scope.getTeams();
+    $scope.getAdmins();
+}

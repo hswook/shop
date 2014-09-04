@@ -21,7 +21,7 @@
 			<hr/>
 			<ul>
 			<c:forEach items="${boardConfigs}" var="boardConfig">
-				<li><a href="/board/config/${boardConfig.id}"> ${boardConfig.name} : ${boardConfig.desciption} </a></li>
+				<li><a href="/board/${boardCategory.id}/${boardConfig.id}"> ${boardConfig.name} : ${boardConfig.desciption} </a></li>
 			</c:forEach>
 				
 			</ul>

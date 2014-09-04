@@ -15,7 +15,6 @@
 	board
 </h1>
 	<form id="board" name="board" method="post">
-		<input type="hidden" name="configId" value="${configId }" />
 		<fieldset>
 			<legend>board form</legend>
 			<span>title</span><input name="title" type="text" value="${boardPost.title }"><br />

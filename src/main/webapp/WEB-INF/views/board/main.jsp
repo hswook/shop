@@ -19,7 +19,7 @@
 			<legend>board main</legend>
 			<ul>
 			<c:forEach items="${boardCategories}" var="boardCategory">
-				<li><a href="board/category/${boardCategory.id}">${boardCategory.name} (${boardCategory.homeUrl})</a></li>
+				<li><a href="/board/${boardCategory.id}">${boardCategory.name} (${boardCategory.homeUrl})</a></li>
 			</c:forEach>
 				
 			</ul>
