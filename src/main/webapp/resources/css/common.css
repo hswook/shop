@@ -36,5 +36,6 @@ a {
 }
 
 #container {
-	width: 1280px;
+	/* width: 1280px; */
+	padding-top: 20px;
 }
