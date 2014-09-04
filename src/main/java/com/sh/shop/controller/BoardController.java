@@ -55,7 +55,7 @@ public class BoardController {
 		return "board/category";
 	}
 	
-	@RequestMapping(value = "{categoryId}/{configId}", method = RequestMethod.GET)
+	@RequestMapping(value = "{categoryId}/{configId}")
 	public String config(@PathVariable("categoryId") Integer categoryId
 			, @PathVariable("configId") Integer configId
 			, Model model) {
@@ -112,7 +112,7 @@ public class BoardController {
 			model.addAttribute("message", "게시글을 등록에 실패하였습니.");
 		}
 		
-		return "forward:/board/config/"+boardPost.getConfigId();
+		return "forward:/board/"+categoryId+"/"+configId;
 	}
 
 	@RequestMapping(value = "{categoryId}/{configId}/{postId}/form", method = RequestMethod.GET)
