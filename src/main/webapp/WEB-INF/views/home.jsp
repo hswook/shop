@@ -35,15 +35,15 @@
 <body>
 <%@ include file="/WEB-INF/views/layout/top.jsp" %>
 
-<div id="container" class="container-fluid">
+<div id="container" class="container container-fluid">
 	<div class="row">
 		<div id="slides">
 			<img src="/resources/assets/img/back1.jpg" alt="" />
 			<img src="/resources/assets/img/back2.jpg" alt="" />
 		</div>
 	</div>
-	<div style="display:block; margin:10px 0 25px 0;">
-		<h3 style="border-bottom:2px solid #72c02c; margin:0 0 -2px 0; padding-bottom:5px; display: inline-block;">Weekly best</h3>
+	<div style="display:block; margin:25px 0 25px 0;">
+		<h3 style="border-bottom:2px solid #72c02c; margin:0 0 -2px 0; padding-bottom:5px; display: inline-block;">BEST COLLECTION</h3>
 	</div>
 	<div class="row">
 		<div class="col-md-3 col-sm-6">
