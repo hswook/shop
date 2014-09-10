@@ -48,6 +48,12 @@ public class MemberService implements GenericService<Member> {
 		return memberMapper.getCountById((String)email);
 	}
 
+	@Override
+	public Integer delete(Object key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 //	@Transactional(readOnly = true)
 //	public List<Member> getListByContext(SearchContext searchContext) {

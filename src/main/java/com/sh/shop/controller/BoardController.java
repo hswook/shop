@@ -152,8 +152,15 @@ public class BoardController {
 			, @PathVariable("configId") Integer configId
 			, @PathVariable("postId") Integer postId
 			, Model model) {
+		
+		int result = boardPostService.delete(new BigDecimal(postId));
+		if (result > 0){
+			model.addAttribute("message", "게시글을 삭제하였습니다.");
+		} else {
+			model.addAttribute("message", "게시글 삭제에 실패하였습니.");
+		}
 
-		return "forward:/"+categoryId+"/"+configId;
+		return "forward:/board/"+categoryId+"/"+configId;
 	}
 	
 }

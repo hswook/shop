@@ -26,7 +26,7 @@
 				<li class=""><a href="/board">Board</a>
 					<ul class="dropdown-menu">
 						<li><a href="/board/1/2">Notice</a></li>
-						<li><a>Q & A</a></li>
+						<li><a href="/board/1/3">Q & A</a></li>
 						<li><a>Review</a></li>
 					</ul>
 				</li>

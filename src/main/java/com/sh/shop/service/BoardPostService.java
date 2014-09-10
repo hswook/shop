@@ -47,6 +47,11 @@ public class BoardPostService implements GenericService<BoardPost> {
 	public Integer getCountById(Object key) {
 		return null;
 	}
+
+	@Override
+	public Integer delete(Object key) {
+		return mapper.deleteByPrimaryKey((BigDecimal)key);
+	}
 	
 	public List<BoardPost> getsByConfig(Object key) {
 		BoardPostExample boardPostExample =  new BoardPostExample();

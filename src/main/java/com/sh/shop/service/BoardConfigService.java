@@ -43,6 +43,12 @@ public class BoardConfigService implements GenericService<BoardConfig> {
 	public Integer getCountById(Object key) {
 		return null;
 	}
+
+	@Override
+	public Integer delete(Object key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	public List<BoardConfig> getsByCategory(Object key) {
 		BoardConfigExample boardConfigExample =  new BoardConfigExample();

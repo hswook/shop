@@ -43,6 +43,12 @@ public class BoardFileService implements GenericService<BoardFile> {
 	public Integer getCountById(Object key) {
 		return null;
 	}
+
+	@Override
+	public Integer delete(Object key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	public List<BoardFile> gets(Object key) {
 		BoardFileExample boardFileExample = new BoardFileExample();

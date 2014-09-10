@@ -34,6 +34,7 @@
 </head>
 <body>
 <%@ include file="/WEB-INF/views/layout/top.jsp" %>
+
 <div id="container" class="container-fluid">
 	<div class="row">
 		<div id="slides">

@@ -11,4 +11,6 @@ public interface GenericService<T> {
 	public T getById(Object key);
 	
 	public Integer getCountById(Object key);
+	
+	public Integer delete(Object key);
 }
