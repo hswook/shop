@@ -27,7 +27,6 @@ com/sh/shop/persistence/BoardPostMapper.class
 com/sh/shop/controller/MemberController.class
 com/sh/shop/domain/MemberExample$Criteria.class
 com/sh/shop/service/GenericService.class
-com/sh/shop/service/BoardService.class
 com/sh/shop/domain/BoardCategoryExample$Criteria.class
 com/sh/shop/domain/BoardConfigExample$Criteria.class
 com/sh/shop/domain/MemberExample$Criterion.class

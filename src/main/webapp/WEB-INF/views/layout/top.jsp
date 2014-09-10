@@ -1,12 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-<<script type="text/javascript">
-<!--
-	
-
-//-->
-</script>
 
 <div class="container">
 	<div class="navbar navbar-default navbar-fixed-top breadcrumb" role="navigation">
@@ -15,7 +6,7 @@
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
-				<li class="open"><a href="/">About Us</a>
+				<li class=""><a href="/">About Us</a>
 					<ul class="dropdown-menu">
 						<li class="dropdown-header">About Us</li>
 						<li><a>Brand Story</a></li>
@@ -34,20 +25,25 @@
 				</li>
 				<li class=""><a href="/board">Board</a>
 					<ul class="dropdown-menu">
-						<li><a>Notice</a></li>
+						<li><a href="/board/1/2">Notice</a></li>
 						<li><a>Q & A</a></li>
 						<li><a>Review</a></li>
 					</ul>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav pull-right">
-				<li class=""><a href="/member/join">Join</a></li>
-				<li class=""><a href="/member/login">login</a></li>
+				<%
+					if (request.getSession().getAttribute("member") != null) {
+				%>
+						<li class=""><a href="/member/logout">Logout</a></li>
+				<%
+					} else {
+				%>
+						<li class=""><a href="/member/join">Join</a></li>
+						<li class=""><a href="/member/login">Login</a></li>
+				<%} %>
 				<li class=""><a href="#link">etc</a></li>
 			</ul>
 		</div>
-	</div>
-	<div class="footer">
-		footer
 	</div>
 </div>

@@ -323,13 +323,6 @@
 			<version>1.7.1</version>
 		</dependency>
 		
-		<!-- SiteMesh -->
-		<dependency>
-			<groupId>opensymphony</groupId>
-			<artifactId>sitemesh</artifactId>
-			<version>2.4.2</version>
-		</dependency>
-
 		<!-- Jackson -->
 		<!-- 
 		<dependency>
@@ -621,49 +614,11 @@
 	<build>
 		<finalName>ROOT</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-		<testResources>
-            <testResource>
-                <directory>${project.basedir}/src/test/resources</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
 		<plugins>
 			<!-- 원격 톰캣 배포 -->
 			<!-- http://ralf.schaeftlein.de/2012/01/03/using-cargo-for-maven-war-deployments-to-tomcat-8-x/ -->
 			<!-- 메이븐 골 : clean compile install cargo:redeploy -->
-			<plugin>
-				<groupId>org.codehaus.cargo</groupId>
-				<artifactId>cargo-maven2-plugin</artifactId>
-				<version>1.0.5</version>
-				<configuration>
-					<container>
-						<containerId>tomcat8x</containerId>
-						<type>remote</type>
-					</container>
-					<configuration>
-						<type>runtime</type>
-						<properties>
-							<cargo.tomcat.manager.url>http://localhost:8080/manager</cargo.tomcat.manager.url>
-							<cargo.remote.username>admin</cargo.remote.username>
-							<cargo.remote.password>1234</cargo.remote.password>
-						</properties>
-					</configuration>
-					<deployer>
-						<type>remote</type>
-						<deployables>
-							<deployable>
-								<type>war</type>
-								<properties>
-									<context>/ROOT</context>
-								</properties>
-							</deployable>
-						</deployables>
-					</deployer>
-				</configuration>
-			</plugin>
+
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -684,7 +639,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <!--
+<!-- 
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
@@ -733,7 +688,7 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			-->
+-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
@@ -741,23 +696,11 @@
 				<configuration>
 					<warName>ROOT</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<warSourceDirectory>${web.directory}</warSourceDirectory>
-					<warSourceExcludes>www/**, download/**, WEB-INF/repository/**</warSourceExcludes>
 				</configuration>	
 			</plugin>
 			<plugin>
                	<artifactId>maven-clean-plugin</artifactId>
                 <version>2.4</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>${web.directory}/WEB-INF/lib</directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${web.directory}/WEB-INF/classes</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
             </plugin>
             <!-- war 배포시 3rd_party_libs 의 라이브러리도 배포 -->
 <!-- 
@@ -829,7 +772,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
+				<version>3.1</version>
 				<configuration>
                     <downloadSources>true</downloadSources>
 					<downloadJavadocs>true</downloadJavadocs>
