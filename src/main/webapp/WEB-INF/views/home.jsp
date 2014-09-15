@@ -10,12 +10,14 @@
 	</c:if>
 	<script data-main="/resources/js/main" src="/resources/assets/lib/jquery/jquery-1.11.0.min.js"></script>
 	<script data-main="/resources/js/main" src="/resources/assets/lib/slidejs/jquery.slides.min.js"></script>
+	<script data-main="/resources/js/main" src="/resources/assets/lib/bootstrap/js/bootstrap.min.js"></script>
 	<script data-main="/resources/js/main" src="/resources/js/util.js"></script>
 	<script data-main="/resources/js/main" src="/resources/js/navi.js"></script>
-	<link rel="stylesheet" href="/resources/assets/bootstrap/bootstrap.css">
-	<link rel="stylesheet" href="/resources/assets/bootstrap/bootstrap-theme.css">
+	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/resources/css/common.css">
 	<link rel="stylesheet" href="/resources/css/slide.css">
+	<link rel="stylesheet" href="/resources/css/navi.css">
 	
 	<script type="text/javascript">
 		$(function() {

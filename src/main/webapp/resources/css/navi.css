@@ -1,0 +1,5 @@
+@import url('/resources/assets/lib/bootstrap/css/bootstrap.css');
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+ }

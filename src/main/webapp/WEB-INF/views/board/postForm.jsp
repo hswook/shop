@@ -13,8 +13,8 @@
 	<script data-main="/resources/js/main" src="/resources/js/util.js"></script>
 	<script data-main="/resources/js/main" src="/resources/js/navi.js"></script>
 	<script src="/resources/assets/lib/ckeditor/ckeditor.js"></script>
-	<link rel="stylesheet" href="/resources/assets/bootstrap/bootstrap.css">
-	<link rel="stylesheet" href="/resources/assets/bootstrap/bootstrap-theme.css">
+	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/resources/css/common.css">
 </head>
 <body>
