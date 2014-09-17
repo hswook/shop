@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html>
 <head lang="ko">
@@ -9,54 +9,43 @@
 		<script type="text/javascript">alert('<c:out value='${message}' />')</script>
 	</c:if>
 	<script data-main="/resources/js/main" src="/resources/assets/lib/jquery/jquery-1.11.0.min.js"></script>
+	<script data-main="/resources/js/main" src="/resources/assets/lib/slidejs/jquery.slides.min.js"></script>
+	<script data-main="/resources/js/main" src="/resources/assets/lib/bootstrap/js/bootstrap.min.js"></script>
 	<script data-main="/resources/js/main" src="/resources/js/util.js"></script>
-	<link rel="stylesheet" href="/resources/assets/bootstrap/bootstrap.css">
-	<link rel="stylesheet" href="/resources/assets/bootstrap/bootstrap-theme.css">
+	<script data-main="/resources/js/main" src="/resources/js/navi.js"></script>
+	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/resources/css/common.css">
+	<link rel="stylesheet" href="/resources/css/slide.css">
+	<link rel="stylesheet" href="/resources/css/navi.css">
+	
+	<script type="text/javascript">
+		$(function() {
+			$('#slides').slidesjs({
+				width : 940,
+				height : 528,
+				play : {
+					active : true,
+					auto : true,
+					interval : 4000,
+					swap : true
+				}
+			});
+		});
+	</script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/layout/top.jsp" %>
-<div id="container" class="container-fluid">
-	<div style="width:100%; height:400px;">
-		<div style="z-index:10; position:absolute;text-align:left;">
-			<h2>test<br/>test3<br/>test2</h2>
-			<p style="font-size:18px; font-wiight:400; line-height:25px; top:300px; margin-left:2%">
-				asdasdasd<br/>asdasd<br/>asdasdsadas
-			</p>	
-		</div>
-		<img alt="main" src="/resources/assets/img/main.jpg" style="" />
-	</div>
+
+<div id="container" class="container container-fluid">
 	<div class="row">
-		<div class="col-md-10">
-			<span style="font-size:24px; line-height:35px; margin-bottom:12px; color:#666; display:block;'">"쇼핑몰에 오신걸을 환영합니다."</span>
-			<p style="color:#555;">Hello.</p>
-		</div>
-		<div class="col-md-2">
-			<a href="/member/join" class="btn btn-success btn-lg" style="padding-left:50px; padding-right:50px; margin-top:15px;">Join</a>
+		<div id="slides">
+			<img src="/resources/assets/img/back1.jpg" alt="" />
+			<img src="/resources/assets/img/back2.jpg" alt="" />
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-4">
-			<div>
-				<h4>title1</h4>
-				<p>내용12345 내용12345 내용12345 내용12345 내용12345 내용12345 내용12345 </p>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div>
-				<h4>title2</h4>
-				<p>내용12345 내용12345 내용12345 내용12345 내용12345 내용12345 내용12345 </p>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div>
-				<h4>title3</h4>
-				<p>내용12345 내용12345 내용12345 내용12345 내용12345 내용12345 내용12345 </p>
-			</div>
-		</div>
-	</div>
-	<div style="display:block; margin:10px 0 25px 0;">
-		<h3 style="border-bottom:2px solid #72c02c; margin:0 0 -2px 0; padding-bottom:5px; display: inline-block;">최근 판매상품</h3>
+	<div style="display:block; margin:25px 0 25px 0;">
+		<h3 style="border-bottom:2px solid #72c02c; margin:0 0 -2px 0; padding-bottom:5px; display: inline-block;">BEST COLLECTION</h3>
 	</div>
 	<div class="row">
 		<div class="col-md-3 col-sm-6">
@@ -137,19 +126,17 @@
 			</div>
 		</div>
 	</div>
-	<div class="footer">
-		footer
-	</div>
+	<footer id="footer">
+		<div class="footerutil">
+			<%if ( request.getSession().getAttribute("member") != null ) { %>
+			<a href="/member/logout" target="_self" title="LOGOUT">LOTOUT</a>
+		<%} else { %>
+			<a href="/member/login" target="_self" title="LOGIN">LOGIN</a>
+			<a href="/member/join" target="_self" title="JOIN">JOIN</a>
+		<%} %>
+		</div>
+		<p>footer content</p>
+	</footer>
 </div>
-
-<div>
-	<%if ( request.getSession().getAttribute("member") != null ) { %>
-	<a href="/member/logout" target="_self" title="LOGOUT">LOTOUT</a>
-<%} else { %>
-	<a href="/member/login" target="_self" title="LOGIN">LOGIN</a>
-	<a href="/member/join" target="_self" title="JOIN">JOIN</a>
-<%} %>
-</div>
-
 </body>
 </html>

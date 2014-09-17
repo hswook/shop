@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sh</groupId>
 	<artifactId>shop</artifactId>
-	<name>shop_maven</name>
+	<name>shop-maven</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	
@@ -491,7 +491,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>shop</finalName>
+		<finalName>ROOT</finalName>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
 			<!-- 원격 톰캣 배포 -->
@@ -573,7 +573,7 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.4</version>
 				<configuration>
-					<warName>shop</warName>
+					<warName>ROOT</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>	
 			</plugin>

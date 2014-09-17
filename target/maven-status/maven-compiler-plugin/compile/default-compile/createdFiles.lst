@@ -2,8 +2,8 @@ com/sh/shop/util/ValidationUtils.class
 com/sh/shop/persistence/BoardConfigMapper.class
 com/sh/shop/domain/MemberExample$GeneratedCriteria.class
 com/sh/shop/domain/BoardConfigExample$GeneratedCriteria.class
-com/sh/shop/domain/BoardConfigExample$Criterion.class
 com/sh/shop/domain/BoardPostExample$GeneratedCriteria.class
+com/sh/shop/domain/BoardConfigExample$Criterion.class
 com/sh/shop/domain/BoardFileExample$GeneratedCriteria.class
 com/sh/shop/config/WebConfig.class
 com/sh/shop/domain/BoardFileExample$Criterion.class
@@ -39,7 +39,7 @@ com/sh/shop/controller/HomeController.class
 com/sh/shop/domain/BoardFile.class
 com/sh/shop/domain/MemberExample.class
 com/sh/shop/config/MyBatisConfig.class
-com/sh/shop/domain/BoardCategory.class
 com/sh/shop/domain/BoardFileExample$Criteria.class
+com/sh/shop/domain/BoardCategory.class
 com/sh/shop/service/BoardCategoryService.class
 com/sh/shop/service/BoardFileService.class
