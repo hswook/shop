@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sh.shop.persistence.ProductOrdersMapper" >
+  <resultMap id="BaseResultMap" type="com.sh.shop.domain.ProductOrders" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
+    <result column="ORDERS_ID" property="ordersId" jdbcType="DECIMAL" />
+    <result column="ORDER_PRICE" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, PRODUCT_ID, ORDERS_ID, ORDER_PRICE, QUANTITY
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sh.shop.domain.ProductOrdersExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRODUCT_ORDERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.math.BigDecimal" >
+    select 
+    <include refid="Base_Column_List" />
+    from PRODUCT_ORDERS
+    where ID = #{id,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
+    delete from PRODUCT_ORDERS
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sh.shop.domain.ProductOrdersExample" >
+    delete from PRODUCT_ORDERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sh.shop.domain.ProductOrders" >
+    insert into PRODUCT_ORDERS (ID, PRODUCT_ID, ORDERS_ID, 
+      ORDER_PRICE, QUANTITY)
+    values (#{id,jdbcType=DECIMAL}, #{productId,jdbcType=DECIMAL}, #{ordersId,jdbcType=DECIMAL}, 
+      #{orderPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sh.shop.domain.ProductOrders" >
+    insert into PRODUCT_ORDERS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        ID,
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="ordersId != null" >
+        ORDERS_ID,
+      </if>
+      <if test="orderPrice != null" >
+        ORDER_PRICE,
+      </if>
+      <if test="quantity != null" >
+        QUANTITY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=DECIMAL},
+      </if>
+      <if test="id == null" >
+      	SEQ_PRODUCT_ORDERS.NEXTVAL,
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=DECIMAL},
+      </if>
+      <if test="ordersId != null" >
+        #{ordersId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPrice != null" >
+        #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        #{quantity,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sh.shop.domain.ProductOrdersExample" resultType="java.lang.Integer" >
+    select count(*) from PRODUCT_ORDERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update PRODUCT_ORDERS
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productId != null" >
+        PRODUCT_ID = #{record.productId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ordersId != null" >
+        ORDERS_ID = #{record.ordersId,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderPrice != null" >
+        ORDER_PRICE = #{record.orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.quantity != null" >
+        QUANTITY = #{record.quantity,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update PRODUCT_ORDERS
+    set ID = #{record.id,jdbcType=DECIMAL},
+      PRODUCT_ID = #{record.productId,jdbcType=DECIMAL},
+      ORDERS_ID = #{record.ordersId,jdbcType=DECIMAL},
+      ORDER_PRICE = #{record.orderPrice,jdbcType=DECIMAL},
+      QUANTITY = #{record.quantity,jdbcType=DECIMAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sh.shop.domain.ProductOrders" >
+    update PRODUCT_ORDERS
+    <set >
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+      </if>
+      <if test="ordersId != null" >
+        ORDERS_ID = #{ordersId,jdbcType=DECIMAL},
+      </if>
+      <if test="orderPrice != null" >
+        ORDER_PRICE = #{orderPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="quantity != null" >
+        QUANTITY = #{quantity,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sh.shop.domain.ProductOrders" >
+    update PRODUCT_ORDERS
+    set PRODUCT_ID = #{productId,jdbcType=DECIMAL},
+      ORDERS_ID = #{ordersId,jdbcType=DECIMAL},
+      ORDER_PRICE = #{orderPrice,jdbcType=DECIMAL},
+      QUANTITY = #{quantity,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+  <select resultMap="BaseResultMap" parameterType="com.sh.shop.domain.ProductOrdersExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from PRODUCT_ORDERS
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
