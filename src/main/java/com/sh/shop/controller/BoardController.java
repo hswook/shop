@@ -86,8 +86,8 @@ public class BoardController {
 	public String postInsertForm(@PathVariable("categoryId") Integer categoryId
 			, @PathVariable("configId") Integer configId
 			, HttpServletRequest request, HttpSession session, Model model) {
-		System.out.println("Test");
 		if (session.getAttribute("member") == null) {
+			System.out.println("!");
 			model.addAttribute("message", "로그인 한 후에 글을 쓰실 수 있습니다.");
 			return "forward:/board/"+categoryId+"/"+configId;
 		}

@@ -57,6 +57,10 @@
 		<table tableName="BOARD_CONFIG" />
 		<table tableName="BOARD_FILE" />
 		<table tableName="BOARD_POST" />
+		<table tableName="ORDERS" />
+		<table tableName="PRODUCT" />
+		<table tableName="PRODUCT_ORDERS" />
+		<table tableName="WISHLIST" />
 
 	</context>
 </generatorConfiguration>
