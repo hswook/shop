@@ -7,6 +7,7 @@
     <result column="PRICE" property="price" jdbcType="DECIMAL" />
     <result column="MAIN_IMG" property="mainImg" jdbcType="VARCHAR" />
     <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
     <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, `NAME`, PRICE, MAIN_IMG, CONTENT, CREATE_TIME
+    ID, `NAME`, PRICE, MAIN_IMG, CONTENT, TYPE, CREATE_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sh.shop.domain.ProductExample" >
     select
@@ -102,10 +103,10 @@
   </delete>
   <insert id="insert" parameterType="com.sh.shop.domain.Product" >
     insert into PRODUCT (ID, `NAME`, PRICE, 
-      MAIN_IMG, CONTENT, CREATE_TIME
+      MAIN_IMG, CONTENT, TYPE, CREATE_TIME
       )
     values (#{id,jdbcType=DECIMAL}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
-      #{mainImg,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}
+      #{mainImg,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{createTime,jdbcType=DATE}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.sh.shop.domain.Product" >
@@ -123,6 +124,9 @@
       </if>
       <if test="content != null" >
         CONTENT,
+      </if>
+      <if test="type != null" >
+        TYPE,
       </if>
       <if test="createTime != null" >
         CREATE_TIME,
@@ -146,6 +150,9 @@
       </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=DATE},
@@ -176,6 +183,9 @@
       <if test="record.content != null" >
         CONTENT = #{record.content,jdbcType=VARCHAR},
       </if>
+      <if test="record.type != null" >
+        CONTENT = #{record.type,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null" >
         CREATE_TIME = #{record.createTime,jdbcType=DATE},
       </if>
@@ -191,6 +201,7 @@
       PRICE = #{record.price,jdbcType=DECIMAL},
       MAIN_IMG = #{record.mainImg,jdbcType=VARCHAR},
       CONTENT = #{record.content,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR},
       CREATE_TIME = #{record.createTime,jdbcType=DATE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -211,6 +222,9 @@
       <if test="content != null" >
         CONTENT = #{content,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=DATE},
       </if>
@@ -223,6 +237,7 @@
       PRICE = #{price,jdbcType=DECIMAL},
       MAIN_IMG = #{mainImg,jdbcType=VARCHAR},
       CONTENT = #{content,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
       CREATE_TIME = #{createTime,jdbcType=DATE}
     where ID = #{id,jdbcType=DECIMAL}
   </update>

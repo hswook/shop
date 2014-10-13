@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/resources/css/common.css">
+	<link rel="stylesheet" href="/resources/css/navi.css">
 </head>
 <body>
 <%@ include file="/WEB-INF/views/layout/top.jsp" %>
