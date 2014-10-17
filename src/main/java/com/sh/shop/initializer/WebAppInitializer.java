@@ -1,6 +1,7 @@
 package com.sh.shop.initializer;
 
 import javax.servlet.Filter;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
 import org.springframework.core.annotation.Order;

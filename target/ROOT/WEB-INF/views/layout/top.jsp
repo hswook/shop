@@ -16,15 +16,15 @@
 					</ul>
 				</li>
 				<li class="dropdown">
-				<a id="menu2" role="button" data-toggle="dropdown" data-target="#" href="/">
+				<a id="menu2" role="button" data-toggle="dropdown" data-target="#" href="/product">
 				Shopping <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
-						<li><a>All</a></li>
-						<li><a>T-Shirt</a></li>
-						<li><a>Outer</a></li>
-						<li><a>Knit</a></li>
-						<li><a>Pants &amp; Skirt</a></li>
-						<li><a>All In One</a></li>
+						<li><a href="/product/all">All</a></li>
+						<li><a href="/product/t-shirt">T-Shirt</a></li>
+						<li><a href="/product/outer">Outer</a></li>
+						<li><a href="/product/knit">Knit</a></li>
+						<li><a href="/product/food">Food</a></li>
+						<li><a href="/product/living">Living</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

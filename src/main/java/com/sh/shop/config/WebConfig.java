@@ -20,6 +20,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -76,7 +77,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 	
 	@Bean
 	public MultipartResolver multipartResolver() {
-		return new StandardServletMultipartResolver();
+		return new CommonsMultipartResolver();
 	}
 	
 	@Override

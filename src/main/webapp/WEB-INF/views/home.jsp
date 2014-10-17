@@ -49,42 +49,22 @@
 		<h3 style="border-bottom:2px solid #72c02c; margin:0 0 -2px 0; padding-bottom:5px; display: inline-block;">BEST COLLECTION</h3>
 	</div>
 	<div class="row">
-		<div class="col-md-3 col-sm-6">
-			<div class="thumbnail">
-				<a><img src="" alt="이미지" width="500px;" height="100px;"/></a>
-				<div class="caption">
-					<h4>상품제목</h4>
-					<p>품설명 기타설명 등등등</p>
+		<c:forEach items="${productList}" var="product" varStatus="status">
+			<c:if test="${not doneLoop }">
+				<div class="col-md-3 col-sm-6">
+					<div class="thumbnail">
+						<a href="/product/${product.type }/${product.id }"><img src="/upload/product/${product.mainImg}" alt="이미지" /></a>
+						<div class="caption">
+							<h4>${product.name }</h4>
+							<p>${product.price }</p>
+						</div>
+					</div>
 				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-6">
-			<div class="thumbnail">
-				<a><img src="" alt="이미지" width="500px;" height="100px;"/></a>
-				<div class="caption">
-					<h4>상품제목</h4>
-					<p>품설명 기타설명 등등등</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-6">
-			<div class="thumbnail">
-				<a><img src="" alt="이미지" width="500px;" height="100px;"/></a>
-				<div class="caption">
-					<h4>상품제목</h4>
-					<p>품설명 기타설명 등등등</p>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-3 col-sm-6">
-			<div class="thumbnail">
-				<a><img src="" alt="이미지" width="500px;" height="100px;"/></a>
-				<div class="caption">
-					<h4>상품제목</h4>
-					<p>품설명 기타설명 등등등</p>
-				</div>
-			</div>
-		</div>
+				<c:if test="${status.count eq 4 }">
+					<c:set var="doneLoop" value="true" />
+				</c:if>
+			</c:if>
+		</c:forEach>
 	</div>
 	<div class="row">
 		<div class="col-md-8">

@@ -47,3 +47,27 @@ a {
 #footer p {
 	margin:10px 0 0 0;
 }
+
+.product-btn-area {
+	display: inline-block;
+	width: 100%;
+	margin: 10px 0 30px;
+	text-align: left;
+}
+
+.product-btn-area a {
+	margin: 0px;
+	padding: 15px 19px;	
+	border-radius: 5px;
+	font-weight: bold;
+	color: #777;
+	border: 1px solid #ccc;
+}
+
+.product-btn-area a.point {
+	display: inline-block;
+	padding: 15px 50px;
+	background: #000;
+	color: #fff;
+	border: 1px solid #000;
+}

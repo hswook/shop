@@ -16,8 +16,10 @@ public class Product {
     private String mainImg;
 
     private String content;
+    
+    private String type;
 
-    private Date createTime;
+	private Date createTime;
 
     public BigDecimal getId() {
         return id;
@@ -58,6 +60,14 @@ public class Product {
     public void setContent(String content) {
         this.content = content == null ? null : content.trim();
     }
+
+    public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
     public Date getCreateTime() {
         return createTime;

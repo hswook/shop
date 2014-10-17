@@ -74,6 +74,7 @@ public class BoardController {
 			, @PathVariable("postId") Integer postId
 			, Model model){
 		BoardPost boardPost = boardPostService.getById(new BigDecimal(postId));
+		boardPost.setContent(boardPost.getContent().replaceAll("~!@", "\""));
 		BoardConfig boardConfig = boardConfigService.getById(boardPost.getConfigId());
 		BoardCategory boardCategory = boardCategoryService.getById(boardConfig.getCategoryId());
 		model.addAttribute("boardPost", boardPost);
@@ -101,7 +102,7 @@ public class BoardController {
 			, HttpServletRequest request, HttpSession session, Model model) {
 		BoardPost boardPost = new BoardPost();
 		boardPost.setTitle(request.getParameter("title"));
-		boardPost.setContent(request.getParameter("content"));
+		boardPost.setContent(request.getParameter("content").replaceAll("\"", "~!@"));
 		boardPost.setMemberEmail(((Member)session.getAttribute("member")).getEmail());
 		boardPost.setConfigId(new BigDecimal(configId));
 		
@@ -121,6 +122,8 @@ public class BoardController {
 			, @PathVariable("postId") Integer postId
 			, Model model) {
 		BoardPost boardPost = boardPostService.getById(new BigDecimal(postId));
+		System.out.println(System.getProperty("line.separator"));
+		boardPost.setContent(boardPost.getContent().replaceAll("~!@", "'").replaceAll(System.getProperty("line.separator"), ""));
 		model.addAttribute("boardPost", boardPost);
 		
 		return "board/postForm";
@@ -134,8 +137,7 @@ public class BoardController {
 		BoardPost boardPost = new BoardPost();
 		boardPost.setId(new BigDecimal(postId));
 		boardPost.setTitle(request.getParameter("title"));
-		boardPost.setContent(request.getParameter("content"));
-		boardPost.setMemberEmail(((Member)session.getAttribute("member")).getEmail());
+		boardPost.setContent(request.getParameter("content").replaceAll("\"", "~!@"));
 		
 		int result = boardPostService.updateSelective(boardPost);
 		if (result > 0){
@@ -143,8 +145,16 @@ public class BoardController {
 		} else {
 			model.addAttribute("message", "게시글을 수정에 실패하였습니.");
 		}
-
-		return "forward:/"+categoryId+"/"+configId+"/"+postId;
+		
+		boardPost = boardPostService.getById(new BigDecimal(postId));
+		boardPost.setContent(boardPost.getContent().replaceAll("~!@", "\""));
+		BoardConfig boardConfig = boardConfigService.getById(boardPost.getConfigId());
+		BoardCategory boardCategory = boardCategoryService.getById(boardConfig.getCategoryId());
+		model.addAttribute("boardPost", boardPost);
+		model.addAttribute("boardConfig", boardConfig);
+		model.addAttribute("boardCategory", boardCategory);
+		
+		return "/board/post";
 	}
 	
 	@RequestMapping(value = "{categoryId}/{configId}/{postId}/delete", method = RequestMethod.GET)

@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, TOTAL_PRICE, ORDER_DATE, `STATE`, MEMBER_EMAIL
+    ID, TOTAL_PRICE, ORDER_DATE, STATE, MEMBER_EMAIL
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sh.shop.domain.OrdersExample" >
     select
@@ -101,7 +101,7 @@
   </delete>
   <insert id="insert" parameterType="com.sh.shop.domain.Orders" >
     insert into ORDERS (ID, TOTAL_PRICE, ORDER_DATE, 
-      `STATE`, MEMBER_EMAIL)
+      STATE, MEMBER_EMAIL)
     values (#{id,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, #{orderDate,jdbcType=DATE}, 
       #{state,jdbcType=VARCHAR}, #{memberEmail,jdbcType=VARCHAR})
   </insert>
@@ -116,7 +116,7 @@
         ORDER_DATE,
       </if>
       <if test="state != null" >
-        `STATE`,
+        STATE,
       </if>
       <if test="memberEmail != null" >
         MEMBER_EMAIL,
@@ -162,7 +162,7 @@
         ORDER_DATE = #{record.orderDate,jdbcType=DATE},
       </if>
       <if test="record.state != null" >
-        `STATE` = #{record.state,jdbcType=VARCHAR},
+        STATE = #{record.state,jdbcType=VARCHAR},
       </if>
       <if test="record.memberEmail != null" >
         MEMBER_EMAIL = #{record.memberEmail,jdbcType=VARCHAR},
@@ -177,7 +177,7 @@
     set ID = #{record.id,jdbcType=DECIMAL},
       TOTAL_PRICE = #{record.totalPrice,jdbcType=DECIMAL},
       ORDER_DATE = #{record.orderDate,jdbcType=DATE},
-      `STATE` = #{record.state,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=VARCHAR},
       MEMBER_EMAIL = #{record.memberEmail,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -193,7 +193,7 @@
         ORDER_DATE = #{orderDate,jdbcType=DATE},
       </if>
       <if test="state != null" >
-        `STATE` = #{state,jdbcType=VARCHAR},
+        STATE = #{state,jdbcType=VARCHAR},
       </if>
       <if test="memberEmail != null" >
         MEMBER_EMAIL = #{memberEmail,jdbcType=VARCHAR},
@@ -205,7 +205,7 @@
     update ORDERS
     set TOTAL_PRICE = #{totalPrice,jdbcType=DECIMAL},
       ORDER_DATE = #{orderDate,jdbcType=DATE},
-      `STATE` = #{state,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR},
       MEMBER_EMAIL = #{memberEmail,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=DECIMAL}
   </update>
