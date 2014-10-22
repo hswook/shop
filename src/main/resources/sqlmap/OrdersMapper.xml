@@ -8,6 +8,12 @@
     <result column="STATE" property="state" jdbcType="VARCHAR" />
     <result column="MEMBER_EMAIL" property="memberEmail" jdbcType="VARCHAR" />
   </resultMap>
+  <resultMap id="CartMap" type="com.sh.shop.domain.Cart" >
+    <result column="MAIN_IMG" property="mainImg" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ORDER_PRICE" property="orderPrice" jdbcType="DECIMAL" />
+    <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -89,6 +95,29 @@
     from ORDERS
     where ID = #{id,jdbcType=DECIMAL}
   </select>
+  <select id="selectCartsByOrdersKey" resultMap="CartMap" parameterType="java.math.BigDecimal">
+    	select p.MAIN_IMG, p.NAME, po.ORDER_PRICE, po.QUANTITY 
+    	from product p, PRODUCT_ORDERS po 
+    	where po.ORDERS_ID = #{id,jdbcType=DECIMAL} and po.PRODUCT_ID = p.id 
+  </select>
+  <select id="selectCartsByMemberEmail" resultMap="CartMap" parameterType="java.lang.String">
+	select p.MAIN_IMG, p.NAME, po.ORDER_PRICE, po.QUANTITY, o.STATE 
+	from product p, MEMBER m, ORDERS o, PRODUCT_ORDERS po
+	where m.email = #{email,jdbcType=VARCHAR}
+	and o.STATE = '장바구니'
+	and o.MEMBER_EMAIL = m.EMAIL
+	and po.ORDERS_ID = o.ID
+	and po.PRODUCT_ID = p.ID
+  </select>
+  <select id="selectPurchaseListByMemberEmail" resultMap="CartMap" parameterType="java.lang.String">
+	select p.MAIN_IMG, p.NAME, po.ORDER_PRICE, po.QUANTITY, o.STATE 
+	from product p, MEMBER m, ORDERS o, PRODUCT_ORDERS po
+	where m.email = #{email,jdbcType=VARCHAR}
+	and o.STATE != '장바구니'
+	and o.MEMBER_EMAIL = m.EMAIL
+	and po.ORDERS_ID = o.ID
+	and po.PRODUCT_ID = p.ID
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal" >
     delete from ORDERS
     where ID = #{id,jdbcType=DECIMAL}
@@ -105,7 +134,7 @@
     values (#{id,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, #{orderDate,jdbcType=DATE}, 
       #{state,jdbcType=VARCHAR}, #{memberEmail,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sh.shop.domain.Orders" >
+  <insert id="insertSelective" parameterType="com.sh.shop.domain.Orders">
     insert into ORDERS
     <trim prefix="(" suffix=")" suffixOverrides="," >
         ID,

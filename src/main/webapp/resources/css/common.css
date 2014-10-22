@@ -71,3 +71,74 @@ a {
 	color: #fff;
 	border: 1px solid #000;
 }
+
+.product-detail-table {
+	margin: 20px 10px;
+}
+
+.product-detail-table tr {
+}
+
+.product-detail-table th {
+	padding: 0 10px 10px 0;
+}
+
+.product-detail-table td {
+	padding: 0 10px 10px 0;
+	
+}
+
+.cart-table {
+	margin: 0 auto;
+	font: 12px "Roboto","Nanum Gothic" ,돋움,Dotum,AppleGothic,sans-serif;
+}
+
+.cart-table th {
+	padding: 9px 0 7px;
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	font-weight: normal;
+	color: #999;
+	text-align: center;
+}
+
+.cart-table td {
+	padding: 11px 0 9px;
+	border-top: 1px dotted #e3e3e3;
+	line-height: 140%;
+	text-align: center;
+}
+
+.cart-table .img {
+	width: 150px;
+}
+
+.cart-table .name {
+	text-align: left;
+	width: 200px;
+}
+
+.cart-table .price {
+	width: 150px;
+}
+
+.cart-table .quantity {
+	width: 100px;
+}
+
+.cart-table .sum {
+	width: 150px;
+}
+
+.cart-table .total {
+	text-align: right;
+}
+
+.btn-purchase {
+	text-align: right;
+}
+
+.right-btn {
+	text-align: right;
+	font-size: 30px;
+}

@@ -1,7 +1,12 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.sh.shop.domain.Member" %>
 
 <%@ page session="false" %>
+
+<%
+	Member member = (Member)request.getSession().getAttribute("member");
+%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -12,11 +17,37 @@
 	</c:if>
 	<script data-main="/resources/js/main" src="/resources/assets/lib/jquery/jquery-1.11.0.min.js"></script>
 	<script data-main="/resources/js/main" src="/resources/js/util.js"></script>
-	<script data-main="/resources/js/main" src="/resources/js/navi.js"></script>
 	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap.css">
 	<link rel="stylesheet" href="/resources/assets/lib/bootstrap/css/bootstrap-theme.css">
 	<link rel="stylesheet" href="/resources/css/common.css">
 	<link rel="stylesheet" href="/resources/css/navi.css">
+	
+	<script type="text/javascript">
+		function buyNow() {
+			var form = document.purchase;
+			var qv = $("#qv").val();
+			if (isNaN(qv)) {
+				alert("quantity must be nuberic value!");
+				return false;
+			}
+			form.quantity.value = $("#qv").val();
+			from.action = "";
+			form.submit();
+		}
+
+		function addToCart() {
+			var form = document.purchase;
+			var qv = $("#qv").val();
+			if (isNaN(qv)) {
+				alert("quantity must be nuberic value!");
+				return false;
+			}
+			form.quantity.value = $("#qv").val();
+			form.action = "/order/cart";
+			form.method = "post";
+			form.submit();
+		}
+	</script>
 </head>
 <body>
 <%@ include file="/WEB-INF/views/layout/top.jsp" %>
@@ -38,12 +69,23 @@
 			</div>
 			<div class="col-md-8">
 				<h3>${product.name }</h3>
-				<p>
-					${product.price }
-				<p>
+				<table class="product-detail-table">
+					<tr>
+						<th>type</th>
+						<td>${product.type }</td>
+					</tr>
+					<tr>
+						<th>price</th>
+						<td>${product.price }</td>
+					</tr>
+					<tr>
+						<th>quantity</th>
+						<td><input type="text" name="qv" id="qv" value="1" /></td>
+					</tr>
+				</table>
 				<div class="product-btn-area">
-					<a class="point">BUY NOW</a>
-					<a class="">ADD TO CART</a>
+					<a class="point" onclick="buyNow(); return false;">BUY NOW</a>
+					<a class="" onclick="addToCart();">ADD TO CART</a>
 					<a class="">ADD TO WISHLIST</a>
 				</div>
 			</div>
@@ -52,12 +94,20 @@
 		<div class="row">
 			${product.content }
 		</div>
-		<div class="row">
-			<a href="/product/${product.id }/form">수정</a>
-			<a href="/product/${product.id }/delete">삭제</a>
-		</div>
+		<%
+			if (member != null && member.getEmail().equals("admin@shop.com")) {
+		%>
+			<div class="row right-btn">
+				<a href="/product/${product.id }/form">수정</a>
+				<a href="/product/${product.id }/delete">삭제</a>
+			</div>
+		<%} %>
 
 	</fieldset>
+	<form id="purchase" name="purchase" method="post">
+		<input type="hidden" name="productId" value="${product.id }" />
+		<input type="hidden" name="quantity" value="" />
+	</form>
 </div>
 </body>
 </html>

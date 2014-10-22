@@ -1,7 +1,12 @@
 <%@ page contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="com.sh.shop.domain.Member" %>
 
 <%@ page session="false" %>
+
+<%
+	Member member = (Member)request.getSession().getAttribute("member");
+%>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -27,7 +32,7 @@
 </h1>
 	<fieldset>
 		<legend>product list</legend>
-		<h1><c:out value='${type}' /></span>
+		<h2><c:out value='${type}' /></h2>
 		<hr/>
 		<div class="row">
 			<c:forEach items="${productList}" var="product">
@@ -42,9 +47,13 @@
 				</div>
 			</c:forEach>
 		</div>
-		<div class="row">
+		<%
+			if (member != null && member.getEmail().equals("admin@shop.com")) {
+		%>
+		<div class="row right-btn">
 			<a href="/product/form">상품등록</a>
 		</div>
+		<%}%>
 	</fieldset>
 </div>
 </body>

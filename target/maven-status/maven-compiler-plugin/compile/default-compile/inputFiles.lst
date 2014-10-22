@@ -1,3 +1,4 @@
+/Users/HSWook/git/shop/src/main/java/com/sh/shop/service/ProductOrdersService.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/OrdersExample.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/ProductExample.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/config/WebConfig.java
@@ -28,11 +29,14 @@
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/BoardPost.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/service/BoardPostService.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/BoardCategoryExample.java
+/Users/HSWook/git/shop/src/main/java/com/sh/shop/controller/OrderController.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/Orders.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/persistence/BoardCategoryMapper.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/persistence/WishlistMapper.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/MemberExample.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/BoardPostExample.java
+/Users/HSWook/git/shop/src/main/java/com/sh/shop/domain/Cart.java
+/Users/HSWook/git/shop/src/main/java/com/sh/shop/service/OrdersService.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/controller/HomeController.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/persistence/BoardFileMapper.java
 /Users/HSWook/git/shop/src/main/java/com/sh/shop/controller/MemberController.java

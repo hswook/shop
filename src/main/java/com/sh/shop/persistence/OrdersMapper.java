@@ -1,7 +1,9 @@
 package com.sh.shop.persistence;
 
+import com.sh.shop.domain.Cart;
 import com.sh.shop.domain.Orders;
 import com.sh.shop.domain.OrdersExample;
+import com.sh.shop.domain.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,6 +29,12 @@ public interface OrdersMapper {
     List<Orders> selectByExample(OrdersExample example);
 
     Orders selectByPrimaryKey(BigDecimal id);
+
+    List<Cart> selectCartsByOrdersKey(BigDecimal id);
+    
+    List<Cart> selectCartsByMemberEmail(String email);
+    
+    List<Cart> selectPurchaseListByMemberEmail(String email);
 
     int updateByExampleSelective(@Param("record") Orders record, @Param("example") OrdersExample example);
 

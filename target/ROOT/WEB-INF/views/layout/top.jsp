@@ -41,6 +41,8 @@
 				<%
 					if (request.getSession().getAttribute("member") != null) {
 				%>
+						<li class=""><a href="/order/cart">Cart</a></li>
+						<li class=""><a href="/order/purchase">Purchase</a></li>
 						<li class=""><a href="/member/logout">Logout</a></li>
 				<%
 					} else {
