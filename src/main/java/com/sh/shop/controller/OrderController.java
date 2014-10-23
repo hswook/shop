@@ -19,9 +19,11 @@ import com.sh.shop.domain.Member;
 import com.sh.shop.domain.Orders;
 import com.sh.shop.domain.Product;
 import com.sh.shop.domain.ProductOrders;
+import com.sh.shop.domain.Wishlist;
 import com.sh.shop.service.OrdersService;
 import com.sh.shop.service.ProductOrdersService;
 import com.sh.shop.service.ProductService;
+import com.sh.shop.service.WishlistService;
 
 @Controller
 @RequestMapping("/order")
@@ -35,6 +37,9 @@ public class OrderController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private WishlistService wishlistService;
 	
 	@RequestMapping("{productId}/now")
 	public String orderNow(@PathVariable("productId") Integer productId
@@ -197,4 +202,78 @@ public class OrderController {
 		return "order/purchaseList";
 	}
 	
+	@RequestMapping(value="purchase/product/{productId}", method=RequestMethod.POST)
+	public String purchaseList(@PathVariable("productId") Integer productId
+			, Model model
+			, HttpServletRequest request
+			, HttpSession session) {
+
+		Member member = (Member) session.getAttribute("member");
+		if (member == null) {
+			model.addAttribute("message", "로그인 후에 사용하실 수 있습니다.");
+			return "member/login";
+		}
+		
+		Product product = productService.getById(new BigDecimal(productId));
+		
+		Orders orders = new Orders();
+		orders.setMemberEmail(member.getEmail());
+		orders.setState("주문접수");
+		orders.setTotalPrice(product.getPrice());
+		int result = ordersService.insert(orders);
+
+		orders = ordersService.getByMemberEmail(member.getEmail()).get(0);
+
+		ProductOrders productOrders = new ProductOrders();
+		productOrders.setOrdersId(orders.getId());
+		productOrders.setProductId(new BigDecimal(productId));
+		productOrders.setOrderPrice(product.getPrice());
+		productOrders.setQuantity(new BigDecimal(request.getParameter("quantity")));
+		result = productOrdersService.insert(productOrders);
+
+		List<Cart> purchaseList = ordersService.getPurchaseList(member.getEmail());
+		model.addAttribute("purchaseList", purchaseList);
+		
+		return "order/purchaseList";
+	}
+
+	@RequestMapping(value="wishlist")
+	public String showWishlist(HttpServletRequest request
+			, HttpSession session
+			, Model model) {
+
+		Member member = (Member) session.getAttribute("member");
+		if (member == null) {
+			model.addAttribute("message", "로그인 후에 사용하실 수 있습니다.");
+			return "member/login";
+		}
+		
+		List<Product> productList = wishlistService.getProductListByMemberEmail(member.getEmail());
+		
+		model.addAttribute("wishlist", productList);
+		return "order/wishlist";
+	}
+	
+	@RequestMapping(value="wishlist/{productId}", method=RequestMethod.POST)
+	public String addWishlist(@PathVariable("productId") Integer productId
+			, HttpServletRequest request
+			, HttpSession session
+			, Model model) {
+
+		Member member = (Member) session.getAttribute("member");
+		if (member == null) {
+			model.addAttribute("message", "로그인 후에 사용하실 수 있습니다.");
+			return "member/login";
+		}
+		
+		Wishlist wishlist = new Wishlist();
+		wishlist.setMemberEmail(member.getEmail());
+		wishlist.setProductId(new BigDecimal(productId));
+		wishlistService.insertWhenProductNotExist(wishlist);
+		
+		List<Product> productList = wishlistService.getProductListByMemberEmail(member.getEmail());
+		
+		model.addAttribute("wishlist", productList);
+		return "order/wishlist";
+	}
 }

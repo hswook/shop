@@ -10,7 +10,7 @@
 				<a id="menu1" role="button" data-toggle="dropdown" data-target="#" href="/">
 				About Us <span class="caret"></span></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-						<li class="dropdown-header">About Us</li>
+						<li><a>About Us</a></li>
 						<li><a>Brand Story</a></li>
 						<li><a>Contact Us</a></li>
 					</ul>
@@ -43,6 +43,7 @@
 				%>
 						<li class=""><a href="/order/cart">Cart</a></li>
 						<li class=""><a href="/order/purchase">Purchase</a></li>
+						<li class=""><a href="/order/wishlist">Wishlist</a></li>
 						<li class=""><a href="/member/logout">Logout</a></li>
 				<%
 					} else {

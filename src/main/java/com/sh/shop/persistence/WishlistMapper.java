@@ -1,5 +1,6 @@
 package com.sh.shop.persistence;
 
+import com.sh.shop.domain.Product;
 import com.sh.shop.domain.Wishlist;
 import com.sh.shop.domain.WishlistExample;
 
@@ -35,4 +36,6 @@ public interface WishlistMapper {
     int updateByPrimaryKeySelective(Wishlist record);
 
     int updateByPrimaryKey(Wishlist record);
+    
+    List<Product> selectProductListByMemberEmail(String email);
 }

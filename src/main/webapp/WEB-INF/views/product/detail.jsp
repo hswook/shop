@@ -27,23 +27,32 @@
 			var form = document.purchase;
 			var qv = $("#qv").val();
 			if (isNaN(qv)) {
-				alert("quantity must be nuberic value!");
+				alert("quantity must be numeric value!");
 				return false;
 			}
 			form.quantity.value = $("#qv").val();
-			from.action = "";
-			form.submit();
+			form.action = "/order/purchase/product/${product.id}";
+			if(confirm("정말 구매하시겠습니까?") == true) {
+				form.submit();
+			}
 		}
 
 		function addToCart() {
 			var form = document.purchase;
 			var qv = $("#qv").val();
 			if (isNaN(qv)) {
-				alert("quantity must be nuberic value!");
+				alert("quantity must be numeric value!");
 				return false;
 			}
 			form.quantity.value = $("#qv").val();
 			form.action = "/order/cart";
+			form.method = "post";
+			form.submit();
+		}
+
+		function wishList() {
+			var form = document.purchase;
+			form.action = "/order/wishlist/${product.id}";
 			form.method = "post";
 			form.submit();
 		}
@@ -86,7 +95,7 @@
 				<div class="product-btn-area">
 					<a class="point" onclick="buyNow(); return false;">BUY NOW</a>
 					<a class="" onclick="addToCart();">ADD TO CART</a>
-					<a class="">ADD TO WISHLIST</a>
+					<a class="" onclick="wishList();">ADD TO WISHLIST</a>
 				</div>
 			</div>
 		</div>

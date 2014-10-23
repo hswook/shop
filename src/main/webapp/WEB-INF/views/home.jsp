@@ -33,6 +33,8 @@
 				}
 			});
 		});
+		
+		
 	</script>
 </head>
 <body>
@@ -66,6 +68,7 @@
 			</c:if>
 		</c:forEach>
 	</div>
+<!-- 
 	<div class="row">
 		<div class="col-md-8">
 			<div style="display:block; margin:10px 0 25px 0;">
@@ -107,6 +110,7 @@
 			</div>
 		</div>
 	</div>
+ -->
 	<footer id="footer">
 		<div class="footerutil">
 			<%if ( request.getSession().getAttribute("member") != null ) { %>

@@ -25,7 +25,7 @@
 <h1>
 	Login  
 </h1>
-	<form id="login" name="login" method="post">
+	<form id="login" name="login" method="post" action="/member/login">
 		<fieldset>
 			<legend>login</legend>
 		    Email: <input type="text" name="email" /><br />

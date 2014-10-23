@@ -64,6 +64,7 @@ public class OrdersService implements GenericService<Orders>{
 		OrdersExample ordersExample = new OrdersExample();
 		Criteria criteria = ordersExample.createCriteria();
 		criteria.andMemberEmailEqualTo(email);
+		ordersExample.setOrderByClause("ID DESC");
 		return mapper.selectByExample(ordersExample);
 	}
 

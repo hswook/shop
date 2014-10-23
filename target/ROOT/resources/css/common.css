@@ -91,6 +91,7 @@ a {
 .cart-table {
 	margin: 0 auto;
 	font: 12px "Roboto","Nanum Gothic" ,돋움,Dotum,AppleGothic,sans-serif;
+	width: 100%;
 }
 
 .cart-table th {
