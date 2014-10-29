@@ -6,12 +6,26 @@ import org.apache.ibatis.type.Alias;
 
 @Alias("Cart")
 public class Cart {
+	private BigDecimal productId;
+	private BigDecimal productOrdersId;
 	private String mainImg;
 	private String name;
     private BigDecimal orderPrice;
     private BigDecimal quantity;
     private String state;
     
+	public BigDecimal getProductId() {
+		return productId;
+	}
+	public void setProductId(BigDecimal productId) {
+		this.productId = productId;
+	}
+	public BigDecimal getProductOrdersId() {
+		return productOrdersId;
+	}
+	public void setProductOrdersId(BigDecimal productOrdersId) {
+		this.productOrdersId = productOrdersId;
+	}
 	public String getMainImg() {
 		return mainImg;
 	}

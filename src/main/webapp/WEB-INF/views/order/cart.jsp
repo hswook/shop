@@ -23,6 +23,9 @@
 			$("#btn_purchase").click(function() {
 				purchase();
 			});
+			$("#uq").click(function() {
+				updateQuantity();
+			});
 		});
 		
 		function purchase() {
@@ -31,6 +34,16 @@
 				document.purchase.submit();
 			}
 			return false;
+		}
+		
+		function updateQuantity(poId) {
+			var form = document.purchase;
+			
+			form.quantity.value = $("#quantity").val();
+			form.productOrdersId.value = poId;
+			form.action = "/order/cart/updateQuantity";
+			
+			form.submit();
 		}
 	</script>
 </head>
@@ -58,10 +71,10 @@
 				<tbody>
 					<c:forEach items="${cartList}" var="cart">
 						<tr>
-							<td class="img"><img src="/upload/product/${cart.mainImg }" style="width:62px;"/></td>
+							<td class="img"><a href="/product/all/${cart.productId }"><img src="/upload/product/${cart.mainImg }" style="width:62px;"/></a></td>
 							<td class="name">${cart.name }</td>
 							<td class="price">${cart.orderPrice }</td>
-							<td class="quantity">${cart.quantity }</td>
+							<td class="quantity"><input id="quantity" type="text" value="${cart.quantity }" style="width:30px;"/><a href="#" onclick="updateQuantity(${cart.productOrdersId })">수정</a></td>
 							<td class="sum">${cart.quantity * cart.orderPrice}</td>
 						</tr>
 					</c:forEach>
@@ -83,6 +96,8 @@
 	
 	<form id="purchase" name="purchase" method="post">
 		<input type="hidden" name="ordersId" value="${orders.id }" />
+		<input type="hidden" name="productOrdersId" value ="" />
+		<input type="hidden" name="quantity" value="" />
 	</form>
 </div>
 </body>

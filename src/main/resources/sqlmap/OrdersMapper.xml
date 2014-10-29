@@ -9,8 +9,10 @@
     <result column="MEMBER_EMAIL" property="memberEmail" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="CartMap" type="com.sh.shop.domain.Cart" >
+    <result column="PRODUCT_ID" property="productId" jdbcType="DECIMAL" />
     <result column="MAIN_IMG" property="mainImg" jdbcType="VARCHAR" />
     <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ORDERS_ID" property="productOrdersId" jdbcType="DECIMAL" />
     <result column="ORDER_PRICE" property="orderPrice" jdbcType="DECIMAL" />
     <result column="QUANTITY" property="quantity" jdbcType="DECIMAL" />
   </resultMap>
@@ -96,12 +98,12 @@
     where ID = #{id,jdbcType=DECIMAL}
   </select>
   <select id="selectCartsByOrdersKey" resultMap="CartMap" parameterType="java.math.BigDecimal">
-    	select p.MAIN_IMG, p.NAME, po.ORDER_PRICE, po.QUANTITY 
+    	select p.id as PRODUCT_ID, p.MAIN_IMG, p.NAME, po.id as PRODUCT_ORDERS_ID, po.ORDER_PRICE, po.QUANTITY 
     	from product p, PRODUCT_ORDERS po 
     	where po.ORDERS_ID = #{id,jdbcType=DECIMAL} and po.PRODUCT_ID = p.id 
   </select>
   <select id="selectCartsByMemberEmail" resultMap="CartMap" parameterType="java.lang.String">
-	select p.MAIN_IMG, p.NAME, po.ORDER_PRICE, po.QUANTITY, o.STATE 
+	select p.id as PRODUCT_ID, p.MAIN_IMG, p.NAME, po.id as PRODUCT_ORDERS_ID, po.ORDER_PRICE, po.QUANTITY, o.STATE 
 	from product p, MEMBER m, ORDERS o, PRODUCT_ORDERS po
 	where m.email = #{email,jdbcType=VARCHAR}
 	and o.STATE = '장바구니'
@@ -110,7 +112,7 @@
 	and po.PRODUCT_ID = p.ID
   </select>
   <select id="selectPurchaseListByMemberEmail" resultMap="CartMap" parameterType="java.lang.String">
-	select p.MAIN_IMG, p.NAME, po.ORDER_PRICE, po.QUANTITY, o.STATE 
+	select p.id as PRODUCT_ID, p.MAIN_IMG, p.NAME, po.id as PRODUCT_ORDERS_ID, po.ORDER_PRICE, po.QUANTITY, o.STATE 
 	from product p, MEMBER m, ORDERS o, PRODUCT_ORDERS po
 	where m.email = #{email,jdbcType=VARCHAR}
 	and o.STATE != '장바구니'

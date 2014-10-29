@@ -159,6 +159,38 @@ public class OrderController {
 		return "order/cart";
 	}
 	
+	@RequestMapping(value="cart/updateQuantity", method=RequestMethod.POST)
+	public String updateQuantity(Model model
+			, HttpServletRequest request
+			, HttpSession session) {
+		
+		Member member = (Member) session.getAttribute("member");
+		if (member == null) {
+			model.addAttribute("message", "로그인 후에 사용하실 수 있습니다.");
+			return "member/login";
+		}
+		
+		BigDecimal productOrdersId = new BigDecimal(request.getParameter("productOrdersId"));
+		
+		ProductOrders productOrders = productOrdersService.getById(productOrdersId);
+		productOrders.setQuantity(new BigDecimal(request.getParameter("quantity")));
+		
+		int result = productOrdersService.updateSelective(productOrders);
+		if (result > 0) {
+			model.addAttribute("message", "상품 수량을 수정하였습니다.");
+		} else {
+			model.addAttribute("message", "상품 수량 수정에 실패하였습니다.");
+		}
+		
+		List<Cart> cartList = ordersService.getCarts(member.getEmail());
+		List<Orders> ordersList = ordersService.getCartsByMemberEmail(member.getEmail());
+
+		if (ordersList != null && ordersList.size() > 0)
+			model.addAttribute("orders", ordersList.get(0));
+		model.addAttribute("cartList", cartList);
+		return "order/cart";
+	}
+	
 	@RequestMapping(value="{ordersId}/purchase", method=RequestMethod.POST)
 	public String purchase(@PathVariable("ordersId") Integer ordersId
 			, Model model
